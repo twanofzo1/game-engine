@@ -9,7 +9,7 @@ enum class AreaType {
 };
 
 struct AreaRectConfig {
-    Vector2I size;
+    Vector2i size;
 };
 
 struct AreaCircleConfig {

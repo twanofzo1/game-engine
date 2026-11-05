@@ -50,4 +50,3 @@ The test binary is `build/<build>/tests`; see `tests/README.md` for details.
 | `tests/`     | Headless test suite for the pure-logic modules |
 
 See `rules.md` for coding conventions and `src/README.md` for the engine layout.
-# game-engine
