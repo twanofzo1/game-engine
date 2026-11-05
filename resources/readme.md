@@ -1,0 +1,8 @@
+- YAML is purely a serialization and configuration format.
+- At startup, the engine loads the necessary scenes and resources, resolves their UID references, and creates the runtime object graphs.
+- The YAML data is then discarded from memory because the runtime objects contain everything needed.
+- Additional YAML files are only loaded when necessary, such as during scene transitions or loading new content.
+- A visual editor will eventually be responsible for creating, editing, and serializing these configurations.
+- signals use the subscriber pattern internally
+- some objects should be refferences and some objects should be shared and some should be owned by the parent object. The engine should be able to handle all of these cases.
+- 

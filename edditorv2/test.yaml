@@ -1,0 +1,286 @@
+
+Healthcomponents:
+  - UID: 1
+    Name: "Health Component"
+    Health: 100
+    MaxHealth: 100
+    ConnectionsUID: [37, 38] 
+  - UID: 2
+    Name: "Health Component"
+    Health: 150
+    MaxHealth: 150
+    ConnectionsUID: [] 
+
+StaminaComponents:
+  - UID: 2
+    Name: "Stamina Component"
+    Stamina: 50
+    MaxStamina: 50
+  - UID: 3
+    Name: "Stamina Component"
+    Stamina: 50
+    MaxStamina: 70
+
+TransformComponents:
+  - UID: 4
+    Name: "Transform Component"
+    Position: [0,0]
+    rotation: 0
+    scale: [1,1]
+  - UID: 5
+    Name: "Transform Component"
+    Position: [0,0]
+    rotation: 0
+    scale: [1,1]
+  - UID: 6
+    Name: "Transform Component"
+    Position: [0,0]
+    rotation: 0
+    scale: [1,1]
+  - UID: 7
+    Name: "Transform Component"
+    Position: [0,0]
+    rotation: 0
+    scale: [1,1]
+  - UID: 40
+    Name: "Transform Component"
+    Position: [0,0]
+    rotation: 0
+    scale: [1,1]
+
+ShapeComponents:
+  - UID: 8
+    Name: "Shape Component"
+    AreaType: 0 # circle / rect / polygon
+    Radius: 5
+    TransformUID: 4
+  - UID: 9
+    Name: "Shape Component"
+    AreaType: 1 # circle / rect / polygon
+    size: [5,5]
+    TransformUID: 5
+  - UID: 10
+    Name: "Shape Component"
+    AreaType: 1 # circle / rect / polygon
+    size: [5,5]
+    TransformUID: 5  
+  - UID: 11
+    Name: "Shape Component"
+    AreaType: 3 # circle / rect / polygon
+    points: [[0,0], [5,0], [5,5], [0,5] ]
+    TransformUID: 5
+  - UID: 12
+    Name: "Shape Component"
+    AreaType: 0 # circle / rect / polygon
+    Radius: 5
+    TransformUID: 4
+  - UID: 13
+    Name: "Shape Component"
+    AreaType: 1 # circle / rect / polygon
+    size: [5,5]
+    TransformUID: 5
+  - UID: 14
+    Name: "Shape Component"
+    AreaType: 1 # circle / rect / polygon
+    size: [5,5]
+    TransformUID: 5  
+  - UID: 15
+    Name: "Shape Component"
+    AreaType: 3 # circle / rect / polygon
+    points: [[0,0], [5,0], [5,5], [0,5] ]
+    TransformUID: 5
+
+
+HitboxComponents:
+  - UID: 16
+    Name: "Hitbox Component"
+    ShapeUID: 8
+    ConnectionsUID: [] 
+  - UID: 17
+    Name: "Hitbox Component"
+    ShapeUID: 9
+    ConnectionsUID: [] 
+
+HurtboxComponents:
+  - UID: 18
+    Name: "Hurtbox Component"
+    ShapeUID: 10
+    ConnectionsUID: [] 
+  - UID: 19
+    Name: "Hurtbox Component"
+    ShapeUID: 11
+    ConnectionsUID: [] 
+
+CollisionComponents:
+  - UID: 20
+    Name: "Collision Component"
+    ShapeUID: 12
+    ConnectionsUID: [] 
+  - UID: 21
+    Name: "Collision Component"
+    ShapeUID: 13
+    ConnectionsUID: [] 
+
+AreaComponents:
+  - UID: 22
+    Name: "Area Component"
+    ShapeUID: 14
+    ConnectionsUID: [] 
+  - UID: 23
+    Name: "Area Component"
+    ShapeUID: 15
+    ConnectionsUID: [] 
+
+
+
+Textures:
+  - UID: 24
+    Name: "Texture"
+    TexturePath: "path/to/texture.png"
+  - UID: 25
+    Name: "Texture2"
+    TexturePath: "path/to/texture2.png"
+
+SpriteComponents:
+  - UID: 26
+    Name: "Sprite Component"
+    TextureUID: 25
+    TransformUID: 6
+
+Animations:
+  - UID: 27
+    Name: "Walk"
+    SpriteUID: 26
+    keyframes:
+      - [0, 0]
+      - [0.1, 1]
+      - [0.2, 2]
+      - [0.3, 3]
+      - [0.4, 4]
+      - [0.5, 5]
+      - [0.6, 6]
+      - [0.7, 7]
+      - [0.8, 8]
+    
+
+AnimationPlayerComponents:
+  - UID: 28
+    Name: "Animation Component"
+    Animations: [27]
+    Speed: 1.0
+
+
+
+
+
+
+Audio:
+  - UID: 29
+    Name: "Audio Component"
+    AudioPath: "path/to/audio.wav"
+    Volume: 1.0
+    Loop: false
+
+AudioPlayerComponents:
+  - UID: 30
+    Name: "Audio Player Component"
+    AudioUID: [29]
+    Volume: 1.0
+    Loop: false
+
+
+
+
+Attacks:
+  - UID: 30
+    Name: "Punch Attack"
+    AnimationUID: 27
+    Windup: 3
+    Active: 2
+    Recovery: 1
+    Hitboxes:  # frame, hitbox uid
+      - [3, 0]
+      - [4, 1]
+      - [5, 2]
+      - [6, -1]
+    
+    Movement:  # frame, [x, y]
+      - [0, [0, 0]]
+      - [2, [11, 0]]
+      - [3, [12, 0]]
+      - [4, [6, 0]]
+      - [5, [0, 0]]
+    
+    Signals: [ # frame, Connection UID
+      [0, 33]
+    ]
+
+AttackGraphs:
+  - UID: 31
+    Name: "Attack Graph"
+    AttackUID: 30
+    Transitions: [
+      {condition: hit}, 
+      {next_attack_id: ...}
+    ]
+
+
+AttackPlayerComponents:
+  - UID: 32
+    Name: "Attack Component"
+    AttackGraphsUID: [31] # base attacks only so it can transition to other attacks wich then can transition to its own attacks forming a chain
+
+
+
+
+Connections:
+  - UID: 33
+    From: 30
+    Signal: "onAttackStart"
+    To: 
+      - [60, "onAttackStartCallback"]
+  - UID: 34
+    From: 30
+    Signal: "onHit"
+    To: 
+      - [60, "onHitCallback"]
+  - UID: 35
+    From: 30
+    Signal: "onHurt"
+    To: 
+      - [60, "onHurtCallback"]
+  - UID: 36
+    From: 30
+    Signal: "onCollided"
+    To: 
+      - [60, "onCollidedCallback"]
+  - UID: 37
+    From: 1
+    Signal: "onHealthDamaged"
+    To: 
+      - [60, "onHealthDamagedCallback"]
+  - UID: 38
+    From: 1
+    Signal: "onDeath"
+    To: 
+      - [60, "onDeathCallback"]
+
+ 
+Nodes:
+  - UID: 60
+    Name: "Player"
+    Components: 
+      - 32 # AttackPlayerComponent
+      - 28 # AnimationPlayerComponent
+      - 26 # SpriteComponent
+      - 1 # HealthComponent
+      - 3 # StaminaComponent
+      - 40 # TransformComponent
+      - 16 # HitboxComponent
+      - 18 # HurtboxComponent
+      - 20 # CollisionComponent
+      - 22 # AreaComponent
+
+
+
+    

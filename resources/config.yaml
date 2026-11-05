@@ -1,0 +1,81 @@
+window:
+  title: 2D Game Engine test
+  position: [100, 100]
+  size: [800, 600]
+  vsync: false
+  screen_mode: 2
+  resizable: true
+  borderless: false
+textures:
+  - path: resources/test.png
+    filter: 1
+    repeat: 1
+    size: [256, 128]
+sprites:
+  - name: player
+    texture_id: 0
+    h_frames: 8
+    v_frames: 4
+    pos: [0, 0]
+    scale: 1
+animations:
+  - sprite_id: 0
+    name: walk
+    frames:
+      - [0, 24]
+      - [0.100000001, 25]
+      - [0.200000003, 26]
+      - [0.300000012, 27]
+      - [0.400000006, 28]
+      - [0.5, 29]
+      - [0.600000024, 30]
+      - [0.700000048, 31]
+      - [0.800000072, 32]
+  - sprite_id: 1
+    name: walk
+    frames:
+      - [0, 0]
+  - sprite_id: 0
+    name: punch
+    frames:
+      - [0, 0]
+      - [0.100000001, 1]
+      - [0.200000003, 2]
+      - [0.300000012, 3]
+      - [0.400000006, 4]
+      - [0.5, 5]
+attacks:
+  - animation_id: 2
+    name: punch
+    windup: 3
+    active: 2
+    recovery: 1
+    events: ~
+    hitboxes:
+      - [3, 0]
+      - [4, 1]
+      - [5, 2]
+      - [6, -1]
+    movement:
+      - [0, [0, 0]]
+      - [2, [11, 0]]
+      - [3, [12, 0]]
+      - [4, [6, 0]]
+      - [5, [0, 0]]
+attack_graphs:
+  - attack_id: 0
+    transitions: [{condition: hit}, {next_attack_id: 0}]
+collision_shapes:
+  - type: circle
+    center: [14.9241152, 7.79932547]
+    radius: 4.8060708
+  - type: circle
+    center: [11.2141657, 4.59527826]
+    radius: 4.8060708
+  - type: circle
+    center: [5.56492424, 3.07757187]
+    radius: 3.03541327
+subscribers:
+  - bus: events
+    event: start
+    handler: log_event
