@@ -6,12 +6,14 @@
 
 #include "core/typedefs.hpp"
 
+
+/** @brief Configuration used to construct a 2D integer vector. */
 struct Vec2iConfig {
-    i32 x = 0;
-    i32 y = 0;
+    i32 x = 0; ///< X component.
+    i32 y = 0; ///< Y component.
 };
 
-/** 2D vector with integer components. */
+/** @brief 2D vector with integer components. */
 struct Vec2i {
     i32 x; ///< X component.
     i32 y; ///< Y component.
@@ -23,6 +25,3 @@ struct Vec2i {
     static bool equal(Vec2i a, Vec2i b);
     static i64 dot(Vec2i a, Vec2i b);
 };
-
-
-

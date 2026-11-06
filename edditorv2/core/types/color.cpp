@@ -5,7 +5,8 @@
 #include "color.hpp"
 
 /** @brief Construct a color from a configuration. */
-Color Color::make(ColorConfig config){
+Color Color::make(ColorConfig config)
+{
     return {
         .r = config.r,
         .g = config.g,
@@ -15,7 +16,8 @@ Color Color::make(ColorConfig config){
 }
 
 /** @brief Linear interpolation between two colors by `t` in [0,1]. */
-Color Color::lerp(Color a, Color b, f32 t){
+Color Color::lerp(Color a, Color b, f32 t)
+{
     return {
         .r = a.r + (b.r - a.r) * t,
         .g = a.g + (b.g - a.g) * t,
@@ -25,7 +27,8 @@ Color Color::lerp(Color a, Color b, f32 t){
 }
 
 /** @brief Darken a color by blending it toward black by `factor`. */
-Color Color::darken(Color c, f32 factor){
+Color Color::darken(Color c, f32 factor)
+{
     return {
         .r = c.r * (1.0f - factor),
         .g = c.g * (1.0f - factor),
@@ -35,7 +38,8 @@ Color Color::darken(Color c, f32 factor){
 }
 
 /** @brief Lighten a color by blending it toward white by `factor`. */
-Color Color::lighten(Color c, f32 factor){
+Color Color::lighten(Color c, f32 factor)
+{
     return {
         .r = c.r + (1.0f - c.r) * factor,
         .g = c.g + (1.0f - c.g) * factor,
@@ -45,7 +49,8 @@ Color Color::lighten(Color c, f32 factor){
 }
 
 /** @brief Build a color from a packed 32-bit RGBA value. */
-Color Color::from_hex(u32 hex){
+Color Color::from_hex(u32 hex)
+{
     return {
         .r = ((hex >> 24) & 0xFF) / 255.0f,
         .g = ((hex >> 16) & 0xFF) / 255.0f,
@@ -55,7 +60,8 @@ Color Color::from_hex(u32 hex){
 }
 
 /** @brief Pack a color into a 32-bit RGBA value. */
-u32 Color::to_hex(Color c){
+u32 Color::to_hex(Color c)
+{
     return ((u32)(c.r * 255.0f) << 24) |
            ((u32)(c.g * 255.0f) << 16) |
            ((u32)(c.b * 255.0f) << 8) |
@@ -63,7 +69,8 @@ u32 Color::to_hex(Color c){
 }
 
 /** @brief Build a color from 8-bit RGBA components in [0,255]. */
-Color Color::from_8_bit(u8 r, u8 g, u8 b, u8 a){
+Color Color::from_8_bit(u8 r, u8 g, u8 b, u8 a)
+{
     return {
         .r = r / 255.0f,
         .g = g / 255.0f,
@@ -73,12 +80,10 @@ Color Color::from_8_bit(u8 r, u8 g, u8 b, u8 a){
 }
 
 /** @brief Convert a color to 8-bit RGBA components written to the output pointers. */
-void Color::to_8_bit(Color c, u8* r, u8* g, u8* b, u8* a){
+void Color::to_8_bit(Color c, u8* r, u8* g, u8* b, u8* a)
+{
     *r = (u8)(c.r * 255.0f);
     *g = (u8)(c.g * 255.0f);
     *b = (u8)(c.b * 255.0f);
     *a = (u8)(c.a * 255.0f);
 }
-
-
-

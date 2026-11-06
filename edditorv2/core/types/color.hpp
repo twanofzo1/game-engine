@@ -1,7 +1,11 @@
+/**
+ * @file color.hpp
+ * @brief RGBA color type and its operations.
+ */
 #pragma once
 #include "core/typedefs.hpp"
 
-/** Configuration used to construct a color. */
+/** @brief Configuration used to construct a color. */
 struct ColorConfig {
     f32 r = 0.0f; ///< Red component.
     f32 g = 0.0f; ///< Green component.
@@ -9,7 +13,7 @@ struct ColorConfig {
     f32 a = 0.0f; ///< Alpha component.
 };
 
-/** RGBA color with normalized float components in [0,1]. */
+/** @brief RGBA color with normalized float components in [0,1]. */
 struct Color {
     f32 r; ///< Red component.
     f32 g; ///< Green component.

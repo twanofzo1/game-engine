@@ -1,3 +1,7 @@
+/**
+ * @file types.hpp
+ * @brief Aggregate header that pulls in every core value type.
+ */
 #pragma once
 
 #include "core/typedefs.hpp"

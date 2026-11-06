@@ -1,7 +1,12 @@
+/**
+ * @file health.hpp
+ * @brief Health type: current and maximum hit points.
+ */
 #pragma once
 #include "core/typedefs.hpp"
 
-struct Health{
-    u16 current;
-    u16 max;
+/** @brief Tracks current and maximum hit points. */
+struct Health {
+    u16 current; ///< Current hit points.
+    u16 max;     ///< Maximum hit points.
 };

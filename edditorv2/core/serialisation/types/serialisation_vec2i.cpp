@@ -1,26 +1,29 @@
-#pragma once
-
-#include "../serialisation.hpp"
+/**
+ * @file serialisation_vec2i.cpp
+ * @brief Serialise/deserialise the Vec2i type to and from YAML.
+ */
+#include "../serialiser.hpp"
 #include "../deserialiser.hpp"
 
 
-
-Yaml::Node Serialiser::serialise_vec2i(const Vec2i* vec){
+/** @brief Serialise a 2D integer vector into a YAML node. */
+Yaml::Node Serialiser::serialise_vec2i(const Vec2i* vec)
+{
     Yaml::Node node;
     node["x"] = vec->x;
     node["y"] = vec->y;
     return node;
 }
 
-std::optional<Vec2i> Deserialiser::deserialise_vec2i(const Yaml::Node* node){
-    if(!node->IsMap()) return std::nullopt;
-    if(!node->operator[]("x")) return std::nullopt;
-    if(!node->operator[]("y")) return std::nullopt;
+/** @brief Deserialise a 2D integer vector from a YAML node, or none if invalid. */
+std::optional<Vec2i> Deserialiser::deserialise_vec2i(const Yaml::Node* node)
+{
+    if (!node->IsMap()) return std::nullopt;
+    if (!node->operator[]("x")) return std::nullopt;
+    if (!node->operator[]("y")) return std::nullopt;
 
-    Vec2i vec;
-    vec.x = node->operator[]("x").as<i32>();
-    vec.y = node->operator[]("y").as<i32>();
-
-    return vec;
-}   
-
+    return Vec2i::make({
+        .x = node->operator[]("x").as<i32>(),
+        .y = node->operator[]("y").as<i32>()
+    });
+}

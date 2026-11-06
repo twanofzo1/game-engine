@@ -1,3 +1,7 @@
+/**
+ * @file deserialiser.hpp
+ * @brief Deserialiser: converts YAML nodes back into engine objects.
+ */
 #pragma once
 #include "yaml-cpp/yaml.h"
 #include <optional>
@@ -15,7 +19,8 @@
 #include "core/objects/sprite.hpp"
 #include "core/objects/texture.hpp"
 
-struct Deserialiser{
+/** @brief Rebuilds engine objects from YAML nodes. */
+struct Deserialiser {
     static std::optional<Circle>          deserialise_circle(const Yaml::Node* node);
     static std::optional<Color>           deserialise_color(const Yaml::Node* node);
     static std::optional<Rect>            deserialise_rect(const Yaml::Node* node);
@@ -31,4 +36,4 @@ struct Deserialiser{
     static std::optional<AnimationPlayer> deserialise_animation_player(const Yaml::Node* node);
     static std::optional<Sprite>          deserialise_sprite(const Yaml::Node* node);
     static std::optional<Texture>         deserialise_texture(const Yaml::Node* node);
-}
+};

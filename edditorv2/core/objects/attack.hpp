@@ -1,6 +1,10 @@
+/**
+ * @file attack.hpp
+ * @brief Attack type.
+ */
 #pragma once
 #include "core/types.hpp"
 
-struct Attack{
-
+/** @brief An attack definition. */
+struct Attack {
 };
