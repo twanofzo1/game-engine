@@ -12,12 +12,12 @@ namespace Render {
 
 /** Orthographic camera describing a visible rectangle of world space. */
 struct Camera {
-    Vec2::Vec2 position; ///< Center of the visible region in world units.
-    Vec2::Vec2 size;     ///< Visible width and height in world units.
+    Vec2 position; ///< Center of the visible region in world units.
+    Vec2 size;     ///< Visible width and height in world units.
 };
 
 /** @brief Construct a Camera from a center position and a visible size. */
-static inline Camera camera_make(Vec2::Vec2 position, Vec2::Vec2 size)
+static inline Camera camera_make(Vec2 position, Vec2 size)
 {
     Camera camera;
     camera.position = position;

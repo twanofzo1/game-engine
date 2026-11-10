@@ -12,13 +12,20 @@
 #include "core/typedefs.hpp"
 #include "graphics/rendering/vertex.hpp"
 #include "graphics/rendering/camera.hpp"
-#include "core/ecs/components.hpp"
 
 /** Maximum quads per batch. */
 #define RENDERER_MAX_QUADS 8192
 
-namespace Engine {
-namespace Render {
+struct Vertex{
+    f32 x, y, z; ///< Position in world space.
+    f32 u, v;    ///< Texture coordinates.
+    f32 r, g, b, a; ///< Color (modulates texture).
+};
+
+struct Camera{
+    Vec2 position; ///< Center of the visible region in world units.
+    Vec2 size;     ///< Visible width and height in world units.
+};
 
 /** State for the 2D batch renderer. */
 struct Renderer {
@@ -42,11 +49,9 @@ void renderer_shutdown(Renderer* renderer);
 /** @brief Begin a frame with the given camera and reset the batch. */
 void renderer_begin(Renderer* renderer, const Camera* camera);
 
-/** @brief Queue one colored quad from a transform + sprite. */
-void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, const Ecs::Sprite* sprite);
+
 
 /** @brief Upload and draw all queued quads. */
 void renderer_end(Renderer* renderer);
 
-} // namespace Render
-} // namespace Engine
+

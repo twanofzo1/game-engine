@@ -16,8 +16,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-namespace Engine {
-namespace Render {
+/*
 
 static const char* VERT_SRC =
     "#version 330 core\n"
@@ -47,7 +46,7 @@ void renderer_init(Renderer* renderer)
 {
     renderer->quad_count = 0;
     renderer->total_quads = 0;
-    renderer->camera = camera_make(Vec2::make(0.0f, 0.0f), Vec2::make(1280.0f, 720.0f));
+    renderer->camera = Camera::make(Vec2::make({.x=0.0f, .y=0.0f}), Vec2::make({.x=1280.0f, .y=720.0f}));
 
     renderer->vertices = (Vertex*)malloc(sizeof(Vertex) * RENDERER_MAX_QUADS * 4);
 
@@ -55,11 +54,11 @@ void renderer_init(Renderer* renderer)
     renderer->u_view_proj = glGetUniformLocation(renderer->program, "uViewProj");
     renderer->u_texture = glGetUniformLocation(renderer->program, "uTexture");
 
-    /* Bind the color texture sampler to texture unit 0 once. */
+    //Bind the color texture sampler to texture unit 0 once. 
     shader_bind(renderer->program);
     glUniform1i(renderer->u_texture, 0);
 
-    /* 1x1 white texture used for solid-color (untextured) quads. */
+    // 1x1 white texture used for solid-color (untextured) quads. 
     const u8 white[4] = { 255, 255, 255, 255 };
     glGenTextures(1, &renderer->white_texture);
     glBindTexture(GL_TEXTURE_2D, renderer->white_texture);
@@ -69,7 +68,7 @@ void renderer_init(Renderer* renderer)
     glBindTexture(GL_TEXTURE_2D, 0);
     renderer->current_texture = renderer->white_texture;
 
-    /* Alpha blending so transparent textures composite over the background. */
+    // Alpha blending so transparent textures composite over the background. 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -84,7 +83,7 @@ void renderer_init(Renderer* renderer)
                  (GLsizeiptr)(sizeof(Vertex) * RENDERER_MAX_QUADS * 4),
                  NULL, GL_DYNAMIC_DRAW);
 
-    /* Static index buffer: every quad is two triangles (0,1,2, 2,3,0). */
+    // Static index buffer: every quad is two triangles (0,1,2, 2,3,0). 
     u32* indices = (u32*)malloc(sizeof(u32) * RENDERER_MAX_QUADS * 6);
     for (u32 q = 0; q < RENDERER_MAX_QUADS; ++q)
     {
@@ -131,9 +130,7 @@ void renderer_begin(Renderer* renderer, const Camera* camera)
     renderer->current_texture = renderer->white_texture;
 }
 
-/**
- * @brief Upload and draw the current batch, then reset it for the next one.
- */
+
 static void flush(Renderer* renderer)
 {
     if (renderer->quad_count == 0)
@@ -162,6 +159,7 @@ static void flush(Renderer* renderer)
 
 void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, const Ecs::Sprite* sprite)
 {
+    TODO: Add proper error handling 
     u32 texture = sprite->texture ? sprite->texture : renderer->white_texture;
     if (texture != renderer->current_texture)
     {
@@ -170,19 +168,20 @@ void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, con
     }
 
     if (renderer->quad_count >= RENDERER_MAX_QUADS)
-        flush(renderer); /* batch full: draw it and start a new one. */
+        flush(renderer); /* batch full: draw it and start a new one. 
 
     f32 hw = sprite->size.x * 0.5f * transform->scale.x;
     f32 hh = sprite->size.y * 0.5f * transform->scale.y;
     f32 c  = cosf(transform->rotation);
     f32 s  = sinf(transform->rotation);
 
-    /* Local corners in counter-clockwise order: bottom-left, bottom-right,
-     * top-right, top-left. */
+
+    // Local corners in counter-clockwise order: bottom-left, bottom-right,
+    // top-right, top-left.
     const f32 lx[4] = { -hw,  hw,  hw, -hw };
     const f32 ly[4] = { -hh, -hh,  hh,  hh };
 
-    /* UV rectangle of the current frame: [u0, v0, u1, v1]. */
+    //UV rectangle of the current frame: [u0, v0, u1, v1]. 
     f32 uv[4];
     Sprite::uv_rect(sprite, uv);
 
@@ -195,7 +194,7 @@ void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, con
         v[i].x = transform->position.x + rx;
         v[i].y = transform->position.y + ry;
         v[i].z = 0.0f;
-        /* Corners: bl, br, tr, tl. u: left=u0, right=u1; v: top=v0, bottom=v1. */
+        //Corners: bl, br, tr, tl. u: left=u0, right=u1; v: top=v0, bottom=v1. 
         v[i].u = (i == 0 || i == 3) ? uv[0] : uv[2];
         v[i].v = (i < 2) ? uv[3] : uv[1];
         v[i].r = sprite->color.r;
@@ -206,6 +205,7 @@ void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, con
 
     ++renderer->quad_count;
     ++renderer->total_quads;
+    
 }
 
 void renderer_end(Renderer* renderer)
@@ -213,5 +213,4 @@ void renderer_end(Renderer* renderer)
     flush(renderer);
 }
 
-} // namespace Render
-} // namespace Engine
+*/
