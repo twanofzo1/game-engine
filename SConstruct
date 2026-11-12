@@ -150,8 +150,6 @@ else:
     ]
     env.Append(CPPDEFINES=["_GLFW_WIN32"])
 
-glfw_gen = env.Object(glfw_sources)
-
 # GLAD (OpenGL loader).
 glad_sources = ["external/glad/src/glad.c"]
 
@@ -161,15 +159,82 @@ yaml_sources = Glob("external/yaml-cpp/src/*.cpp")
 # ---------------------------------------------------------------------------
 # Targets
 # ---------------------------------------------------------------------------
-variant_dir = "build/%s" % build_type
+build_dir = "build/%s" % build_type    # object files (.o) land here
+bin_dir = "bin/%s" % build_type        # the executable lands here
+
+# Duplicate the source tree into build_dir so that every .o file is emitted
+# under build/<build_type>/ instead of next to its source file. duplicate=0
+# uses symlinks on platforms that support them (no full source copy).
+variant_env = env.Clone()
+variant_env.VariantDir(build_dir, ".", duplicate=0)
+
+# Sources, re-rooted under the build directory so compile outputs follow suit.
+def build_path(path):
+    return os.path.join(build_dir, path)
+
+build_src = [build_path(s) for s in src_sources]
+build_glad = [build_path(s) for s in glad_sources]
+build_imgui = [build_path(s) for s in imgui_sources]
+build_glfw = [build_path(s) for s in glfw_sources]
+# yaml_sources are Node objects from Glob(); map their string paths.
+build_yaml = [build_path(str(s)) for s in yaml_sources]
+
+# Compile everything into build_dir, then link into bin_dir.
+all_sources = (
+    build_src
+    + build_glad
+    + build_imgui
+    + build_glfw
+    + build_yaml
+)
 
 app = env.Program(
-    target=os.path.join(variant_dir, "app"),
-    source=src_sources
-    + glad_sources
-    + imgui_sources
-    + glfw_gen
-    + yaml_sources,
+    target=os.path.join(bin_dir, "app"),
+    source=all_sources,
 )
 
 Default(app)
+
+
+# ---------------------------------------------------------------------------
+# compile_commands.json (for clang-tidy / clangd)
+# ---------------------------------------------------------------------------
+# Emit a compilation database so tools like clang-tidy can pick up the exact
+# include paths and defines used by the build. Regenerate with:
+#   scons compile_commands
+import json
+
+
+def _emit_compile_commands(target, source, env):
+    # Reconstruct the include/define flags from this environment's settings.
+    inc_flags = env.subst("$CPPPATH", source=source[0]).split()
+    def_flags = ["-D" + d for d in env.subst("$CPPDEFINES", source=source[0]).split()]
+
+    entries = []
+    for src in source:
+        command = (
+            [env.subst("$CXX", source=src)]
+            + ["-std=c++17"]
+            + def_flags
+            + ["-I" + inc for inc in inc_flags]
+            + ["-c", str(src), "-o", str(src) + ".o"]
+        )
+        entries.append({
+            "directory": os.getcwd(),
+            "command": " ".join(command),
+            "file": str(src),
+        })
+
+    with open(compile_commands_db, "w") as f:
+        json.dump(entries, f, indent=2)
+
+
+compile_commands_db = os.path.join("compile_commands.json")
+
+env.Command(
+    compile_commands_db,
+    all_sources,
+    _emit_compile_commands,
+)
+
+env.Alias("compile_commands", compile_commands_db)

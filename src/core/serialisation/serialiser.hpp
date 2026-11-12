@@ -12,8 +12,10 @@ struct Serialiser {
     static YamlNode serialise_circle(const Circle* circle);
     static YamlNode serialise_color(const Color* color);
     static YamlNode serialise_rect(const Rect* rect);
+    static YamlNode serialise_shape(const Shape* shape);
     static YamlNode serialise_vec2(const Vec2* vec);
     static YamlNode serialise_vec2i(const Vec2i* vec);
+    static YamlNode serialise_animation(const Animation* animation);
     static YamlNode serialise_area(const Area* area);
     static YamlNode serialise_attack(const Attack* attack);
     static YamlNode serialise_audio_file(const AudioFile* audio_file);
@@ -22,6 +24,11 @@ struct Serialiser {
     static YamlNode serialise_hitbox(const Hitbox* hitbox);
     static YamlNode serialise_hurtbox(const Hurtbox* hurtbox);
     static YamlNode serialise_animation_player(const AnimationPlayer* animation_player);
+    static YamlNode serialise_health(const Health* health);
+    static YamlNode serialise_node(const Node* node);
+    static YamlNode serialise_script(const Script* script);
+    static YamlNode serialise_signal(const Signal* signal);
     static YamlNode serialise_sprite(const Sprite* sprite);
+    static YamlNode serialise_stamina(const Stamina* stamina);
     static YamlNode serialise_texture(const Texture* texture);
 };
