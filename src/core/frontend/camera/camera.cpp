@@ -2,14 +2,20 @@
  * @file camera.cpp
  * @brief 2D orthographic camera matrix implementation.
  */
-#include "graphics/rendering/camera.hpp"
+#include "core/frontend/camera/camera.hpp"
 
 #include <string.h>
 
-namespace Engine {
-namespace Render {
 
-void camera_view_projection(const Camera* camera, f32* m)
+Camera Camera::make(Vec2 position, Vec2 size)
+{
+    Camera camera;
+    camera.position = position;
+    camera.size = size;
+    return camera;
+}
+
+void Camera::view_projection(const Camera* camera, f32* m)
 {
     memset(m, 0, sizeof(f32) * 16);
 
@@ -26,5 +32,4 @@ void camera_view_projection(const Camera* camera, f32* m)
     m[14] =  0.0f;
 }
 
-} // namespace Render
-} // namespace Engine
+

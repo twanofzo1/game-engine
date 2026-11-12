@@ -6,17 +6,16 @@
  * staged in a CPU buffer and submitted in fixed-size batches: when a batch
  * fills up it is flushed with a draw call and a new batch is started.
  */
-#include "graphics/rendering/renderer.hpp"
-#include "graphics/rendering/shader.hpp"
-#include "graphics/rendering/camera.hpp"
+#include "core/frontend/rendering/renderer.hpp"
+#include "core/frontend/rendering/shader.hpp"
+#include "core/frontend/camera/camera.hpp"
 
 #include <glad/glad.h>
 
 #include <math.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
-
-/*
 
 static const char* VERT_SRC =
     "#version 330 core\n"
@@ -42,11 +41,41 @@ static const char* FRAG_SRC =
     "    FragColor = vColor * texture(uTexture, vUV);\n"
     "}\n";
 
-void renderer_init(Renderer* renderer)
+/** @brief Flush the queued quads to the GPU and reset the batch. */
+static void renderer_flush(Renderer* renderer)
+{
+    if (renderer->quad_count == 0)
+        return;
+
+    shader_bind(renderer->program);
+
+    f32 m[16];
+    Camera::view_projection(&renderer->camera, m);
+    glUniformMatrix4fv(renderer->u_view_proj, 1, GL_FALSE, m);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, renderer->current_texture);
+
+    glBindVertexArray(renderer->vao);
+    glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0,
+                    (GLsizeiptr)(renderer->quad_count * 4 * sizeof(Vertex)),
+                    renderer->vertices);
+    glDrawElements(GL_TRIANGLES, (GLsizei)(renderer->quad_count * 6),
+                   GL_UNSIGNED_INT, NULL);
+    glBindVertexArray(0);
+
+    renderer->quad_count = 0;
+}
+
+/** @brief Initialise the renderer, creating its GL resources. */
+void Renderer::init(Renderer* renderer)
 {
     renderer->quad_count = 0;
     renderer->total_quads = 0;
-    renderer->camera = Camera::make(Vec2::make({.x=0.0f, .y=0.0f}), Vec2::make({.x=1280.0f, .y=720.0f}));
+    renderer->camera = Camera::make(
+        Vec2::make({.x = 0.0f, .y = 0.0f}),
+        Vec2::make({.x = 1280.0f, .y = 720.0f}));
 
     renderer->vertices = (Vertex*)malloc(sizeof(Vertex) * RENDERER_MAX_QUADS * 4);
 
@@ -54,11 +83,11 @@ void renderer_init(Renderer* renderer)
     renderer->u_view_proj = glGetUniformLocation(renderer->program, "uViewProj");
     renderer->u_texture = glGetUniformLocation(renderer->program, "uTexture");
 
-    //Bind the color texture sampler to texture unit 0 once. 
+    /* Bind the color texture sampler to texture unit 0 once. */
     shader_bind(renderer->program);
     glUniform1i(renderer->u_texture, 0);
 
-    // 1x1 white texture used for solid-color (untextured) quads. 
+    /* 1x1 white texture used for solid-color (untextured) quads. */
     const u8 white[4] = { 255, 255, 255, 255 };
     glGenTextures(1, &renderer->white_texture);
     glBindTexture(GL_TEXTURE_2D, renderer->white_texture);
@@ -68,7 +97,7 @@ void renderer_init(Renderer* renderer)
     glBindTexture(GL_TEXTURE_2D, 0);
     renderer->current_texture = renderer->white_texture;
 
-    // Alpha blending so transparent textures composite over the background. 
+    /* Alpha blending so transparent textures composite over the background. */
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -83,7 +112,7 @@ void renderer_init(Renderer* renderer)
                  (GLsizeiptr)(sizeof(Vertex) * RENDERER_MAX_QUADS * 4),
                  NULL, GL_DYNAMIC_DRAW);
 
-    // Static index buffer: every quad is two triangles (0,1,2, 2,3,0). 
+    /* Static index buffer: every quad is two triangles (0,1,2, 2,3,0). */
     u32* indices = (u32*)malloc(sizeof(u32) * RENDERER_MAX_QUADS * 6);
     for (u32 q = 0; q < RENDERER_MAX_QUADS; ++q)
     {
@@ -111,7 +140,8 @@ void renderer_init(Renderer* renderer)
     glBindVertexArray(0);
 }
 
-void renderer_shutdown(Renderer* renderer)
+/** @brief Free the renderer's GL resources and CPU buffers. */
+void Renderer::shutdown(Renderer* renderer)
 {
     shader_destroy(renderer->program);
     glDeleteVertexArrays(1, &renderer->vao);
@@ -122,7 +152,8 @@ void renderer_shutdown(Renderer* renderer)
     renderer->vertices = NULL;
 }
 
-void renderer_begin(Renderer* renderer, const Camera* camera)
+/** @brief Begin a frame with the given camera and reset the batch. */
+void Renderer::begin(Renderer* renderer, const Camera* camera)
 {
     renderer->camera = *camera;
     renderer->quad_count = 0;
@@ -130,60 +161,33 @@ void renderer_begin(Renderer* renderer, const Camera* camera)
     renderer->current_texture = renderer->white_texture;
 }
 
-
-static void flush(Renderer* renderer)
+/** @brief Queue a quad to be drawn; flushes when the batch fills or texture changes. */
+void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
 {
-    if (renderer->quad_count == 0)
+    if (!quad)
         return;
 
-    shader_bind(renderer->program);
-
-    f32 m[16];
-    camera_view_projection(&renderer->camera, m);
-    glUniformMatrix4fv(renderer->u_view_proj, 1, GL_FALSE, m);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, renderer->current_texture);
-
-    glBindVertexArray(renderer->vao);
-    glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0,
-                    (GLsizeiptr)(renderer->quad_count * 4 * sizeof(Vertex)),
-                    renderer->vertices);
-    glDrawElements(GL_TRIANGLES, (GLsizei)(renderer->quad_count * 6),
-                   GL_UNSIGNED_INT, NULL);
-    glBindVertexArray(0);
-
-    renderer->quad_count = 0;
-}
-
-void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, const Ecs::Sprite* sprite)
-{
-    TODO: Add proper error handling 
-    u32 texture = sprite->texture ? sprite->texture : renderer->white_texture;
+    u32 texture = quad->texture ? quad->texture : renderer->white_texture;
     if (texture != renderer->current_texture)
     {
-        flush(renderer);
+        renderer_flush(renderer);
         renderer->current_texture = texture;
     }
 
     if (renderer->quad_count >= RENDERER_MAX_QUADS)
-        flush(renderer); /* batch full: draw it and start a new one. 
+    {
+        renderer_flush(renderer);
+    }
 
-    f32 hw = sprite->size.x * 0.5f * transform->scale.x;
-    f32 hh = sprite->size.y * 0.5f * transform->scale.y;
-    f32 c  = cosf(transform->rotation);
-    f32 s  = sinf(transform->rotation);
+    f32 hw = quad->size.x * 0.5f;
+    f32 hh = quad->size.y * 0.5f;
+    f32 c  = cosf(quad->rotation);
+    f32 s  = sinf(quad->rotation);
 
-
-    // Local corners in counter-clockwise order: bottom-left, bottom-right,
-    // top-right, top-left.
+    /* Local corners in counter-clockwise order: bottom-left, bottom-right,
+     * top-right, top-left. */
     const f32 lx[4] = { -hw,  hw,  hw, -hw };
     const f32 ly[4] = { -hh, -hh,  hh,  hh };
-
-    //UV rectangle of the current frame: [u0, v0, u1, v1]. 
-    f32 uv[4];
-    Sprite::uv_rect(sprite, uv);
 
     Vertex* v = &renderer->vertices[renderer->quad_count * 4];
     for (int i = 0; i < 4; ++i)
@@ -191,26 +195,25 @@ void renderer_push_quad(Renderer* renderer, const Ecs::Transform* transform, con
         f32 rx = lx[i] * c - ly[i] * s;
         f32 ry = lx[i] * s + ly[i] * c;
 
-        v[i].x = transform->position.x + rx;
-        v[i].y = transform->position.y + ry;
+        v[i].x = quad->position.x + rx;
+        v[i].y = quad->position.y + ry;
         v[i].z = 0.0f;
-        //Corners: bl, br, tr, tl. u: left=u0, right=u1; v: top=v0, bottom=v1. 
-        v[i].u = (i == 0 || i == 3) ? uv[0] : uv[2];
-        v[i].v = (i < 2) ? uv[3] : uv[1];
-        v[i].r = sprite->color.r;
-        v[i].g = sprite->color.g;
-        v[i].b = sprite->color.b;
-        v[i].a = sprite->color.a;
+        /* Corners: bl, br, tr, tl. u: left=u0, right=u1; v: top=v0, bottom=v1. */
+        v[i].u = (i == 0 || i == 3) ? quad->u0 : quad->u1;
+        v[i].v = (i < 2) ? quad->v1 : quad->v0;
+        v[i].r = quad->color.r;
+        v[i].g = quad->color.g;
+        v[i].b = quad->color.b;
+        v[i].a = quad->color.a;
     }
 
     ++renderer->quad_count;
     ++renderer->total_quads;
-    
 }
 
-void renderer_end(Renderer* renderer)
+/** @brief Upload and draw all queued quads. */
+void Renderer::end(Renderer* renderer)
 {
-    flush(renderer);
+    renderer_flush(renderer);
 }
 
-*/

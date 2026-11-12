@@ -2,14 +2,12 @@
  * @file shader.cpp
  * @brief Minimal OpenGL shader program helper implementation.
  */
-#include "graphics/rendering/shader.hpp"
+#include "core/frontend/rendering/shader.hpp"
 
 #include <glad/glad.h>
 
 #include <stdio.h>
 
-namespace Engine {
-namespace Render {
 
 /**
  * @brief Compile one shader stage.
@@ -80,6 +78,3 @@ void shader_set_mat4(u32 program, const char* name, const f32* m)
 {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, m);
 }
-
-} // namespace Render
-} // namespace Engine

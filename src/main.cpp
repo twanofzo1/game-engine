@@ -1,6 +1,8 @@
 #include "core/serialisation/serialiser.hpp"
 #include "core/serialisation/deserialiser.hpp"
-#include "frontend/core/window/window.hpp"
+#include "core/frontend/window/window.hpp"
+#include "core/frontend/rendering/renderer.hpp"
+#include "core/frontend/camera/camera.hpp"
 
 
 
@@ -50,17 +52,38 @@ int main(int argc, char** argv)
 
     Window window = create_window();
 
+    Renderer renderer;
+    Renderer::init(&renderer);
 
-    
+    Camera camera = Camera::make(
+        Vec2::make({.x = 0.0f, .y = 0.0f}),
+        Vec2::make({.x = 1280.0f, .y = 720.0f}));
+
     while (!Window::should_close(&window))
     {
         Window::begin_frame(&window);
 
-        // Rendering code goes here...
+        Renderer::begin(&renderer, &camera);
+
+        QuadConfig quad = {
+            .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
+            .size     = Vec2::make({.x = 300.0f, .y = 200.0f}),
+            .color    = Color::make({.r = 0.9f, .g = 0.2f, .b = 0.3f, .a = 1.0f}),
+            .texture  = 0,
+            .rotation = 0.0f,
+            .u0 = 0.0f,
+            .v0 = 0.0f,
+            .u1 = 1.0f,
+            .v1 = 1.0f
+        };
+        Renderer::push_quad(&renderer, &quad);
+
+        Renderer::end(&renderer);
 
         Window::end_frame(&window);
     }
 
+    Renderer::shutdown(&renderer);
     Window::imgui_shutdown();
     Window::destroy(&window);
     Window::terminate();

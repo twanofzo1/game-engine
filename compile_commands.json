@@ -1,6 +1,36 @@
 [
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/camera/camera.cpp -o src/core/frontend/camera/camera.cpp.o",
+    "file": "src/core/frontend/camera/camera.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/renderer.cpp -o src/core/frontend/rendering/renderer.cpp.o",
+    "file": "src/core/frontend/rendering/renderer.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/shader.cpp -o src/core/frontend/rendering/shader.cpp.o",
+    "file": "src/core/frontend/rendering/shader.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/texture/texture.cpp -o src/core/frontend/texture/texture.cpp.o",
+    "file": "src/core/frontend/texture/texture.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/viewport.cpp -o src/core/frontend/viewport.cpp.o",
+    "file": "src/core/frontend/viewport.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/window/window.cpp -o src/core/frontend/window/window.cpp.o",
+    "file": "src/core/frontend/window/window.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
     "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/controller.cpp -o src/core/input/controller.cpp.o",
     "file": "src/core/input/controller.cpp"
   },
@@ -243,36 +273,6 @@
     "directory": "/home/twanofzo/Desktop/New Folder",
     "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/vec2i.cpp -o src/core/types/vec2i.cpp.o",
     "file": "src/core/types/vec2i.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/frontend/core/window/window.cpp -o src/frontend/core/window/window.cpp.o",
-    "file": "src/frontend/core/window/window.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/frontend/viewport.cpp -o src/frontend/viewport.cpp.o",
-    "file": "src/frontend/viewport.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/graphics/rendering/camera.cpp -o src/graphics/rendering/camera.cpp.o",
-    "file": "src/graphics/rendering/camera.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/graphics/rendering/renderer.cpp -o src/graphics/rendering/renderer.cpp.o",
-    "file": "src/graphics/rendering/renderer.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/graphics/rendering/shader.cpp -o src/graphics/rendering/shader.cpp.o",
-    "file": "src/graphics/rendering/shader.cpp"
-  },
-  {
-    "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/graphics/rendering/texture.cpp -o src/graphics/rendering/texture.cpp.o",
-    "file": "src/graphics/rendering/texture.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",

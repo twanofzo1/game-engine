@@ -6,15 +6,9 @@
 
 #include "core/typedefs.hpp"
 
-namespace Engine {
-namespace Render {
-
 /** One vertex: position, texture coordinate and RGBA color. */
 struct Vertex {
     f32 x, y, z;     ///< Position in world space.
-    f32 u, v;        ///< Texture coordinates (reserved for future textures).
+    f32 u, v;        ///< Texture coordinates.
     f32 r, g, b, a;  ///< RGBA color.
 };
-
-} // namespace Render
-} // namespace Engine
