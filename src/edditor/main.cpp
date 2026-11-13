@@ -4,6 +4,8 @@
 #include "core/frontend/rendering/renderer.hpp"
 #include "core/frontend/camera/camera.hpp"
 
+#include "imgui.h"
+
 #include <expected>
 
 
@@ -72,17 +74,28 @@ int main(int argc, char** argv)
         Window::begin_frame(&window);
 
         Renderer::begin(&renderer, &camera);
+        u32 xquads = 1000;
+        u32 yquads = 1000;
+        for (u32 i = 0; i < xquads; ++i){
+            for (u32 j = 0; j < yquads; ++j){
+                QuadConfig quad = {
+                    .position = Vec2::make({.x = (f32)(i * 2), .y = (f32)(j * 2)}),
+                    .size     = Vec2::make({.x = 2.0f, .y = 2.0f}),
+                    .color    = Color::make({
+                        .r = 0.0f + 0.005f * (f32)i,
+                        .g = 0.0f + 0.002f * (f32)j,
+                        .b = 0.0f + 0.001f * (f32)j,
+                        .a = 1.0f
+                    }),
+                };
+                Renderer::push_quad(&renderer, &quad);
+            }
+        }
 
-        QuadConfig quad = {
-            .size     = Vec2::make({.x = 200.0f, .y = 200.0f}),
-            .color    = Color::make({
-                .r = 0.9f, 
-                .g = 0.2f, 
-                .b = 0.3f, 
-                .a = 1.0f
-            }),
-        };
-        Renderer::push_quad(&renderer, &quad);
+        ImGui::Begin("Renderer Info");
+        ImGui::Text("Total quads: %u", xquads * yquads);
+        ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
+        ImGui::End();
 
         Renderer::end(&renderer);
 

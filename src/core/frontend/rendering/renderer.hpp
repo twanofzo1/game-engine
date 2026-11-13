@@ -53,7 +53,6 @@ struct Renderer {
     u32     vbo;         ///< Dynamic vertex buffer.
     u32     ebo;         ///< Static index buffer.
     u32     programs[RENDERER_MAX_SHADERS];  ///< Shader programs indexed by shader_id.
-    i32     u_view_proj[RENDERER_MAX_SHADERS]; ///< uViewProj uniform per program.
     i32     u_texture[RENDERER_MAX_SHADERS];   ///< uTexture uniform per program.
     u32     program_count; ///< Number of registered shader programs.
     u32     white_texture;   ///< 1x1 white texture for solid-color quads.

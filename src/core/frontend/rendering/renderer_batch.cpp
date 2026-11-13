@@ -131,3 +131,15 @@ void renderer_draw_sorted(Renderer* renderer)
         }
     }
 }
+
+void renderer_flush(Renderer* renderer)
+{
+    if (renderer->quad_count == 0)
+        return;
+
+    renderer_sort_keys(renderer);
+    renderer_reorder_vertices(renderer);
+    renderer_draw_sorted(renderer);
+
+    renderer->quad_count = 0;
+}

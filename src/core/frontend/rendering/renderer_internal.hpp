@@ -41,3 +41,6 @@ void renderer_reorder_vertices(Renderer* renderer);
 
 /** @brief Draw the sorted quads, one draw call per (shader, texture) run. */
 void renderer_draw_sorted(Renderer* renderer);
+
+/** @brief Sort and draw all queued quads, then reset the batch cursor. */
+void renderer_flush(Renderer* renderer);

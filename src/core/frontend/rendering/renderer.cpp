@@ -134,7 +134,6 @@ std::expected<u32, RendererError> Renderer::register_shader(Renderer* renderer,
 
     const u32 id = renderer->program_count++;
     renderer->programs[id] = program;
-    renderer->u_view_proj[id] = glGetUniformLocation(program, "uViewProj");
     renderer->u_texture[id] = glGetUniformLocation(program, "uTexture");
 
     /* Bind the color texture sampler to texture unit 0 once. */
@@ -155,8 +154,12 @@ void Renderer::begin(Renderer* renderer, const Camera* camera)
 /** @brief Queue a quad; it is sorted and batched by shader/texture at end(). */
 void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
 {
-    if (!quad || renderer->quad_count >= RENDERER_MAX_QUADS)
+    if (!quad)
         return;
+
+    /* Flush when the batch is full so any number of quads can be submitted. */
+    if (renderer->quad_count >= RENDERER_MAX_QUADS)
+        renderer_flush(renderer);
 
     const u32 shader_id = quad->shader_id < renderer->program_count ? quad->shader_id : 0;
     const u32 texture = quad->texture ? quad->texture : renderer->white_texture;
@@ -169,16 +172,9 @@ void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
     ++renderer->total_quads;
 }
 
-/** @brief Sort queued quads by shader then texture, drawing each run as one call. */
+/** @brief Sort and draw all queued quads. */
 void Renderer::end(Renderer* renderer)
 {
-    if (renderer->quad_count == 0)
-        return;
-
-    renderer_sort_keys(renderer);
-    renderer_reorder_vertices(renderer);
-    renderer_draw_sorted(renderer);
-
-    renderer->quad_count = 0;
+    renderer_flush(renderer);
 }
 
