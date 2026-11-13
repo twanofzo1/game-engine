@@ -1,21 +1,18 @@
 /**
  * @file renderer.cpp
- * @brief 2D batch renderer implementation.
+ * @brief Multi-shader 2D batch renderer public API.
  *
- * Draws rotated, solid-color quads with one dynamic vertex buffer. Quads are
- * staged in a CPU buffer and submitted in fixed-size batches: when a batch
- * fills up it is flushed with a draw call and a new batch is started.
+ * Collects quads across the frame, sorts them by (shader, texture), and draws
+ * them in a single call per group. The sorting/batching lives in
+ * renderer_batch.cpp and the GL resource setup in renderer_gl.cpp.
  */
 #include "core/frontend/rendering/renderer.hpp"
+#include "core/frontend/rendering/renderer_internal.hpp"
 #include "core/frontend/rendering/shader.hpp"
-#include "core/frontend/camera/camera.hpp"
 
 #include <glad/glad.h>
 
-#include <math.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <expected>
 
 static const char* VERT_SRC =
     "#version 330 core\n"
@@ -41,115 +38,110 @@ static const char* FRAG_SRC =
     "    FragColor = vColor * texture(uTexture, vUV);\n"
     "}\n";
 
-/** @brief Flush the queued quads to the GPU and reset the batch. */
-static void renderer_flush(Renderer* renderer)
+/** @brief Total bytes needed for the renderer's CPU-side staging buffers. */
+static usize renderer_buffers_size()
 {
-    if (renderer->quad_count == 0)
-        return;
-
-    shader_bind(renderer->program);
-
-    f32 m[16];
-    Camera::view_projection(&renderer->camera, m);
-    glUniformMatrix4fv(renderer->u_view_proj, 1, GL_FALSE, m);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, renderer->current_texture);
-
-    glBindVertexArray(renderer->vao);
-    glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0,
-                    (GLsizeiptr)(renderer->quad_count * 4 * sizeof(Vertex)),
-                    renderer->vertices);
-    glDrawElements(GL_TRIANGLES, (GLsizei)(renderer->quad_count * 6),
-                   GL_UNSIGNED_INT, NULL);
-    glBindVertexArray(0);
-
-    renderer->quad_count = 0;
+    return sizeof(Vertex) * RENDERER_MAX_QUADS * 4   /* vertices */
+         + sizeof(Vertex) * RENDERER_MAX_QUADS * 4   /* scratch  */
+         + sizeof(u64)    * RENDERER_MAX_QUADS       /* sort_keys */
+         + sizeof(u32)    * RENDERER_MAX_QUADS       /* order     */
+         + sizeof(u32)    * RENDERER_MAX_QUADS * 6;  /* indices   */
 }
 
-/** @brief Initialise the renderer, creating its GL resources. */
-void Renderer::init(Renderer* renderer)
+/** @brief Create a renderer, or return an error code on failure. */
+std::expected<Renderer, RendererError> Renderer::make()
 {
-    renderer->quad_count = 0;
-    renderer->total_quads = 0;
-    renderer->camera = Camera::make(
-        Vec2::make({.x = 0.0f, .y = 0.0f}),
-        Vec2::make({.x = 1280.0f, .y = 720.0f}));
+    const ArenaConfig arena_config = {
+        .reserved = renderer_buffers_size(),
+        .commit   = renderer_buffers_size(),
+    };
+    const std::expected<Arena, ArenaError> arena = Arena::make(arena_config);
+    if (!arena)
+        return std::unexpected(RendererError::OutOfMemory);
 
-    renderer->vertices = (Vertex*)malloc(sizeof(Vertex) * RENDERER_MAX_QUADS * 4);
+    Renderer renderer;
+    renderer.arena       = *arena;
+    renderer.quad_count  = 0;
+    renderer.total_quads = 0;
+    renderer.program_count = 0;
+    renderer.camera = Camera::make({
+        .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
+        .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
+    });
 
-    renderer->program = shader_create(VERT_SRC, FRAG_SRC);
-    renderer->u_view_proj = glGetUniformLocation(renderer->program, "uViewProj");
-    renderer->u_texture = glGetUniformLocation(renderer->program, "uTexture");
+    /* Carve the four staging buffers out of the arena. */
+    const std::expected<void*, ArenaError> vertices = Arena::alloc_aligned(&renderer.arena, sizeof(Vertex) * RENDERER_MAX_QUADS * 4, alignof(Vertex));
+    const std::expected<void*, ArenaError> scratch  = Arena::alloc_aligned(&renderer.arena, sizeof(Vertex) * RENDERER_MAX_QUADS * 4, alignof(Vertex));
+    const std::expected<void*, ArenaError> keys     = Arena::alloc_aligned(&renderer.arena, sizeof(u64) * RENDERER_MAX_QUADS, alignof(u64));
+    const std::expected<void*, ArenaError> order    = Arena::alloc_aligned(&renderer.arena, sizeof(u32) * RENDERER_MAX_QUADS, alignof(u32));
 
-    /* Bind the color texture sampler to texture unit 0 once. */
-    shader_bind(renderer->program);
-    glUniform1i(renderer->u_texture, 0);
+    if (!vertices || !scratch || !keys || !order)
+    {
+        Arena::destroy(&renderer.arena);
+        return std::unexpected(RendererError::OutOfMemory);
+    }
 
-    /* 1x1 white texture used for solid-color (untextured) quads. */
-    const u8 white[4] = { 255, 255, 255, 255 };
-    glGenTextures(1, &renderer->white_texture);
-    glBindTexture(GL_TEXTURE_2D, renderer->white_texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, white);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    renderer->current_texture = renderer->white_texture;
+    renderer.vertices  = (Vertex*)*vertices;
+    renderer.scratch   = (Vertex*)*scratch;
+    renderer.sort_keys = (u64*)*keys;
+    renderer.order     = (u32*)*order;
+
+    /* Shader 0 is the default solid-color/textured quad shader. */
+    if (!register_shader(&renderer, VERT_SRC, FRAG_SRC))
+    {
+        Arena::destroy(&renderer.arena);
+        return std::unexpected(RendererError::ShaderCompile);
+    }
+
+    renderer_create_white_texture(&renderer);
 
     /* Alpha blending so transparent textures composite over the background. */
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glGenVertexArrays(1, &renderer->vao);
-    glGenBuffers(1, &renderer->vbo);
-    glGenBuffers(1, &renderer->ebo);
+    renderer_create_buffers(&renderer);
 
-    glBindVertexArray(renderer->vao);
-
-    glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 (GLsizeiptr)(sizeof(Vertex) * RENDERER_MAX_QUADS * 4),
-                 NULL, GL_DYNAMIC_DRAW);
-
-    /* Static index buffer: every quad is two triangles (0,1,2, 2,3,0). */
-    u32* indices = (u32*)malloc(sizeof(u32) * RENDERER_MAX_QUADS * 6);
-    for (u32 q = 0; q < RENDERER_MAX_QUADS; ++q)
-    {
-        u32 base = q * 4;
-        u32* idx = &indices[q * 6];
-        idx[0] = base + 0; idx[1] = base + 1; idx[2] = base + 2;
-        idx[3] = base + 2; idx[4] = base + 3; idx[5] = base + 0;
-    }
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 (GLsizeiptr)(sizeof(u32) * RENDERER_MAX_QUADS * 6),
-                 indices, GL_STATIC_DRAW);
-    free(indices);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          (void*)offsetof(Vertex, x));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          (void*)offsetof(Vertex, u));
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          (void*)offsetof(Vertex, r));
-
-    glBindVertexArray(0);
+    return renderer;
 }
 
 /** @brief Free the renderer's GL resources and CPU buffers. */
 void Renderer::shutdown(Renderer* renderer)
 {
-    shader_destroy(renderer->program);
+    for (u32 i = 0; i < renderer->program_count; ++i)
+        shader_destroy(renderer->programs[i]);
     glDeleteVertexArrays(1, &renderer->vao);
     glDeleteBuffers(1, &renderer->vbo);
     glDeleteBuffers(1, &renderer->ebo);
     glDeleteTextures(1, &renderer->white_texture);
-    free(renderer->vertices);
+    Arena::destroy(&renderer->arena);
     renderer->vertices = NULL;
+    renderer->scratch = NULL;
+    renderer->sort_keys = NULL;
+    renderer->order = NULL;
+}
+
+/** @brief Register a shader program, returning its shader_id or an error code. */
+std::expected<u32, RendererError> Renderer::register_shader(Renderer* renderer,
+                                                            const char* vs_source,
+                                                            const char* fs_source)
+{
+    if (renderer->program_count >= RENDERER_MAX_SHADERS)
+        return std::unexpected(RendererError::ShaderTableFull);
+
+    const u32 program = shader_create(vs_source, fs_source);
+    if (!program)
+        return std::unexpected(RendererError::ShaderCompile);
+
+    const u32 id = renderer->program_count++;
+    renderer->programs[id] = program;
+    renderer->u_view_proj[id] = glGetUniformLocation(program, "uViewProj");
+    renderer->u_texture[id] = glGetUniformLocation(program, "uTexture");
+
+    /* Bind the color texture sampler to texture unit 0 once. */
+    shader_bind(program);
+    glUniform1i(renderer->u_texture[id], 0);
+
+    return id;
 }
 
 /** @brief Begin a frame with the given camera and reset the batch. */
@@ -158,62 +150,35 @@ void Renderer::begin(Renderer* renderer, const Camera* camera)
     renderer->camera = *camera;
     renderer->quad_count = 0;
     renderer->total_quads = 0;
-    renderer->current_texture = renderer->white_texture;
 }
 
-/** @brief Queue a quad to be drawn; flushes when the batch fills or texture changes. */
+/** @brief Queue a quad; it is sorted and batched by shader/texture at end(). */
 void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
 {
-    if (!quad)
+    if (!quad || renderer->quad_count >= RENDERER_MAX_QUADS)
         return;
 
-    u32 texture = quad->texture ? quad->texture : renderer->white_texture;
-    if (texture != renderer->current_texture)
-    {
-        renderer_flush(renderer);
-        renderer->current_texture = texture;
-    }
+    const u32 shader_id = quad->shader_id < renderer->program_count ? quad->shader_id : 0;
+    const u32 texture = quad->texture ? quad->texture : renderer->white_texture;
 
-    if (renderer->quad_count >= RENDERER_MAX_QUADS)
-    {
-        renderer_flush(renderer);
-    }
-
-    f32 hw = quad->size.x * 0.5f;
-    f32 hh = quad->size.y * 0.5f;
-    f32 c  = cosf(quad->rotation);
-    f32 s  = sinf(quad->rotation);
-
-    /* Local corners in counter-clockwise order: bottom-left, bottom-right,
-     * top-right, top-left. */
-    const f32 lx[4] = { -hw,  hw,  hw, -hw };
-    const f32 ly[4] = { -hh, -hh,  hh,  hh };
-
-    Vertex* v = &renderer->vertices[renderer->quad_count * 4];
-    for (int i = 0; i < 4; ++i)
-    {
-        f32 rx = lx[i] * c - ly[i] * s;
-        f32 ry = lx[i] * s + ly[i] * c;
-
-        v[i].x = quad->position.x + rx;
-        v[i].y = quad->position.y + ry;
-        v[i].z = 0.0f;
-        /* Corners: bl, br, tr, tl. u: left=u0, right=u1; v: top=v0, bottom=v1. */
-        v[i].u = (i == 0 || i == 3) ? quad->u0 : quad->u1;
-        v[i].v = (i < 2) ? quad->v1 : quad->v0;
-        v[i].r = quad->color.r;
-        v[i].g = quad->color.g;
-        v[i].b = quad->color.b;
-        v[i].a = quad->color.a;
-    }
+    const u32 q = renderer->quad_count;
+    renderer->sort_keys[q] = renderer_make_key(shader_id, texture);
+    renderer_write_quad_vertices(renderer, quad, q);
 
     ++renderer->quad_count;
     ++renderer->total_quads;
 }
 
-/** @brief Upload and draw all queued quads. */
+/** @brief Sort queued quads by shader then texture, drawing each run as one call. */
 void Renderer::end(Renderer* renderer)
 {
-    renderer_flush(renderer);
+    if (renderer->quad_count == 0)
+        return;
+
+    renderer_sort_keys(renderer);
+    renderer_reorder_vertices(renderer);
+    renderer_draw_sorted(renderer);
+
+    renderer->quad_count = 0;
 }
 

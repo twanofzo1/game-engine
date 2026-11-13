@@ -4,6 +4,8 @@
 #include "core/frontend/rendering/renderer.hpp"
 #include "core/frontend/camera/camera.hpp"
 
+#include <expected>
+
 
 
 Window create_window(){
@@ -51,12 +53,19 @@ int main(int argc, char** argv)
 
     Window window = create_window();
 
-    Renderer renderer;
-    Renderer::init(&renderer);
+    std::expected<Renderer, RendererError> renderer_result = Renderer::make();
+    if (!renderer_result)
+    {
+        fprintf(stderr, "Failed to create renderer: %d\n", (int)renderer_result.error());
+        Window::terminate();
+        exit(1);
+    }
+    Renderer renderer = *renderer_result;
 
-    Camera camera = Camera::make(
-        Vec2::make({.x = 0.0f, .y = 0.0f}),
-        Vec2::make({.x = 1280.0f, .y = 720.0f}));
+    Camera camera = Camera::make({
+        .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
+        .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
+    });
 
     while (!Window::should_close(&window))
     {
@@ -65,6 +74,7 @@ int main(int argc, char** argv)
         Renderer::begin(&renderer, &camera);
 
         QuadConfig quad = {
+            .size     = Vec2::make({.x = 200.0f, .y = 200.0f}),
             .color    = Color::make({
                 .r = 0.9f, 
                 .g = 0.2f, 

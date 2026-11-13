@@ -1,547 +1,557 @@
 [
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/camera/camera.cpp -o src/core/frontend/camera/camera.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/camera/camera.cpp -o src/core/frontend/camera/camera.cpp.o",
     "file": "src/core/frontend/camera/camera.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/renderer.cpp -o src/core/frontend/rendering/renderer.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/renderer.cpp -o src/core/frontend/rendering/renderer.cpp.o",
     "file": "src/core/frontend/rendering/renderer.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/shader.cpp -o src/core/frontend/rendering/shader.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/renderer_batch.cpp -o src/core/frontend/rendering/renderer_batch.cpp.o",
+    "file": "src/core/frontend/rendering/renderer_batch.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/renderer_gl.cpp -o src/core/frontend/rendering/renderer_gl.cpp.o",
+    "file": "src/core/frontend/rendering/renderer_gl.cpp"
+  },
+  {
+    "directory": "/home/twanofzo/Desktop/New Folder",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/rendering/shader.cpp -o src/core/frontend/rendering/shader.cpp.o",
     "file": "src/core/frontend/rendering/shader.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/texture/texture.cpp -o src/core/frontend/texture/texture.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/texture/texture.cpp -o src/core/frontend/texture/texture.cpp.o",
     "file": "src/core/frontend/texture/texture.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/viewport.cpp -o src/core/frontend/viewport.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/viewport.cpp -o src/core/frontend/viewport.cpp.o",
     "file": "src/core/frontend/viewport.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/window/window.cpp -o src/core/frontend/window/window.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/frontend/window/window.cpp -o src/core/frontend/window/window.cpp.o",
     "file": "src/core/frontend/window/window.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/controller.cpp -o src/core/input/controller.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/controller.cpp -o src/core/input/controller.cpp.o",
     "file": "src/core/input/controller.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/input.cpp -o src/core/input/input.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/input.cpp -o src/core/input/input.cpp.o",
     "file": "src/core/input/input.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/keyboard.cpp -o src/core/input/keyboard.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/keyboard.cpp -o src/core/input/keyboard.cpp.o",
     "file": "src/core/input/keyboard.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/mouse.cpp -o src/core/input/mouse.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/input/mouse.cpp -o src/core/input/mouse.cpp.o",
     "file": "src/core/input/mouse.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/animation.cpp -o src/core/objects/animation.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/animation.cpp -o src/core/objects/animation.cpp.o",
     "file": "src/core/objects/animation.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/animation_player.cpp -o src/core/objects/animation_player.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/animation_player.cpp -o src/core/objects/animation_player.cpp.o",
     "file": "src/core/objects/animation_player.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/area.cpp -o src/core/objects/area.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/area.cpp -o src/core/objects/area.cpp.o",
     "file": "src/core/objects/area.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/attack.cpp -o src/core/objects/attack.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/attack.cpp -o src/core/objects/attack.cpp.o",
     "file": "src/core/objects/attack.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/audio_file.cpp -o src/core/objects/audio_file.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/audio_file.cpp -o src/core/objects/audio_file.cpp.o",
     "file": "src/core/objects/audio_file.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/audio_player.cpp -o src/core/objects/audio_player.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/audio_player.cpp -o src/core/objects/audio_player.cpp.o",
     "file": "src/core/objects/audio_player.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/collision.cpp -o src/core/objects/collision.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/collision.cpp -o src/core/objects/collision.cpp.o",
     "file": "src/core/objects/collision.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/health.cpp -o src/core/objects/health.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/health.cpp -o src/core/objects/health.cpp.o",
     "file": "src/core/objects/health.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/hitbox.cpp -o src/core/objects/hitbox.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/hitbox.cpp -o src/core/objects/hitbox.cpp.o",
     "file": "src/core/objects/hitbox.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/hurtbox.cpp -o src/core/objects/hurtbox.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/hurtbox.cpp -o src/core/objects/hurtbox.cpp.o",
     "file": "src/core/objects/hurtbox.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/node.cpp -o src/core/objects/node.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/node.cpp -o src/core/objects/node.cpp.o",
     "file": "src/core/objects/node.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/script.cpp -o src/core/objects/script.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/script.cpp -o src/core/objects/script.cpp.o",
     "file": "src/core/objects/script.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/signal.cpp -o src/core/objects/signal.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/signal.cpp -o src/core/objects/signal.cpp.o",
     "file": "src/core/objects/signal.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/sprite.cpp -o src/core/objects/sprite.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/sprite.cpp -o src/core/objects/sprite.cpp.o",
     "file": "src/core/objects/sprite.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/stamina.cpp -o src/core/objects/stamina.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/stamina.cpp -o src/core/objects/stamina.cpp.o",
     "file": "src/core/objects/stamina.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/texture.cpp -o src/core/objects/texture.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/objects/texture.cpp -o src/core/objects/texture.cpp.o",
     "file": "src/core/objects/texture.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_animation.cpp -o src/core/serialisation/objects/serialisation_animation.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_animation.cpp -o src/core/serialisation/objects/serialisation_animation.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_animation.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_animation_player.cpp -o src/core/serialisation/objects/serialisation_animation_player.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_animation_player.cpp -o src/core/serialisation/objects/serialisation_animation_player.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_animation_player.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_area.cpp -o src/core/serialisation/objects/serialisation_area.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_area.cpp -o src/core/serialisation/objects/serialisation_area.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_area.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_attack.cpp -o src/core/serialisation/objects/serialisation_attack.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_attack.cpp -o src/core/serialisation/objects/serialisation_attack.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_attack.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_audio_file.cpp -o src/core/serialisation/objects/serialisation_audio_file.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_audio_file.cpp -o src/core/serialisation/objects/serialisation_audio_file.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_audio_file.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_audio_player.cpp -o src/core/serialisation/objects/serialisation_audio_player.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_audio_player.cpp -o src/core/serialisation/objects/serialisation_audio_player.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_audio_player.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_collision.cpp -o src/core/serialisation/objects/serialisation_collision.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_collision.cpp -o src/core/serialisation/objects/serialisation_collision.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_collision.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_health.cpp -o src/core/serialisation/objects/serialisation_health.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_health.cpp -o src/core/serialisation/objects/serialisation_health.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_health.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_hitbox.cpp -o src/core/serialisation/objects/serialisation_hitbox.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_hitbox.cpp -o src/core/serialisation/objects/serialisation_hitbox.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_hitbox.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_hurtbox.cpp -o src/core/serialisation/objects/serialisation_hurtbox.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_hurtbox.cpp -o src/core/serialisation/objects/serialisation_hurtbox.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_hurtbox.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_node.cpp -o src/core/serialisation/objects/serialisation_node.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_node.cpp -o src/core/serialisation/objects/serialisation_node.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_node.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_script.cpp -o src/core/serialisation/objects/serialisation_script.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_script.cpp -o src/core/serialisation/objects/serialisation_script.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_script.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_signal.cpp -o src/core/serialisation/objects/serialisation_signal.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_signal.cpp -o src/core/serialisation/objects/serialisation_signal.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_signal.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_sprite.cpp -o src/core/serialisation/objects/serialisation_sprite.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_sprite.cpp -o src/core/serialisation/objects/serialisation_sprite.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_sprite.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_stamina.cpp -o src/core/serialisation/objects/serialisation_stamina.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_stamina.cpp -o src/core/serialisation/objects/serialisation_stamina.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_stamina.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_texture.cpp -o src/core/serialisation/objects/serialisation_texture.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/objects/serialisation_texture.cpp -o src/core/serialisation/objects/serialisation_texture.cpp.o",
     "file": "src/core/serialisation/objects/serialisation_texture.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_circle.cpp -o src/core/serialisation/types/serialisation_circle.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_circle.cpp -o src/core/serialisation/types/serialisation_circle.cpp.o",
     "file": "src/core/serialisation/types/serialisation_circle.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_color.cpp -o src/core/serialisation/types/serialisation_color.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_color.cpp -o src/core/serialisation/types/serialisation_color.cpp.o",
     "file": "src/core/serialisation/types/serialisation_color.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_rect.cpp -o src/core/serialisation/types/serialisation_rect.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_rect.cpp -o src/core/serialisation/types/serialisation_rect.cpp.o",
     "file": "src/core/serialisation/types/serialisation_rect.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_shape.cpp -o src/core/serialisation/types/serialisation_shape.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_shape.cpp -o src/core/serialisation/types/serialisation_shape.cpp.o",
     "file": "src/core/serialisation/types/serialisation_shape.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_vec2.cpp -o src/core/serialisation/types/serialisation_vec2.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_vec2.cpp -o src/core/serialisation/types/serialisation_vec2.cpp.o",
     "file": "src/core/serialisation/types/serialisation_vec2.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_vec2i.cpp -o src/core/serialisation/types/serialisation_vec2i.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/types/serialisation_vec2i.cpp -o src/core/serialisation/types/serialisation_vec2i.cpp.o",
     "file": "src/core/serialisation/types/serialisation_vec2i.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/yaml.cpp -o src/core/serialisation/yaml.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/serialisation/yaml.cpp -o src/core/serialisation/yaml.cpp.o",
     "file": "src/core/serialisation/yaml.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/circle.cpp -o src/core/types/circle.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/circle.cpp -o src/core/types/circle.cpp.o",
     "file": "src/core/types/circle.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/color.cpp -o src/core/types/color.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/color.cpp -o src/core/types/color.cpp.o",
     "file": "src/core/types/color.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/rect.cpp -o src/core/types/rect.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/rect.cpp -o src/core/types/rect.cpp.o",
     "file": "src/core/types/rect.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/shape.cpp -o src/core/types/shape.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/shape.cpp -o src/core/types/shape.cpp.o",
     "file": "src/core/types/shape.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/vec2.cpp -o src/core/types/vec2.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/vec2.cpp -o src/core/types/vec2.cpp.o",
     "file": "src/core/types/vec2.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/vec2i.cpp -o src/core/types/vec2i.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/core/types/vec2i.cpp -o src/core/types/vec2i.cpp.o",
     "file": "src/core/types/vec2i.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/main.cpp -o src/main.cpp.o",
-    "file": "src/main.cpp"
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c src/edditor/main.cpp -o src/edditor/main.cpp.o",
+    "file": "src/edditor/main.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glad/src/glad.c -o external/glad/src/glad.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glad/src/glad.c -o external/glad/src/glad.c.o",
     "file": "external/glad/src/glad.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui.cpp -o external/imgui/imgui.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui.cpp -o external/imgui/imgui.cpp.o",
     "file": "external/imgui/imgui.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_draw.cpp -o external/imgui/imgui_draw.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_draw.cpp -o external/imgui/imgui_draw.cpp.o",
     "file": "external/imgui/imgui_draw.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_tables.cpp -o external/imgui/imgui_tables.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_tables.cpp -o external/imgui/imgui_tables.cpp.o",
     "file": "external/imgui/imgui_tables.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_widgets.cpp -o external/imgui/imgui_widgets.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_widgets.cpp -o external/imgui/imgui_widgets.cpp.o",
     "file": "external/imgui/imgui_widgets.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_demo.cpp -o external/imgui/imgui_demo.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/imgui_demo.cpp -o external/imgui/imgui_demo.cpp.o",
     "file": "external/imgui/imgui_demo.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/backends/imgui_impl_glfw.cpp -o external/imgui/backends/imgui_impl_glfw.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/backends/imgui_impl_glfw.cpp -o external/imgui/backends/imgui_impl_glfw.cpp.o",
     "file": "external/imgui/backends/imgui_impl_glfw.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/backends/imgui_impl_opengl3.cpp -o external/imgui/backends/imgui_impl_opengl3.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/imgui/backends/imgui_impl_opengl3.cpp -o external/imgui/backends/imgui_impl_opengl3.cpp.o",
     "file": "external/imgui/backends/imgui_impl_opengl3.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/context.c -o external/glfw/src/context.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/context.c -o external/glfw/src/context.c.o",
     "file": "external/glfw/src/context.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/init.c -o external/glfw/src/init.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/init.c -o external/glfw/src/init.c.o",
     "file": "external/glfw/src/init.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/input.c -o external/glfw/src/input.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/input.c -o external/glfw/src/input.c.o",
     "file": "external/glfw/src/input.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/monitor.c -o external/glfw/src/monitor.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/monitor.c -o external/glfw/src/monitor.c.o",
     "file": "external/glfw/src/monitor.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/vulkan.c -o external/glfw/src/vulkan.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/vulkan.c -o external/glfw/src/vulkan.c.o",
     "file": "external/glfw/src/vulkan.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/window.c -o external/glfw/src/window.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/window.c -o external/glfw/src/window.c.o",
     "file": "external/glfw/src/window.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/egl_context.c -o external/glfw/src/egl_context.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/egl_context.c -o external/glfw/src/egl_context.c.o",
     "file": "external/glfw/src/egl_context.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/osmesa_context.c -o external/glfw/src/osmesa_context.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/osmesa_context.c -o external/glfw/src/osmesa_context.c.o",
     "file": "external/glfw/src/osmesa_context.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/posix_thread.c -o external/glfw/src/posix_thread.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/posix_thread.c -o external/glfw/src/posix_thread.c.o",
     "file": "external/glfw/src/posix_thread.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/posix_time.c -o external/glfw/src/posix_time.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/posix_time.c -o external/glfw/src/posix_time.c.o",
     "file": "external/glfw/src/posix_time.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/glx_context.c -o external/glfw/src/glx_context.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/glx_context.c -o external/glfw/src/glx_context.c.o",
     "file": "external/glfw/src/glx_context.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/linux_joystick.c -o external/glfw/src/linux_joystick.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/linux_joystick.c -o external/glfw/src/linux_joystick.c.o",
     "file": "external/glfw/src/linux_joystick.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_init.c -o external/glfw/src/x11_init.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_init.c -o external/glfw/src/x11_init.c.o",
     "file": "external/glfw/src/x11_init.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_monitor.c -o external/glfw/src/x11_monitor.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_monitor.c -o external/glfw/src/x11_monitor.c.o",
     "file": "external/glfw/src/x11_monitor.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_window.c -o external/glfw/src/x11_window.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/x11_window.c -o external/glfw/src/x11_window.c.o",
     "file": "external/glfw/src/x11_window.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/xkb_unicode.c -o external/glfw/src/xkb_unicode.c.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/glfw/src/xkb_unicode.c -o external/glfw/src/xkb_unicode.c.o",
     "file": "external/glfw/src/xkb_unicode.c"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/binary.cpp -o external/yaml-cpp/src/binary.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/binary.cpp -o external/yaml-cpp/src/binary.cpp.o",
     "file": "external/yaml-cpp/src/binary.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/convert.cpp -o external/yaml-cpp/src/convert.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/convert.cpp -o external/yaml-cpp/src/convert.cpp.o",
     "file": "external/yaml-cpp/src/convert.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/depthguard.cpp -o external/yaml-cpp/src/depthguard.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/depthguard.cpp -o external/yaml-cpp/src/depthguard.cpp.o",
     "file": "external/yaml-cpp/src/depthguard.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/directives.cpp -o external/yaml-cpp/src/directives.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/directives.cpp -o external/yaml-cpp/src/directives.cpp.o",
     "file": "external/yaml-cpp/src/directives.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emit.cpp -o external/yaml-cpp/src/emit.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emit.cpp -o external/yaml-cpp/src/emit.cpp.o",
     "file": "external/yaml-cpp/src/emit.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitfromevents.cpp -o external/yaml-cpp/src/emitfromevents.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitfromevents.cpp -o external/yaml-cpp/src/emitfromevents.cpp.o",
     "file": "external/yaml-cpp/src/emitfromevents.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitter.cpp -o external/yaml-cpp/src/emitter.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitter.cpp -o external/yaml-cpp/src/emitter.cpp.o",
     "file": "external/yaml-cpp/src/emitter.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitterstate.cpp -o external/yaml-cpp/src/emitterstate.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitterstate.cpp -o external/yaml-cpp/src/emitterstate.cpp.o",
     "file": "external/yaml-cpp/src/emitterstate.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitterutils.cpp -o external/yaml-cpp/src/emitterutils.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/emitterutils.cpp -o external/yaml-cpp/src/emitterutils.cpp.o",
     "file": "external/yaml-cpp/src/emitterutils.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/exceptions.cpp -o external/yaml-cpp/src/exceptions.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/exceptions.cpp -o external/yaml-cpp/src/exceptions.cpp.o",
     "file": "external/yaml-cpp/src/exceptions.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/exp.cpp -o external/yaml-cpp/src/exp.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/exp.cpp -o external/yaml-cpp/src/exp.cpp.o",
     "file": "external/yaml-cpp/src/exp.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/memory.cpp -o external/yaml-cpp/src/memory.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/memory.cpp -o external/yaml-cpp/src/memory.cpp.o",
     "file": "external/yaml-cpp/src/memory.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/node.cpp -o external/yaml-cpp/src/node.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/node.cpp -o external/yaml-cpp/src/node.cpp.o",
     "file": "external/yaml-cpp/src/node.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/node_data.cpp -o external/yaml-cpp/src/node_data.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/node_data.cpp -o external/yaml-cpp/src/node_data.cpp.o",
     "file": "external/yaml-cpp/src/node_data.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/nodebuilder.cpp -o external/yaml-cpp/src/nodebuilder.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/nodebuilder.cpp -o external/yaml-cpp/src/nodebuilder.cpp.o",
     "file": "external/yaml-cpp/src/nodebuilder.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/nodeevents.cpp -o external/yaml-cpp/src/nodeevents.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/nodeevents.cpp -o external/yaml-cpp/src/nodeevents.cpp.o",
     "file": "external/yaml-cpp/src/nodeevents.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/null.cpp -o external/yaml-cpp/src/null.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/null.cpp -o external/yaml-cpp/src/null.cpp.o",
     "file": "external/yaml-cpp/src/null.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/ostream_wrapper.cpp -o external/yaml-cpp/src/ostream_wrapper.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/ostream_wrapper.cpp -o external/yaml-cpp/src/ostream_wrapper.cpp.o",
     "file": "external/yaml-cpp/src/ostream_wrapper.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/parse.cpp -o external/yaml-cpp/src/parse.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/parse.cpp -o external/yaml-cpp/src/parse.cpp.o",
     "file": "external/yaml-cpp/src/parse.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/parser.cpp -o external/yaml-cpp/src/parser.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/parser.cpp -o external/yaml-cpp/src/parser.cpp.o",
     "file": "external/yaml-cpp/src/parser.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/regex_yaml.cpp -o external/yaml-cpp/src/regex_yaml.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/regex_yaml.cpp -o external/yaml-cpp/src/regex_yaml.cpp.o",
     "file": "external/yaml-cpp/src/regex_yaml.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scanner.cpp -o external/yaml-cpp/src/scanner.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scanner.cpp -o external/yaml-cpp/src/scanner.cpp.o",
     "file": "external/yaml-cpp/src/scanner.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scanscalar.cpp -o external/yaml-cpp/src/scanscalar.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scanscalar.cpp -o external/yaml-cpp/src/scanscalar.cpp.o",
     "file": "external/yaml-cpp/src/scanscalar.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scantag.cpp -o external/yaml-cpp/src/scantag.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scantag.cpp -o external/yaml-cpp/src/scantag.cpp.o",
     "file": "external/yaml-cpp/src/scantag.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scantoken.cpp -o external/yaml-cpp/src/scantoken.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/scantoken.cpp -o external/yaml-cpp/src/scantoken.cpp.o",
     "file": "external/yaml-cpp/src/scantoken.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/simplekey.cpp -o external/yaml-cpp/src/simplekey.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/simplekey.cpp -o external/yaml-cpp/src/simplekey.cpp.o",
     "file": "external/yaml-cpp/src/simplekey.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/singledocparser.cpp -o external/yaml-cpp/src/singledocparser.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/singledocparser.cpp -o external/yaml-cpp/src/singledocparser.cpp.o",
     "file": "external/yaml-cpp/src/singledocparser.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/stream.cpp -o external/yaml-cpp/src/stream.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/stream.cpp -o external/yaml-cpp/src/stream.cpp.o",
     "file": "external/yaml-cpp/src/stream.cpp"
   },
   {
     "directory": "/home/twanofzo/Desktop/New Folder",
-    "command": "g++ -std=c++17 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/tag.cpp -o external/yaml-cpp/src/tag.cpp.o",
+    "command": "g++ -std=c++23 -DYAML_CPP_STATIC_DEFINE -D_GLFW_X11 -Isrc -Iexternal/glad/include -Iexternal/glfw/include -Iexternal/imgui -Iexternal/imgui/backends -Iexternal/yaml-cpp/include -Iexternal/stb -Iexternal/dr_libs -Iexternal/miniaudio -c external/yaml-cpp/src/tag.cpp -o external/yaml-cpp/src/tag.cpp.o",
     "file": "external/yaml-cpp/src/tag.cpp"
   }
 ]

@@ -7,11 +7,11 @@
 #include <string.h>
 
 
-Camera Camera::make(Vec2 position, Vec2 size)
+Camera Camera::make(const CameraConfig config)
 {
     Camera camera;
-    camera.position = position;
-    camera.size = size;
+    camera.position = config.position;
+    camera.size = config.size;
     return camera;
 }
 

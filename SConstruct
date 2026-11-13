@@ -48,7 +48,7 @@ env.Append(CPPDEFINES=[
 ])
 
 # C and C++ standards used across the codebase and vendored libs.
-env.Append(CXXFLAGS=["-std=c++17"])
+env.Append(CXXFLAGS=["-std=c++23"])
 env.Append(CFLAGS=["-std=c11"])
 
 # Platform-specific flags/libraries.
@@ -209,12 +209,13 @@ def _emit_compile_commands(target, source, env):
     # Reconstruct the include/define flags from this environment's settings.
     inc_flags = env.subst("$CPPPATH", source=source[0]).split()
     def_flags = ["-D" + d for d in env.subst("$CPPDEFINES", source=source[0]).split()]
+    cxx_flags = env.subst("$CXXFLAGS", source=source[0]).split()
 
     entries = []
     for src in source:
         command = (
             [env.subst("$CXX", source=src)]
-            + ["-std=c++17"]
+            + cxx_flags
             + def_flags
             + ["-I" + inc for inc in inc_flags]
             + ["-c", str(src), "-o", str(src) + ".o"]
