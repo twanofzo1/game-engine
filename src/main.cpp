@@ -47,8 +47,7 @@ Window create_window(){
 
 int main(int argc, char** argv)
 {
-    (void)argc;
-    (void)argv;
+    (void)argc; (void)argv;
 
     Window window = create_window();
 
@@ -66,15 +65,12 @@ int main(int argc, char** argv)
         Renderer::begin(&renderer, &camera);
 
         QuadConfig quad = {
-            .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
-            .size     = Vec2::make({.x = 300.0f, .y = 200.0f}),
-            .color    = Color::make({.r = 0.9f, .g = 0.2f, .b = 0.3f, .a = 1.0f}),
-            .texture  = 0,
-            .rotation = 0.0f,
-            .u0 = 0.0f,
-            .v0 = 0.0f,
-            .u1 = 1.0f,
-            .v1 = 1.0f
+            .color    = Color::make({
+                .r = 0.9f, 
+                .g = 0.2f, 
+                .b = 0.3f, 
+                .a = 1.0f
+            }),
         };
         Renderer::push_quad(&renderer, &quad);
 
