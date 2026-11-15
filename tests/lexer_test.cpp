@@ -7,7 +7,7 @@
  *
  * Build and run with:  scons test
  */
-#include "core/frontend/shader_parsing/lexer/lexer.hpp"
+#include "tools/shader_parser/lexer/lexer.hpp"
 
 #include <cstdio>
 

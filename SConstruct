@@ -73,10 +73,18 @@ else:
 # Source collection
 # ---------------------------------------------------------------------------
 
-# Everything the engine writes lives under src/ — gather it recursively.
+# Source collection, split by executable.
+# - common/  : engine core shared by BOTH editor and runtime.
+# - tools/   : the shader_parsing toolchain (lexer/parser/transpiler); also
+#              shared, pulled into whichever binary needs it.
+# - editor/  : the windowed YAML editor entrypoint.
+# - runtime/ : the game runtime entrypoint (loads YAML, runs the game).
 # Python's glob with recursive=True walks every nested subdirectory, unlike
 # SCons' Glob() whose `**` only matches a single directory level.
-src_sources = sorted(glob.glob("src/**/*.cpp", recursive=True))
+common_sources = sorted(glob.glob("src/common/**/*.cpp", recursive=True))
+tool_sources   = sorted(glob.glob("src/tools/**/*.cpp", recursive=True))
+editor_main    = ["src/editor/main.cpp"]
+runtime_main   = ["src/runtime/main.cpp"]
 
 # Dear ImGui core + the GLFW/OpenGL3 backends used by the engine.
 imgui_sources = [
@@ -172,28 +180,36 @@ variant_env.VariantDir(build_dir, ".", duplicate=0)
 def build_path(path):
     return os.path.join(build_dir, path)
 
-build_src = [build_path(s) for s in src_sources]
-build_glad = [build_path(s) for s in glad_sources]
-build_imgui = [build_path(s) for s in imgui_sources]
-build_glfw = [build_path(s) for s in glfw_sources]
+def build_paths(paths):
+    return [build_path(p) for p in paths]
+
+build_common = build_paths(common_sources)
+build_tools  = build_paths(tool_sources)
+build_editor_main = build_paths(editor_main)
+build_runtime_main = build_paths(runtime_main)
+build_glad = build_paths(glad_sources)
+build_imgui = build_paths(imgui_sources)
+build_glfw = build_paths(glfw_sources)
 # yaml_sources are Node objects from Glob(); map their string paths.
-build_yaml = [build_path(str(s)) for s in yaml_sources]
+build_yaml = build_paths([str(s) for s in yaml_sources])
 
-# Compile everything into build_dir, then link into bin_dir.
-all_sources = (
-    build_src
-    + build_glad
-    + build_imgui
-    + build_glfw
-    + build_yaml
+# Third-party + shared engine sources, common to every executable.
+vendor_sources = build_glad + build_imgui + build_glfw + build_yaml
+common_engine_sources = build_common + vendor_sources
+
+# --- Editor executable (windowed YAML editor) -------------------------------
+editor = env.Program(
+    target=os.path.join(bin_dir, "editor"),
+    source=build_editor_main + build_tools + common_engine_sources,
 )
 
-app = env.Program(
-    target=os.path.join(bin_dir, "app"),
-    source=all_sources,
+# --- Runtime executable (loads YAML, runs the game) -------------------------
+runtime = env.Program(
+    target=os.path.join(bin_dir, "runtime"),
+    source=build_runtime_main + build_tools + common_engine_sources,
 )
 
-Default(app)
+Default(editor, runtime)
 
 
 # ---------------------------------------------------------------------------
@@ -202,32 +218,32 @@ Default(app)
 # Test binaries link only against the lexer/parser translation units (no
 # GL/GLFW/imgui), so they stay small. Build and run with:  scons test
 lexer_sources = [
-    "src/core/frontend/shader_parsing/lexer/lexer.cpp",
-    "src/core/frontend/shader_parsing/lexer/cursor.cpp",
-    "src/core/frontend/shader_parsing/lexer/keywords.cpp",
-    "src/core/frontend/shader_parsing/lexer/operators.cpp",
-    "src/core/frontend/shader_parsing/lexer/scanners.cpp",
+    "src/tools/shader_parser/lexer/lexer.cpp",
+    "src/tools/shader_parser/lexer/cursor.cpp",
+    "src/tools/shader_parser/lexer/keywords.cpp",
+    "src/tools/shader_parser/lexer/operators.cpp",
+    "src/tools/shader_parser/lexer/scanners.cpp",
 ]
 
 parser_sources = [
-    "src/core/frontend/shader_parsing/parser/parser.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_top.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_decl.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_expr.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_expr_operand.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_stmt.cpp",
-    "src/core/frontend/shader_parsing/parser/parser_stmt_control.cpp",
+    "src/tools/shader_parser/parser/parser.cpp",
+    "src/tools/shader_parser/parser/parser_top.cpp",
+    "src/tools/shader_parser/parser/parser_decl.cpp",
+    "src/tools/shader_parser/parser/parser_expr.cpp",
+    "src/tools/shader_parser/parser/parser_expr_operand.cpp",
+    "src/tools/shader_parser/parser/parser_stmt.cpp",
+    "src/tools/shader_parser/parser/parser_stmt_control.cpp",
 ]
 
 transpiler_sources = [
-    "src/core/frontend/shader_parsing/transpiler/transpiler.cpp",
-    "src/core/frontend/shader_parsing/transpiler/transpiler_emit.cpp",
-    "src/core/frontend/shader_parsing/transpiler/transpiler_expr.cpp",
-    "src/core/frontend/shader_parsing/transpiler/transpiler_stmt.cpp",
+    "src/tools/shader_parser/transpiler/transpiler.cpp",
+    "src/tools/shader_parser/transpiler/transpiler_emit.cpp",
+    "src/tools/shader_parser/transpiler/transpiler_expr.cpp",
+    "src/tools/shader_parser/transpiler/transpiler_stmt.cpp",
 ]
 
 compiler_sources = [
-    "src/core/frontend/shader_parsing/shader_compiler.cpp",
+    "src/tools/shader_parser/shader_compiler.cpp",
 ]
 
 build_lexer = [build_path(s) for s in lexer_sources]
@@ -334,9 +350,22 @@ def _emit_compile_commands(target, source, env):
 
 compile_commands_db = os.path.join("compile_commands.json")
 
+# All sources compiled across the editor + runtime + tests, for the compile
+# database. (Includes both entrypoints and every shared translation unit.)
+all_compiled_sources = (
+    build_editor_main
+    + build_runtime_main
+    + build_tools
+    + build_common
+    + build_glad
+    + build_imgui
+    + build_glfw
+    + build_yaml
+)
+
 env.Command(
     compile_commands_db,
-    all_sources,
+    all_compiled_sources,
     _emit_compile_commands,
 )
 

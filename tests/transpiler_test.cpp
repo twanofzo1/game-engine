@@ -8,9 +8,9 @@
  *
  * Build and run with:  scons test
  */
-#include "core/frontend/shader_parsing/transpiler/transpiler.hpp"
-#include "core/frontend/shader_parsing/parser/parser.hpp"
-#include "core/frontend/shader_parsing/lexer/lexer.hpp"
+#include "tools/shader_parser/transpiler/transpiler.hpp"
+#include "tools/shader_parser/parser/parser.hpp"
+#include "tools/shader_parser/lexer/lexer.hpp"
 
 #include <cstdio>
 #include <optional>

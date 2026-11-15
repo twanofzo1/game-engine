@@ -13,18 +13,19 @@ over inheritance, a custom memory pool and doxygen comments.
 ## Build
 
 ```sh
-scons build=debug     # -> build/debug/app
-scons build=release   # -> build/release/app
-scons editor          # -> build/release/editor (YAML editor)
+scons build=debug     # -> bin/debug/{editor,runtime}
+scons build=release   # -> bin/release/{editor,runtime}
 ```
 
-`release` is the default build type.
+`release` is the default build type. The build produces two executables:
+- `editor` — the windowed YAML editor.
+- `runtime` — the game runtime (loads YAML, runs the game).
 
 ## Run
 
 ```sh
-./build/release/app
-./build/release/app --frames 10   # render 10 frames then exit (for testing)
+./bin/release/editor
+./bin/release/runtime path/to/scene.yaml
 ```
 
 ## Tests

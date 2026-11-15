@@ -7,7 +7,7 @@
  *
  * Build and run with:  scons test
  */
-#include "core/frontend/shader_parsing/shader_compiler.hpp"
+#include "tools/shader_parser/shader_compiler.hpp"
 
 #include <cstdio>
 #include <optional>
