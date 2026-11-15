@@ -46,7 +46,7 @@ Window create_window(){
     std::optional<Window> optional_window = Window::make({
         .size = Vec2i::make({.x = 800, .y = 600}),
         .position = Vec2i::make({.x = -1, .y = -1}),
-        .vsync = true,
+        .vsync = false,
         .resizable = true,
         .borderless = false,
         .screen_mode = ScreenMode::Windowed,
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
 
 
 
-    std::optional<std::string> shader_src = read_file("resources/test.shader");
+    std::optional<std::string> shader_src = read_file("resources/grass.shader");
     if (!shader_src.has_value())
     {
         fprintf(stderr, "Failed to read resources/test.shader\n");
@@ -160,6 +160,9 @@ int main(int argc, char** argv)
 
         Shader::set_float(shader.value_or(0), "u_time", (f32)glfwGetTime());
 
+
+        //camera.position.x = sin((f32)glfwGetTime()) * 400.0f;
+
         Renderer::begin(&renderer, &camera);
         //u32 xquads = 1000;
         //u32 yquads = 1000;
@@ -181,7 +184,7 @@ int main(int argc, char** argv)
 
         QuadConfig quad = {
             .position = Vec2::make({.x = -200.0f, .y = -200.0f}),
-            .size     = Vec2::make({.x = 800.0f, .y = 800.0f}),
+            .size     = Vec2::make({.x = 100.0f, .y = 300.0f}),
             .color    = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
             .texture  = texture_id,
             .shader_id = shader.value_or(0),
@@ -190,6 +193,21 @@ int main(int argc, char** argv)
         };
         Renderer::push_quad(&renderer, &quad);
         
+
+        ImGui::SetNextWindowPos({0.0,0.0});
+        ImGui::Begin("Test Window", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
+        static double accumulated_time = 0.0;
+        static int frame_count = 0;
+        static double fps = 0.0;
+        frame_count++;
+        accumulated_time += ImGui::GetIO().DeltaTime;
+        if (accumulated_time >= 0.2) {
+            fps = (double)frame_count / accumulated_time;
+            frame_count = 0;
+            accumulated_time = 0.0;
+        }
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / fps, fps);
+        ImGui::End();
 
         Renderer::end(&renderer);
 

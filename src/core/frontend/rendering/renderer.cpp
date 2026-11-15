@@ -65,10 +65,7 @@ std::expected<Renderer, RendererError> Renderer::make()
     renderer.total_quads = 0;
     renderer.default_shader = 0;
     renderer.u_texture = -1;
-    renderer.camera = Camera::make({
-        .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
-        .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
-    });
+
 
     /* Carve the four staging buffers out of the arena. */
     const std::expected<void*, ArenaError> vertices = Arena::alloc_aligned(&renderer.arena, sizeof(Vertex) * RENDERER_MAX_QUADS * 4, alignof(Vertex));
