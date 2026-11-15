@@ -2,7 +2,7 @@
  * @file parser_stmt_control.cpp
  * @brief Parsing of block and control-flow statements.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /**

@@ -2,7 +2,7 @@
  * @file parser_top.cpp
  * @brief Parsing of includes, uniforms and the type-name predicate.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /** @brief True if a token kind starts a type name position. */

@@ -2,7 +2,7 @@
  * @file cursor.cpp
  * @brief Cursor over the source text and character-class predicates.
  */
-#include "tools/shader_parser/lexer/lexer_internal.hpp"
+#include "tools/shader_transpiler/lexer/lexer_internal.hpp"
 
 
 /** @brief Return the current character, or '\0' at end of input. */

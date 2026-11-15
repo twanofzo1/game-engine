@@ -2,7 +2,7 @@
  * @file operators.cpp
  * @brief Operator and punctuator token classification.
  */
-#include "tools/shader_parser/lexer/lexer_internal.hpp"
+#include "tools/shader_transpiler/lexer/lexer_internal.hpp"
 
 
 /** @brief Return the two-char operator kind, or nullopt if none matches. */

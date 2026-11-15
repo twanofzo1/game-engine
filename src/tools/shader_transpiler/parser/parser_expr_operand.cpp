@@ -2,7 +2,7 @@
  * @file parser_expr_operand.cpp
  * @brief Parsing of primary and postfix expressions.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /**

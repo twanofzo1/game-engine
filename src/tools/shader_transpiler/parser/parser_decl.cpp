@@ -2,7 +2,7 @@
  * @file parser_decl.cpp
  * @brief Parsing of function declarations and the declaration dispatcher.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /**

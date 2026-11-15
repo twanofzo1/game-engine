@@ -7,6 +7,7 @@
  * success/failure, ready to be extended into the full runtime.
  */
 #include "common/serialisation/yaml.hpp"
+#include "common/log/log.hpp"
 
 #include <optional>
 #include <stdio.h>
@@ -22,12 +23,14 @@ int main(int argc, char** argv)
         scene_path = argv[1];
     }
 
+    Log::init();
+
     std::optional<YamlNode> scene = Yaml::load(scene_path);
     if (!scene.has_value()) {
-        fprintf(stderr, "runtime: failed to parse scene file '%s'\n", scene_path);
+        log_error(LOG_SECTION_RUNTIME, "failed to parse scene file '%s'", scene_path);
         return 1;
     }
 
-    printf("runtime: loaded scene '%s'\n", scene_path);
+    log_info(LOG_SECTION_RUNTIME, "loaded scene '%s'", scene_path);
     return 0;
 }

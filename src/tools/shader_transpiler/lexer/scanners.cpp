@@ -2,7 +2,7 @@
  * @file scanners.cpp
  * @brief Trivia skipping and literal/identifier scanning helpers.
  */
-#include "tools/shader_parser/lexer/lexer_internal.hpp"
+#include "tools/shader_transpiler/lexer/lexer_internal.hpp"
 
 
 /**

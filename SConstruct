@@ -215,41 +215,20 @@ Default(editor, runtime)
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
-# Test binaries link only against the lexer/parser translation units (no
-# GL/GLFW/imgui), so they stay small. Build and run with:  scons test
-lexer_sources = [
-    "src/tools/shader_parser/lexer/lexer.cpp",
-    "src/tools/shader_parser/lexer/cursor.cpp",
-    "src/tools/shader_parser/lexer/keywords.cpp",
-    "src/tools/shader_parser/lexer/operators.cpp",
-    "src/tools/shader_parser/lexer/scanners.cpp",
-]
+# Test binaries link only against the lexer/parser/transpiler/compiler
+# translation units (no GL/GLFW/imgui), so they stay small.
+# Build and run with:  scons test
+# Each test binary builds on the previous stage, so the source sets are
+# cumulative (lexer -> parser -> transpiler -> compiler).
+lexer_sources      = sorted(glob.glob("src/tools/shader_transpiler/lexer/*.cpp", recursive=True))
+parser_sources     = sorted(glob.glob("src/tools/shader_transpiler/parser/*.cpp", recursive=True))
+transpiler_sources = sorted(glob.glob("src/tools/shader_transpiler/transpiler/*.cpp", recursive=True))
+compiler_sources   = sorted(glob.glob("src/tools/shader_transpiler/*.cpp", recursive=True))
 
-parser_sources = [
-    "src/tools/shader_parser/parser/parser.cpp",
-    "src/tools/shader_parser/parser/parser_top.cpp",
-    "src/tools/shader_parser/parser/parser_decl.cpp",
-    "src/tools/shader_parser/parser/parser_expr.cpp",
-    "src/tools/shader_parser/parser/parser_expr_operand.cpp",
-    "src/tools/shader_parser/parser/parser_stmt.cpp",
-    "src/tools/shader_parser/parser/parser_stmt_control.cpp",
-]
-
-transpiler_sources = [
-    "src/tools/shader_parser/transpiler/transpiler.cpp",
-    "src/tools/shader_parser/transpiler/transpiler_emit.cpp",
-    "src/tools/shader_parser/transpiler/transpiler_expr.cpp",
-    "src/tools/shader_parser/transpiler/transpiler_stmt.cpp",
-]
-
-compiler_sources = [
-    "src/tools/shader_parser/shader_compiler.cpp",
-]
-
-build_lexer = [build_path(s) for s in lexer_sources]
-build_parser = [build_path(s) for s in parser_sources]
-build_transpiler = [build_path(s) for s in transpiler_sources]
-build_compiler = [build_path(s) for s in compiler_sources]
+build_lexer      = build_paths(lexer_sources)
+build_parser     = build_paths(parser_sources)
+build_transpiler = build_paths(transpiler_sources)
+build_compiler   = build_paths(compiler_sources)
 
 test_lexer_bin = env.Program(
     target=os.path.join(bin_dir, "test_lexer"),

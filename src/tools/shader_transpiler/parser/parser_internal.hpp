@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include "tools/shader_parser/parser/parser.hpp"
-#include "tools/shader_parser/parser/ast.hpp"
-#include "tools/shader_parser/lexer/token.hpp"
+#include "tools/shader_transpiler/parser/parser.hpp"
+#include "tools/shader_transpiler/parser/ast.hpp"
+#include "tools/shader_transpiler/lexer/token.hpp"
 
 #include <optional>
 

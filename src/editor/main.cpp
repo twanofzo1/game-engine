@@ -3,12 +3,13 @@
 #include "common/platform/window/window.hpp"
 #include "common/graphics/rendering/renderer.hpp"
 #include "common/graphics/camera/camera.hpp"
-#include "tools/shader_parser/shader_compiler.hpp"
+#include "tools/shader_transpiler/shader_compiler.hpp"
 #include "common/graphics/shader/shader.hpp"
+#include "common/graphics/texture/texture.hpp"
+#include "common/audio/audio.hpp"
+#include "common/log/log.hpp"
 #include "imgui.h"
 #include <glad/glad.h>
-
-#include <stb_image.h>
 
 #include <expected>
 #include <stdio.h>
@@ -39,14 +40,14 @@ static std::optional<std::string> read_file(const char* path)
 Window create_window(){
     if (!Window::init())
     {
-        fprintf(stderr, "Failed to initialize window\n");
+        log_error(LOG_SECTION_EDITOR, "failed to initialize window");
         exit(1);
     }
 
     std::optional<Window> optional_window = Window::make({
         .size = Vec2i::make({.x = 800, .y = 600}),
         .position = Vec2i::make({.x = -1, .y = -1}),
-        .vsync = false,
+        .vsync = true,
         .resizable = true,
         .borderless = false,
         .screen_mode = ScreenMode::Windowed,
@@ -56,13 +57,13 @@ Window create_window(){
     Window window = optional_window.value_or(Window{});
     if (!optional_window.has_value())
     {
-        fprintf(stderr, "Failed to create window\n");
+        log_error(LOG_SECTION_EDITOR, "failed to create window");
         exit(1);
     }
 
     if (!Window::load_opengl())
     {
-        fprintf(stderr, "Failed to load OpenGL\n");
+        log_error(LOG_SECTION_EDITOR, "failed to load OpenGL");
         Window::destroy(&window);
         Window::terminate();
         exit(1);
@@ -79,12 +80,20 @@ int main(int argc, char** argv)
 {
     (void)argc; (void)argv;
 
+    Log::init();
+    Log::set_global_level(LOG_LEVEL_DEBUG);
+
     Window window = create_window();
+
+    bool audio_ok = Audio::init();
+    if (!audio_ok) {
+        log_warning(LOG_SECTION_AUDIO, "failed to initialise audio");
+    }
 
     std::expected<Renderer, RendererError> renderer_result = Renderer::make();
     if (!renderer_result)
     {
-        fprintf(stderr, "Failed to create renderer: %d\n", (int)renderer_result.error());
+        log_error(LOG_SECTION_RENDERER, "failed to create renderer: %d", (int)renderer_result.error());
         Window::terminate();
         exit(1);
     }
@@ -95,7 +104,7 @@ int main(int argc, char** argv)
     std::optional<std::string> shader_src = read_file("resources/grass.shader");
     if (!shader_src.has_value())
     {
-        fprintf(stderr, "Failed to read resources/test.shader\n");
+        log_error(LOG_SECTION_SHADER, "failed to read resources/grass.shader");
         Window::terminate();
         exit(1);
     }
@@ -103,7 +112,7 @@ int main(int argc, char** argv)
     std::expected<CompiledShader, CompileFailure> compiled =ShaderCompiler::compile(shader_src->c_str());
     if (!compiled.has_value())
     {
-        fprintf(stderr, "Shader compilation failed (stage %d): %s at %u:%u\n",
+        log_error(LOG_SECTION_SHADER, "compilation failed (%d): %s at %u:%u",
                 (int)compiled.error().error,
                 compiled.error().message.c_str(),
                 compiled.error().line,
@@ -118,7 +127,7 @@ int main(int argc, char** argv)
     });
     if (!shader.has_value())
     {
-        fprintf(stderr, "Failed to create default shader\n");
+        log_error(LOG_SECTION_SHADER, "failed to create default shader");
         Renderer::shutdown(&renderer);
         Window::terminate();
         exit(1);
@@ -126,26 +135,33 @@ int main(int argc, char** argv)
 
    
 
-    /* Load an image with stb_image and upload it as a GL texture. */
-    u32 texture_id = 0;
-    {
-        int width = 0, height = 0, channels = 0;
-        u8* pixels = stbi_load("resources/test.png", &width, &height, &channels, 4);
-        if (pixels) {
-            glGenTextures(1, &texture_id);
-            glBindTexture(GL_TEXTURE_2D, texture_id);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glBindTexture(GL_TEXTURE_2D, 0);
-            stbi_image_free(pixels);
-            printf("Loaded texture %u (%dx%d)\n", texture_id, width, height);
-        } else {
-            fprintf(stderr, "Failed to load resources/test.png\n");
+    /* Load an image from disk and upload it as a GL texture. */
+    std::optional<Texture> texture = Texture::load({
+        .path = "resources/test.png",
+    });
+    if (!texture.has_value()) {
+        log_error(LOG_SECTION_TEXTURE, "failed to load resources/test.png");
+    } else {
+        log_info(LOG_SECTION_TEXTURE, "loaded texture %u (%dx%d)", texture->id, texture->width, texture->height);
+    }
+    u32 texture_id = texture.has_value() ? texture->id : 0;
+
+    /* Load a sound and set up a player instance for testing. */
+    std::optional<SoundID> sound = Audio::load("resources/test.mp3");
+    std::optional<PlayerID> player;
+    if (sound.has_value()) {
+        player = Audio::make_player({
+            .sound = *sound,
+            .volume = 1.0f,
+            .pitch = 1.0f,
+            .loop = true,
+            .start = false,
+        });
+        if (!player.has_value()) {
+            log_warning(LOG_SECTION_AUDIO, "failed to create audio player");
         }
+    } else {
+        log_warning(LOG_SECTION_AUDIO, "failed to load resources/test.mp3");
     }
 
     Camera camera = Camera::make({
@@ -153,6 +169,7 @@ int main(int argc, char** argv)
         .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
     });
 
+    log_debug(LOG_SECTION_EDITOR, "startup complete, entering main loop");
 
     while (!Window::should_close(&window))
     {
@@ -187,11 +204,16 @@ int main(int argc, char** argv)
             .size     = Vec2::make({.x = 100.0f, .y = 300.0f}),
             .color    = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
             .texture  = texture_id,
+        };
+
+        QuadConfig quad2 = {
+            .position = Vec2::make({.x = -200.0f, .y = -200.0f}),
+            .size     = Vec2::make({.x = 100.0f, .y = 300.0f}),
+            .color    = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
             .shader_id = shader.value_or(0),
-            .u0 = 0.0f, .v0 = 0.0f,
-            .u1 = 1.0f, .v1 = 1.0f,
         };
         Renderer::push_quad(&renderer, &quad);
+        Renderer::push_quad(&renderer, &quad2);
         
 
         ImGui::SetNextWindowPos({0.0,0.0});
@@ -207,6 +229,30 @@ int main(int argc, char** argv)
             accumulated_time = 0.0;
         }
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / fps, fps);
+
+        if (player.has_value()) {
+            static f32 volume = 1.0f;
+            static f32 pitch = 1.0f;
+            if (ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f)) {
+                Audio::set_volume(*player, volume);
+            }
+            if (ImGui::SliderFloat("Pitch", &pitch, 0.5f, 2.0f)) {
+                Audio::set_pitch(*player, pitch);
+            }
+            if (ImGui::Button("Play")) {
+                Audio::start(*player);
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Stop")) {
+                Audio::stop(*player);
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Restart")) {
+                Audio::seek_to_start(*player);
+                Audio::start(*player);
+            }
+        }
+
         ImGui::End();
 
         Renderer::end(&renderer);
@@ -215,6 +261,16 @@ int main(int argc, char** argv)
     }
 
     Renderer::shutdown(&renderer);
+    if (player.has_value()) {
+        Audio::destroy_player(*player);
+    }
+    if (sound.has_value()) {
+        Audio::unload(*sound);
+    }
+    Audio::shutdown();
+    if (texture.has_value()) {
+        Texture::destroy(&*texture);
+    }
     Window::imgui_shutdown();
     Window::destroy(&window);
     Window::terminate();

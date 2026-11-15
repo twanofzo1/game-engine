@@ -2,7 +2,7 @@
  * @file transpiler_stmt.cpp
  * @brief Emits statement nodes as GLSL text.
  */
-#include "tools/shader_parser/transpiler/transpiler_internal.hpp"
+#include "tools/shader_transpiler/transpiler/transpiler_internal.hpp"
 
 
 /**

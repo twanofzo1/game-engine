@@ -2,7 +2,7 @@
  * @file transpiler_emit.cpp
  * @brief Emitter primitives and DSL-to-GLSL type name mapping.
  */
-#include "tools/shader_parser/transpiler/transpiler_internal.hpp"
+#include "tools/shader_transpiler/transpiler/transpiler_internal.hpp"
 
 
 /** @brief Append a single indented line to the emitter. */

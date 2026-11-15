@@ -2,7 +2,7 @@
  * @file parser_expr.cpp
  * @brief Expression entry points (assignment, ternary) and operator tables.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /** @brief Precedence level of binary operators (higher binds tighter). */

@@ -2,7 +2,7 @@
  * @file parser_stmt.cpp
  * @brief Statement dispatch, declarations and expression statements.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /** @brief Push a statement node and return its index. */

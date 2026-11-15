@@ -2,7 +2,7 @@
  * @file keywords.cpp
  * @brief Reserved-word classification for the GLSL-like language.
  */
-#include "tools/shader_parser/lexer/lexer_internal.hpp"
+#include "tools/shader_transpiler/lexer/lexer_internal.hpp"
 
 
 /** @brief True if `word` is one of the language's keywords (non-type). */

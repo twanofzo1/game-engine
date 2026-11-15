@@ -3,6 +3,7 @@
  * @brief OpenGL shader program helper implementation.
  */
 #include "common/graphics/shader/shader.hpp"
+#include "common/log/log.hpp"
 
 #include <glad/glad.h>
 
@@ -29,7 +30,7 @@ static u32 compile_stage(u32 type, const char* source)
     {
         char log[1024];
         glGetShaderInfoLog(shader, (GLsizei)sizeof(log), NULL, log);
-        fprintf(stderr, "shader compile error (%u): %s\n", type, log);
+        log_error(LOG_SECTION_SHADER, "compile error (%u): %s", type, log);
         glDeleteShader(shader);
         return 0;
     }
@@ -39,6 +40,7 @@ static u32 compile_stage(u32 type, const char* source)
 /** @brief Compile and link a program, or nullopt on failure. */
 std::optional<ShaderID> Shader::make(ShaderConfig config)
 {
+    log_debug(LOG_SECTION_SHADER, "make");
     u32 vs = compile_stage(GL_VERTEX_SHADER, config.vs_source);
     u32 fs = compile_stage(GL_FRAGMENT_SHADER, config.fs_source);
     if (!vs || !fs)
@@ -59,7 +61,7 @@ std::optional<ShaderID> Shader::make(ShaderConfig config)
     {
         char log[1024];
         glGetProgramInfoLog(program, (GLsizei)sizeof(log), NULL, log);
-        fprintf(stderr, "program link error: %s\n", log);
+        log_error(LOG_SECTION_SHADER, "link error: %s", log);
         glDeleteProgram(program);
         program = 0;
     } else {
@@ -69,6 +71,7 @@ std::optional<ShaderID> Shader::make(ShaderConfig config)
     glDeleteShader(vs);
     glDeleteShader(fs);
 
+    log_debug(LOG_SECTION_SHADER, "program %u ready", program);
     return program;
 }
 

@@ -4,16 +4,19 @@
  */
 
 #include "yaml.hpp"
+#include "common/log/log.hpp"
 #include <fstream>
 
 std::optional<YamlNode> Yaml::load(const char* path)
 {
+    log_debug(LOG_SECTION_SERIALISE, "load '%s'", path);
     try
     {
         return YAML::LoadFile(path);
     }
     catch (...)
     {
+        log_debug(LOG_SECTION_SERIALISE, "load '%s' failed", path);
         return std::nullopt;
     }
 }
@@ -32,6 +35,7 @@ std::optional<YamlNode> Yaml::load_text(const char* text)
 
 bool Yaml::save(const YamlNode* root, const char* path)
 {
+    log_debug(LOG_SECTION_SERIALISE, "save '%s'", path);
     try
     {
         YamlNode copy = YAML::Clone(*root);
@@ -42,6 +46,7 @@ bool Yaml::save(const YamlNode* root, const char* path)
     }
     catch (...)
     {
+        log_debug(LOG_SECTION_SERIALISE, "save '%s' failed", path);
         return false;
     }
 }

@@ -2,8 +2,8 @@
  * @file lexer.cpp
  * @brief Main tokenise loop for the GLSL-like language.
  */
-#include "tools/shader_parser/lexer/lexer.hpp"
-#include "tools/shader_parser/lexer/lexer_internal.hpp"
+#include "tools/shader_transpiler/lexer/lexer.hpp"
+#include "tools/shader_transpiler/lexer/lexer_internal.hpp"
 
 #include <optional>
 

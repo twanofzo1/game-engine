@@ -2,7 +2,7 @@
  * @file transpiler.cpp
  * @brief Transpiler entry point and per-stage source generation.
  */
-#include "tools/shader_parser/transpiler/transpiler_internal.hpp"
+#include "tools/shader_transpiler/transpiler/transpiler_internal.hpp"
 
 
 /** @brief The GLSL version line shared by both stages. */

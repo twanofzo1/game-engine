@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include "tools/shader_parser/lexer/token.hpp"
+#include "tools/shader_transpiler/lexer/token.hpp"
 
 #include <optional>
 

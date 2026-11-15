@@ -2,7 +2,7 @@
  * @file parser.cpp
  * @brief Parser entry point and token-cursor utilities.
  */
-#include "tools/shader_parser/parser/parser_internal.hpp"
+#include "tools/shader_transpiler/parser/parser_internal.hpp"
 
 
 /** @brief Return the token at `offset` from the current position. */

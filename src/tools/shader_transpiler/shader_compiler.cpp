@@ -2,11 +2,11 @@
  * @file shader_compiler.cpp
  * @brief Binds the lexer, parser and transpiler into a single compile step.
  */
-#include "tools/shader_parser/shader_compiler.hpp"
+#include "tools/shader_transpiler/shader_compiler.hpp"
 
-#include "tools/shader_parser/lexer/lexer.hpp"
-#include "tools/shader_parser/parser/parser.hpp"
-#include "tools/shader_parser/transpiler/transpiler.hpp"
+#include "tools/shader_transpiler/lexer/lexer.hpp"
+#include "tools/shader_transpiler/parser/parser.hpp"
+#include "tools/shader_transpiler/transpiler/transpiler.hpp"
 
 
 /**

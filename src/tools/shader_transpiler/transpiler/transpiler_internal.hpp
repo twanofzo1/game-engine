@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "tools/shader_parser/transpiler/transpiler.hpp"
+#include "tools/shader_transpiler/transpiler/transpiler.hpp"
 
 #include <optional>
 

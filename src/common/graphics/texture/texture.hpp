@@ -46,10 +46,22 @@ struct Texture {
     i32      height = 0;    ///< Height in pixels.
     Settings settings = {}; ///< Current sampling settings.
 
-    static std::optional<Texture> load(const TextureConfigPath& config);
-    static std::optional<Texture> load(const TextureConfigData& config);
-    static void bind(const Texture* texture);
+    /** @brief Load a texture from an image file, or nullopt on failure. */
+    static std::optional<Texture> load(TextureConfigPath config);
+
+    /** @brief Load a texture from raw RGBA8 pixel data, or nullopt on failure. */
+    static std::optional<Texture> load(TextureConfigData config);
+
+    /** @brief Bind the texture to a specific texture unit (0 by default). */
+    static void bind(const Texture* texture, i32 unit = 0);
+
+    /** @brief Unbind the texture from a specific texture unit (0 by default). */
+    static void unbind(i32 unit = 0);
+
+    /** @brief Destroy the texture and reset its state. */
     static void destroy(Texture* texture);
+
+    /** @brief Change the texture's sampling settings. */
     static void set_settings(Texture* texture, const Settings* settings);
 };
 

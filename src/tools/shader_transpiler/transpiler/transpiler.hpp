@@ -11,7 +11,7 @@
  */
 #pragma once
 
-#include "tools/shader_parser/parser/ast.hpp"
+#include "tools/shader_transpiler/parser/ast.hpp"
 
 #include <expected>
 #include <string>

@@ -3,6 +3,7 @@
  * @brief GLFW window wrapper implementation.
  */
 #include "window.hpp"
+#include "common/log/log.hpp"
 
 #include <glad/glad.h>
 
@@ -52,8 +53,10 @@ std::optional<Window> Window::make(WindowConfig config)
     glfwWindowHint(GLFW_DECORATED, undecorated ? GLFW_FALSE : GLFW_TRUE);
 
     window.handle = glfwCreateWindow(width, height, config.title.c_str(), monitor, NULL);
-    if (!window.handle)
+    if (!window.handle) {
+        log_error(LOG_SECTION_WINDOW, "glfwCreateWindow failed");
         return std::nullopt;
+    }
 
     glfwMakeContextCurrent(window.handle);
     glfwSwapInterval(config.vsync ? 1 : 0);
@@ -66,11 +69,13 @@ std::optional<Window> Window::make(WindowConfig config)
             glfwSetWindowPos(window.handle, config.position.x, config.position.y);
     }
 
+    log_debug(LOG_SECTION_WINDOW, "created %dx%d", width, height);
     return window;
 }
 
 void Window::destroy(Window* window)
 {
+    log_debug(LOG_SECTION_WINDOW, "destroy");
     if (window->handle)
     {
         glfwDestroyWindow(window->handle);
@@ -113,26 +118,37 @@ Vec2i Window::framebuffer_size(const Window* window)
     return size;
 }
 
-/** @brief GLFW error callback; prints the error to stderr. */
+/** @brief GLFW error callback; forwards the error to the logger. */
 static void error_callback(int error, const char* description)
 {
-    fprintf(stderr, "GLFW error %d: %s\n", error, description);
+    log_error(LOG_SECTION_WINDOW, "GLFW error %d: %s", error, description);
 }
 
 bool Window::init(void)
 {
+    log_debug(LOG_SECTION_WINDOW, "init");
     glfwSetErrorCallback(error_callback);
-    return glfwInit() != 0;
+    bool ok = glfwInit() != 0;
+    if (!ok) {
+        log_error(LOG_SECTION_WINDOW, "glfwInit failed");
+    }
+    return ok;
 }
 
 void Window::terminate(void)
 {
+    log_debug(LOG_SECTION_WINDOW, "terminate");
     glfwTerminate();
 }
 
 bool Window::load_opengl(void)
 {
-    return gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) != 0;
+    log_debug(LOG_SECTION_WINDOW, "load_opengl");
+    bool ok = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) != 0;
+    if (!ok) {
+        log_error(LOG_SECTION_WINDOW, "gladLoadGLLoader failed");
+    }
+    return ok;
 }
 
 void Window::imgui_init(Window* window)

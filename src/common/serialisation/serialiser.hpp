@@ -30,5 +30,5 @@ struct Serialiser {
     static YamlNode serialise_signal(const Signal* signal);
     static YamlNode serialise_sprite(const Sprite* sprite);
     static YamlNode serialise_stamina(const Stamina* stamina);
-    static YamlNode serialise_texture(const Texture* texture);
+    static YamlNode serialise_texture(const TextureAsset* texture);
 };

@@ -7,6 +7,7 @@
  * VirtualFree; POSIX uses mmap/mprotect/munmap.
  */
 #include "common/core/memory/arena.hpp"
+#include "common/log/log.hpp"
 
 #include <string.h>
 
@@ -124,6 +125,7 @@ static ArenaError ensure_committed(Arena* arena, usize needed)
 
 std::expected<Arena, ArenaError> Arena::make(const ArenaConfig config)
 {
+    log_debug(LOG_SECTION_CORE, "arena make reserved=%zu commit=%zu", config.reserved, config.commit);
     if (config.reserved == 0 || config.commit > config.reserved)
         return std::unexpected(ArenaError::InvalidConfig);
 
@@ -145,11 +147,13 @@ std::expected<Arena, ArenaError> Arena::make(const ArenaConfig config)
         return std::unexpected(err);
     }
 
+    log_debug(LOG_SECTION_CORE, "arena ready (buffer=%p)", (void*)buffer);
     return arena;
 }
 
 void Arena::destroy(Arena* arena)
 {
+    log_debug(LOG_SECTION_CORE, "arena destroy (used=%zu)", arena->used);
     release_memory(arena->buffer, arena->reserved);
     arena->buffer       = nullptr;
     arena->reserved     = 0;

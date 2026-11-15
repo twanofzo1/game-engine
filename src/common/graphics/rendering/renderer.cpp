@@ -9,6 +9,7 @@
 #include "common/graphics/rendering/renderer.hpp"
 #include "common/graphics/rendering/renderer_internal.hpp"
 #include "common/graphics/shader/shader.hpp"
+#include "common/log/log.hpp"
 
 #include <glad/glad.h>
 
@@ -51,6 +52,7 @@ static usize renderer_buffers_size()
 /** @brief Create a renderer, or return an error code on failure. */
 std::expected<Renderer, RendererError> Renderer::make()
 {
+    log_debug(LOG_SECTION_RENDERER, "make");
     const ArenaConfig arena_config = {
         .reserved = renderer_buffers_size(),
         .commit   = renderer_buffers_size(),
@@ -89,6 +91,7 @@ std::expected<Renderer, RendererError> Renderer::make()
         Shader::make({.vs_source = VERT_SRC, .fs_source = FRAG_SRC});
     if (!default_shader.has_value())
     {
+        log_debug(LOG_SECTION_RENDERER, "default shader compile failed");
         Arena::destroy(&renderer.arena);
         return std::unexpected(RendererError::ShaderCompile);
     }
@@ -107,12 +110,14 @@ std::expected<Renderer, RendererError> Renderer::make()
 
     renderer_create_buffers(&renderer);
 
+    log_debug(LOG_SECTION_RENDERER, "ready (default_shader=%u)", renderer.default_shader);
     return renderer;
 }
 
 /** @brief Free the renderer's GL resources and CPU buffers. */
 void Renderer::shutdown(Renderer* renderer)
 {
+    log_debug(LOG_SECTION_RENDERER, "shutdown");
     Shader::destroy_all();
 
     glDeleteVertexArrays(1, &renderer->vao);
@@ -160,6 +165,7 @@ void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
 /** @brief Sort and draw all queued quads. */
 void Renderer::end(Renderer* renderer)
 {
+    log_debug(LOG_SECTION_RENDERER, "end frame (%u quads)", renderer->quad_count);
     renderer_flush(renderer);
 }
 
