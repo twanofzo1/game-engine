@@ -1,6 +1,6 @@
 /**
  * @file shader.cpp
- * @brief Minimal OpenGL shader program helper implementation.
+ * @brief OpenGL shader program helper implementation.
  */
 #include "core/frontend/rendering/shader.hpp"
 
@@ -8,6 +8,10 @@
 
 #include <stdio.h>
 
+#include <vector>
+
+/** @brief Registry of every live program, used by destroy_all. */
+static std::vector<ShaderID> g_programs;
 
 /**
  * @brief Compile one shader stage.
@@ -32,15 +36,16 @@ static u32 compile_stage(u32 type, const char* source)
     return shader;
 }
 
-u32 shader_create(const char* vs_source, const char* fs_source)
+/** @brief Compile and link a program, or nullopt on failure. */
+std::optional<ShaderID> Shader::make(ShaderConfig config)
 {
-    u32 vs = compile_stage(GL_VERTEX_SHADER, vs_source);
-    u32 fs = compile_stage(GL_FRAGMENT_SHADER, fs_source);
+    u32 vs = compile_stage(GL_VERTEX_SHADER, config.vs_source);
+    u32 fs = compile_stage(GL_FRAGMENT_SHADER, config.fs_source);
     if (!vs || !fs)
     {
         if (vs) glDeleteShader(vs);
         if (fs) glDeleteShader(fs);
-        return 0;
+        return std::nullopt;
     }
 
     u32 program = glCreateProgram();
@@ -57,24 +62,97 @@ u32 shader_create(const char* vs_source, const char* fs_source)
         fprintf(stderr, "program link error: %s\n", log);
         glDeleteProgram(program);
         program = 0;
+    } else {
+        g_programs.push_back(program);
     }
 
     glDeleteShader(vs);
     glDeleteShader(fs);
+
     return program;
 }
 
-void shader_destroy(u32 program)
+/** @brief Delete the program and reset its name to 0. */
+void Shader::destroy(ShaderID shader)
 {
-    glDeleteProgram(program);
+    if (shader != 0)
+    {
+        glDeleteProgram(shader);
+        shader = 0;
+    }
 }
 
-void shader_bind(u32 program)
+/** @brief Bind the program for subsequent draw calls. */
+void Shader::bind(ShaderID shader)
 {
-    glUseProgram(program);
+    glUseProgram(shader);
 }
 
-void shader_set_mat4(u32 program, const char* name, const f32* m)
+/** @brief Look up a uniform location by name (-1 if absent). */
+i32 Shader::uniform_location(ShaderID shader, const char* name)
 {
-    glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, m);
+    return glGetUniformLocation(shader, name);
+}
+
+/** @brief Set a scalar float uniform by name. */
+void Shader::set_float(ShaderID shader, const char* name, f32 value)
+{
+    glUniform1f(glGetUniformLocation(shader, name), value);
+}
+
+/** @brief Set a scalar int uniform by name. */
+void Shader::set_int(ShaderID shader, const char* name, i32 value)
+{
+    glUniform1i(glGetUniformLocation(shader, name), value);
+}
+
+/** @brief Set a scalar unsigned int uniform by name. */
+void Shader::set_uint(ShaderID shader, const char* name, u32 value)
+{
+    glUniform1ui(glGetUniformLocation(shader, name), value);
+}
+
+/** @brief Set a 2-component float uniform by name. */
+void Shader::set_vec2(ShaderID shader, const char* name, const f32* v)
+{
+    glUniform2fv(glGetUniformLocation(shader, name), 1, v);
+}
+
+/** @brief Set a 3-component float uniform by name. */
+void Shader::set_vec3(ShaderID shader, const char* name, const f32* v)
+{
+    glUniform3fv(glGetUniformLocation(shader, name), 1, v);
+}
+
+/** @brief Set a 4-component float uniform by name. */
+void Shader::set_vec4(ShaderID shader, const char* name, const f32* v)
+{
+    glUniform4fv(glGetUniformLocation(shader, name), 1, v);
+}
+
+/** @brief Set a 3x3 float uniform (column-major). */
+void Shader::set_mat3(ShaderID shader, const char* name, const f32* m)
+{
+    glUniformMatrix3fv(glGetUniformLocation(shader, name), 1, GL_FALSE, m);
+}
+
+/** @brief Set a 4x4 float uniform (column-major). */
+void Shader::set_mat4(ShaderID shader, const char* name, const f32* m)
+{
+    glUniformMatrix4fv(glGetUniformLocation(shader, name), 1, GL_FALSE, m);
+}
+
+/** @brief Set an int uniform by its pre-cached location. */
+void Shader::set_int_location(ShaderID shader, i32 location, i32 value)
+{
+    glUniform1i(location, value);
+}
+
+/** @brief Destroy every program created by Shader::make. */
+void Shader::destroy_all()
+{
+    for (u32 i = 0; i < g_programs.size(); i++) {
+        glDeleteProgram(g_programs[i]);
+    }
+    g_programs.clear();
 }

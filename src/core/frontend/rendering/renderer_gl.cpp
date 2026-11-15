@@ -19,16 +19,13 @@ void renderer_draw_run(Renderer* renderer, u32 shader_id, u32 texture, u32 count
     if (count == 0)
         return;
 
-    if (shader_id >= renderer->program_count)
-        shader_id = 0;
-
-    shader_bind(renderer->programs[shader_id]);
+    Shader::bind(shader_id);
 
     /* The view-projection matrix is camera-only, so look it up by name rather
      * than caching a per-program location. */
     f32 m[16];
     Camera::view_projection(&renderer->camera, m);
-    shader_set_mat4(renderer->programs[shader_id], "uViewProj", m);
+    Shader::set_mat4(shader_id, "uViewProj", m);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);

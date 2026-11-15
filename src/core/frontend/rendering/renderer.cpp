@@ -63,7 +63,8 @@ std::expected<Renderer, RendererError> Renderer::make()
     renderer.arena       = *arena;
     renderer.quad_count  = 0;
     renderer.total_quads = 0;
-    renderer.program_count = 0;
+    renderer.default_shader = 0;
+    renderer.u_texture = -1;
     renderer.camera = Camera::make({
         .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
         .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
@@ -86,12 +87,20 @@ std::expected<Renderer, RendererError> Renderer::make()
     renderer.sort_keys = (u64*)*keys;
     renderer.order     = (u32*)*order;
 
-    /* Shader 0 is the default solid-color/textured quad shader. */
-    if (!register_shader(&renderer, VERT_SRC, FRAG_SRC))
+    /* The built-in white/textured quad shader used whenever shader_id == 0. */
+    const std::optional<ShaderID> default_shader =
+        Shader::make({.vs_source = VERT_SRC, .fs_source = FRAG_SRC});
+    if (!default_shader.has_value())
     {
         Arena::destroy(&renderer.arena);
         return std::unexpected(RendererError::ShaderCompile);
     }
+    renderer.default_shader = *default_shader;
+    renderer.u_texture = Shader::uniform_location(*default_shader, "uTexture");
+
+    /* Bind the color texture sampler to texture unit 0 once. */
+    Shader::bind(*default_shader);
+    glUniform1i(renderer.u_texture, 0);
 
     renderer_create_white_texture(&renderer);
 
@@ -107,8 +116,8 @@ std::expected<Renderer, RendererError> Renderer::make()
 /** @brief Free the renderer's GL resources and CPU buffers. */
 void Renderer::shutdown(Renderer* renderer)
 {
-    for (u32 i = 0; i < renderer->program_count; ++i)
-        shader_destroy(renderer->programs[i]);
+    Shader::destroy_all();
+
     glDeleteVertexArrays(1, &renderer->vao);
     glDeleteBuffers(1, &renderer->vbo);
     glDeleteBuffers(1, &renderer->ebo);
@@ -120,28 +129,7 @@ void Renderer::shutdown(Renderer* renderer)
     renderer->order = NULL;
 }
 
-/** @brief Register a shader program, returning its shader_id or an error code. */
-std::expected<u32, RendererError> Renderer::register_shader(Renderer* renderer,
-                                                            const char* vs_source,
-                                                            const char* fs_source)
-{
-    if (renderer->program_count >= RENDERER_MAX_SHADERS)
-        return std::unexpected(RendererError::ShaderTableFull);
 
-    const u32 program = shader_create(vs_source, fs_source);
-    if (!program)
-        return std::unexpected(RendererError::ShaderCompile);
-
-    const u32 id = renderer->program_count++;
-    renderer->programs[id] = program;
-    renderer->u_texture[id] = glGetUniformLocation(program, "uTexture");
-
-    /* Bind the color texture sampler to texture unit 0 once. */
-    shader_bind(program);
-    glUniform1i(renderer->u_texture[id], 0);
-
-    return id;
-}
 
 /** @brief Begin a frame with the given camera and reset the batch. */
 void Renderer::begin(Renderer* renderer, const Camera* camera)
@@ -161,7 +149,7 @@ void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
     if (renderer->quad_count >= RENDERER_MAX_QUADS)
         renderer_flush(renderer);
 
-    const u32 shader_id = quad->shader_id < renderer->program_count ? quad->shader_id : 0;
+    const u32 shader_id = quad->shader_id != 0 ? quad->shader_id : renderer->default_shader;
     const u32 texture = quad->texture ? quad->texture : renderer->white_texture;
 
     const u32 q = renderer->quad_count;

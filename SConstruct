@@ -197,6 +197,108 @@ Default(app)
 
 
 # ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+# Test binaries link only against the lexer/parser translation units (no
+# GL/GLFW/imgui), so they stay small. Build and run with:  scons test
+lexer_sources = [
+    "src/core/frontend/shader_parsing/lexer/lexer.cpp",
+    "src/core/frontend/shader_parsing/lexer/cursor.cpp",
+    "src/core/frontend/shader_parsing/lexer/keywords.cpp",
+    "src/core/frontend/shader_parsing/lexer/operators.cpp",
+    "src/core/frontend/shader_parsing/lexer/scanners.cpp",
+]
+
+parser_sources = [
+    "src/core/frontend/shader_parsing/parser/parser.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_top.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_decl.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_expr.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_expr_operand.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_stmt.cpp",
+    "src/core/frontend/shader_parsing/parser/parser_stmt_control.cpp",
+]
+
+transpiler_sources = [
+    "src/core/frontend/shader_parsing/transpiler/transpiler.cpp",
+    "src/core/frontend/shader_parsing/transpiler/transpiler_emit.cpp",
+    "src/core/frontend/shader_parsing/transpiler/transpiler_expr.cpp",
+    "src/core/frontend/shader_parsing/transpiler/transpiler_stmt.cpp",
+]
+
+compiler_sources = [
+    "src/core/frontend/shader_parsing/shader_compiler.cpp",
+]
+
+build_lexer = [build_path(s) for s in lexer_sources]
+build_parser = [build_path(s) for s in parser_sources]
+build_transpiler = [build_path(s) for s in transpiler_sources]
+build_compiler = [build_path(s) for s in compiler_sources]
+
+test_lexer_bin = env.Program(
+    target=os.path.join(bin_dir, "test_lexer"),
+    source=["tests/lexer_test.cpp"] + build_lexer,
+)
+
+test_parser_bin = env.Program(
+    target=os.path.join(bin_dir, "test_parser"),
+    source=["tests/parser_test.cpp"] + build_lexer + build_parser,
+)
+
+test_transpiler_bin = env.Program(
+    target=os.path.join(bin_dir, "test_transpiler"),
+    source=["tests/transpiler_test.cpp"] + build_lexer + build_parser + build_transpiler,
+)
+
+test_compiler_bin = env.Program(
+    target=os.path.join(bin_dir, "test_compiler"),
+    source=["tests/shader_compiler_test.cpp"] + build_lexer + build_parser + build_transpiler + build_compiler,
+)
+
+# Run a test binary after building it. A marker file is written so SCons can
+# track whether the run step has been performed; tests are re-run on every
+# `scons test` invocation (AlwaysBuild).
+def _run_test_bin(target, source, env):
+    import subprocess
+    result = subprocess.call([str(source[0])])
+    if result != 0:
+        return result
+    with open(str(target[0]), "w") as f:
+        f.write("ok\n")
+    return 0
+
+run_lexer = env.Command(
+    os.path.join(bin_dir, "test_lexer.run"),
+    test_lexer_bin,
+    _run_test_bin,
+)
+
+run_parser = env.Command(
+    os.path.join(bin_dir, "test_parser.run"),
+    test_parser_bin,
+    _run_test_bin,
+)
+
+run_transpiler = env.Command(
+    os.path.join(bin_dir, "test_transpiler.run"),
+    test_transpiler_bin,
+    _run_test_bin,
+)
+
+run_compiler = env.Command(
+    os.path.join(bin_dir, "test_compiler.run"),
+    test_compiler_bin,
+    _run_test_bin,
+)
+
+env.AlwaysBuild(run_lexer)
+env.AlwaysBuild(run_parser)
+env.AlwaysBuild(run_transpiler)
+env.AlwaysBuild(run_compiler)
+env.Alias("test", [run_lexer, run_parser, run_transpiler, run_compiler])
+
+
+# ---------------------------------------------------------------------------
 # compile_commands.json (for clang-tidy / clangd)
 # ---------------------------------------------------------------------------
 # Emit a compilation database so tools like clang-tidy can pick up the exact

@@ -50,7 +50,7 @@
 
 - when instantiating a struct use the config like this: `Vec2 v = Vec2::new({.x = 1.0f, .y = 2.0f});` instead of `Vec2 v = Vec2::new(1.0f, 2.0f);`.
 
-- keep files small and focused on a single purpose. If a file grows too large, consider splitting it into multiple files.
+- keep files small and focused on a single purpose. If a file grows too large (more than 150 lines), consider splitting it into multiple files (> 200 lines) always split it up.
 
 - keep the codebase modular and organized, with clear separation of concerns between different components.
 
@@ -58,3 +58,4 @@
 
 - dont ever use refferences, except for interconnecting with existing code/libraries, always use pointers or values. for example, instead of `void foo(int& x)`, use `void foo(int* x)` or `void foo(int x)`.
 
+- dont use auto, except for iterators and range-based for loops. for example, instead of `auto x = foo();`, use `int x = foo();`.
