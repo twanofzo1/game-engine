@@ -83,8 +83,8 @@ else:
 # SCons' Glob() whose `**` only matches a single directory level.
 common_sources = sorted(glob.glob("src/common/**/*.cpp", recursive=True))
 tool_sources   = sorted(glob.glob("src/tools/**/*.cpp", recursive=True))
-editor_main    = ["src/editor/main.cpp"]
-runtime_main   = ["src/runtime/main.cpp"]
+editor_main    = sorted(glob.glob("src/editor/**/*.cpp", recursive=True))
+runtime_main   = sorted(glob.glob("src/runtime/**/*.cpp", recursive=True))
 
 # Dear ImGui core + the GLFW/OpenGL3 backends used by the engine.
 imgui_sources = [

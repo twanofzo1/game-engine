@@ -8,6 +8,7 @@
 #include "common/graphics/texture/texture.hpp"
 #include "common/audio/audio.hpp"
 #include "common/log/log.hpp"
+#include "ui.hpp"
 #include "imgui.h"
 #include <glad/glad.h>
 
@@ -216,44 +217,52 @@ int main(int argc, char** argv)
         Renderer::push_quad(&renderer, &quad2);
         
 
-        ImGui::SetNextWindowPos({0.0,0.0});
-        ImGui::Begin("Test Window", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
-        static double accumulated_time = 0.0;
-        static int frame_count = 0;
-        static double fps = 0.0;
-        frame_count++;
-        accumulated_time += ImGui::GetIO().DeltaTime;
-        if (accumulated_time >= 0.2) {
-            fps = (double)frame_count / accumulated_time;
-            frame_count = 0;
-            accumulated_time = 0.0;
-        }
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / fps, fps);
+        const ImGuiID dock_id = Ui::begin_dockspace(true);
 
-        if (player.has_value()) {
-            static f32 volume = 1.0f;
-            static f32 pitch = 1.0f;
-            if (ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f)) {
-                Audio::set_volume(*player, volume);
+        if (Ui::window({.title = "Stats", .size = ImVec2(280.0f, 120.0f)}, dock_id))
+        {
+            static double accumulated_time = 0.0;
+            static int frame_count = 0;
+            static double fps = 0.0;
+            frame_count++;
+            accumulated_time += ImGui::GetIO().DeltaTime;
+            if (accumulated_time >= 0.2) {
+                fps = (double)frame_count / accumulated_time;
+                frame_count = 0;
+                accumulated_time = 0.0;
             }
-            if (ImGui::SliderFloat("Pitch", &pitch, 0.5f, 2.0f)) {
-                Audio::set_pitch(*player, pitch);
-            }
-            if (ImGui::Button("Play")) {
-                Audio::start(*player);
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Stop")) {
-                Audio::stop(*player);
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Restart")) {
-                Audio::seek_to_start(*player);
-                Audio::start(*player);
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / fps, fps);
+        }
+        Ui::end_window();
+
+        if (Ui::window({.title = "Audio Player", .size = ImVec2(280.0f, 180.0f)}, dock_id))
+        {
+            if (player.has_value()) {
+                static f32 volume = 1.0f;
+                static f32 pitch = 1.0f;
+                if (ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f)) {
+                    Audio::set_volume(*player, volume);
+                }
+                if (ImGui::SliderFloat("Pitch", &pitch, 0.5f, 2.0f)) {
+                    Audio::set_pitch(*player, pitch);
+                }
+                if (ImGui::Button("Play")) {
+                    Audio::start(*player);
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Stop")) {
+                    Audio::stop(*player);
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Restart")) {
+                    Audio::seek_to_start(*player);
+                    Audio::start(*player);
+                }
+            } else {
+                ImGui::TextDisabled("No audio player loaded");
             }
         }
-
-        ImGui::End();
+        Ui::end_window();
 
         Renderer::end(&renderer);
 
