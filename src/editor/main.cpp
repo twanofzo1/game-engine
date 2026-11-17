@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     (void)argc; (void)argv;
 
     Log::init();
-    Log::set_global_level(LOG_LEVEL_DEBUG);
+    Log::set_global_level(LOG_LEVEL_INFO);
 
     Window window = create_window();
 
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
     std::optional<PlayerID> player;
     if (sound.has_value()) {
         player = Audio::make_player({
-            .sound = *sound,
+            .sound = sound.value(),
             .volume = 1.0f,
             .pitch = 1.0f,
             .loop = true,
