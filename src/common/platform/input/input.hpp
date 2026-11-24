@@ -38,16 +38,15 @@ struct Input {
     Action* actions;      ///< Action table (caller-owned).
     u32     action_count; ///< Number of entries in `actions`.
 
-    static void init(Input* input, GLFWwindow* window);
-    static void shutdown(Input* input);
-    static void begin_frame(Input* input);
+    void init(GLFWwindow* window);
+    void shutdown();
+    void begin_frame();
 
+    void set_actions(Action* actions, u32 count);
+    const Action* find_action(const char* name) const;
+    bool bind_key(const char* name, int key);
 
-    static void set_actions(Input* input, Action* actions, u32 count);
-    static const Action* find_action(const Input* input, const char* name);
-    static bool bind_key(Input* input, const char* name, int key);
-
-    static bool is_action_down(const Input* input, const char* name);
-    static bool is_action_pressed(const Input* input, const char* name);
-    static bool is_action_released(const Input* input, const char* name);
+    bool is_action_down(const char* name) const;
+    bool is_action_pressed(const char* name) const;
+    bool is_action_released(const char* name) const;
 };

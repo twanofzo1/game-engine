@@ -7,72 +7,135 @@
 
 #include <math.h>
 
+/// @brief Converts degrees to radians.
+/// @param degrees The angle in degrees.
+/// @return The angle in radians.
+static inline f32 deg_to_rad(const f32 degrees) {
+    return degrees * static_cast<f32>(M_PI) / 180.0f;
+}
 
-/** @brief Create a new vector from a configuration. */
-Vec2 Vec2::make(Vec2Config config)
-{
+/// @brief Creates a vector from its coordinates.
+/// @param config The x and y coordinates.
+/// @return The initialized vector.
+Vec2 Vec2::create(const Vec2Config config) {
     return Vec2{
         .x = config.x,
-        .y = config.y
+        .y = config.y,
     };
 }
 
-/** @brief Add two vectors component-wise. */
-Vec2 Vec2::add(Vec2 a, Vec2 b)
-{
-    return Vec2::make({.x = a.x + b.x, .y = a.y + b.y});
+/// @brief Adds another vector to this one.
+/// @param vec The vector to add.
+/// @return The sum of the two vectors.
+Vec2 Vec2::add(const Vec2 vec) const {
+    return Vec2{
+        .x = this->x + vec.x,
+        .y = this->y + vec.y,
+    };
 }
 
-/** @brief Subtract `b` from `a` component-wise. */
-Vec2 Vec2::sub(Vec2 a, Vec2 b)
-{
-    return Vec2::make({.x = a.x - b.x, .y = a.y - b.y});
+/// @brief Subtracts another vector from this one.
+/// @param vec The vector to subtract.
+/// @return The difference of the two vectors.
+Vec2 Vec2::sub(const Vec2 vec) const {
+    return Vec2{
+        .x = this->x - vec.x,
+        .y = this->y - vec.y,
+    };
 }
 
-/** @brief Scale a vector by a scalar. */
-Vec2 Vec2::scale(Vec2 v, f32 s)
-{
-    return Vec2::make({.x = v.x * s, .y = v.y * s});
+/// @brief Scales both coordinates by a factor.
+/// @param scale The multiplier applied to each component.
+/// @return A new vector holding the scaled coordinates.
+Vec2 Vec2::scale(const f32 scale) const {
+    return Vec2{
+        .x = this->x * scale,
+        .y = this->y * scale,
+    };
 }
 
-/** @brief Dot product of two vectors. */
-f32 Vec2::dot(Vec2 a, Vec2 b)
-{
-    return a.x * b.x + a.y * b.y;
+/// @brief Computes the dot product with another vector.
+/// @param vec The other vector.
+/// @return The dot product.
+f32 Vec2::dot(const Vec2 vec) const {
+    return this->x * vec.x + this->y * vec.y;
 }
 
-/** @brief Euclidean length of a vector. */
-f32 Vec2::length(Vec2 v)
-{
-    return sqrtf(v.x * v.x + v.y * v.y);
+/// @brief Computes the length of this vector.
+/// @return The length, or empty when this is the zero vector.
+std::optional<f32> Vec2::length() const {
+    if (this->x == 0.0f && this->y == 0.0f) {
+        return std::nullopt;
+    }
+    return std::sqrt(this->x * this->x + this->y * this->y);
 }
 
-/**
- * @brief Return the unit vector in the same direction.
- * @warning A zero-length vector divides by zero; callers must guard.
- */
-Vec2 Vec2::normalize(Vec2 v)
-{
-    f32 len = Vec2::length(v);
-    return Vec2::scale(v, 1.0f / len);
+/// @brief Produces a unit vector in this vector's direction.
+/// @return The normalized vector, or empty when this is the zero vector.
+std::optional<Vec2> Vec2::normalize() const {
+    const std::optional<f32> len = this->length();
+    if (!len.has_value()) {
+        return std::nullopt;
+    }
+    return Vec2{
+        .x = this->x / len.value(),
+        .y = this->y / len.value(),
+    };
 }
 
-/** @brief Rotate a vector counter-clockwise by `radians`. */
-Vec2 Vec2::rotate(Vec2 v, f32 radians)
-{
-    f32 c = cosf(radians);
-    f32 s = sinf(radians);
-    return Vec2::make({.x = v.x * c - v.y * s, .y = v.x * s + v.y * c});
+/// @brief Rotates this vector about the origin.
+/// @param radians The rotation angle in radians.
+/// @return The rotated vector.
+Vec2 Vec2::rotate(const f32 radians) const {
+    return Vec2{
+        .x = this->x * std::cos(radians) - this->y * std::sin(radians),
+        .y = this->x * std::sin(radians) + this->y * std::cos(radians),
+    };
 }
 
-/** @brief Linear interpolation between `a` and `b` (t in [0,1]). */
-Vec2 Vec2::lerp(Vec2 a, Vec2 b, f32 t)
-{
-    return Vec2::add(a, Vec2::scale(Vec2::sub(b, a), t));
+/// @brief Rotates this vector about an arbitrary point.
+/// @param config The pivot point and rotation angle in radians.
+/// @return The rotated vector.
+Vec2 Vec2::rotate_around(const RotateAroundConfig config) const {
+    const Vec2 offset = this->sub(config.point);
+    const Vec2 rotated = offset.rotate(config.radians);
+    return rotated.add(config.point);
 }
 
-/** @brief Euclidean distance between two vectors. */
-f32 Vec2::distance(Vec2 a, Vec2 b)
-{
-    return Vec2::length(Vec2::sub(a, b));
+/// @brief Rotates this vector about the origin.
+/// @param degrees The rotation angle in degrees.
+/// @return The rotated vector.
+Vec2 Vec2::rotate_degrees(const f32 degrees) const {
+    return this->rotate(deg_to_rad(degrees));
 }
+
+/// @brief Rotates this vector about an arbitrary point.
+/// @param config The pivot point and rotation angle in degrees.
+/// @return The rotated vector.
+Vec2 Vec2::rotate_around_degrees(const RotateAroundDegreesConfig config) const {
+    return this->rotate_around({
+        .point = config.point,
+        .radians = deg_to_rad(config.degrees),
+    });
+}
+
+/// @brief Linearly interpolates toward another vector.
+/// @param config The target vector and interpolation factor.
+/// @return The interpolated vector.
+Vec2 Vec2::lerp(const LerpConfig config) const {
+    return Vec2{
+        .x = this->x + (config.to.x - this->x) * config.t,
+        .y = this->y + (config.to.y - this->y) * config.t,
+    };
+}
+
+/// @brief Computes the distance to another vector.
+/// @param b The other vector.
+/// @return The distance between the two vectors.
+f32 Vec2::distance(const Vec2 b) const {
+    const Vec2 diff = this->sub(b);
+    const std::optional<f32> len = diff.length();
+    return len.value_or(0.0f);
+}
+   
+ 

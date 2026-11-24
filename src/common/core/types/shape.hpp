@@ -7,7 +7,7 @@
 #include "common/core/types/circle.hpp"
 #include "common/core/types/rect.hpp"
 
-/** @brief A geometric figure: either an axis-aligned rectangle or a circle. */
+/// @brief A geometric figure: either an axis-aligned rectangle or a circle.
 struct Shape {
     /// @brief The discriminator identifying the active variant.
     enum class Type {
@@ -17,7 +17,7 @@ struct Shape {
 
     Type type; ///< Type of the shape (which union member is active).
 
-    /** @brief Untagged storage for the actual geometry. */
+    /// @brief Untagged storage for the actual geometry.
     union {
         struct {
             Rect rect; ///< Rectangular shape data (valid when type is Rect).
@@ -27,9 +27,6 @@ struct Shape {
         };
     };
 
-    /** @brief Construct a rectangular shape. */
-    static Shape make_rect(const Rect rect);
-
-    /** @brief Construct a circular shape. */
-    static Shape make_circle(const Circle circle);
+    static Shape create(const Rect rect);
+    static Shape create(const Circle circle);
 };

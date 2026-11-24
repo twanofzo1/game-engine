@@ -18,10 +18,10 @@ struct KeyboardInput {
     bool keys[GLFW_KEY_LAST + 1];      ///< Current key state.
     bool keys_prev[GLFW_KEY_LAST + 1]; ///< Previous key state.
 
-    static void clear(KeyboardInput* kb);
-    static void roll(KeyboardInput* kb);
-    static void on_key(KeyboardInput* kb, int key, bool pressed);
-    static bool is_key_down(const KeyboardInput* kb, int key);
-    static bool is_key_pressed(const KeyboardInput* kb, int key);
-    static bool is_key_released(const KeyboardInput* kb, int key);
+    void clear();
+    void roll();
+    void on_key(int key, bool pressed);
+    bool is_key_down(int key) const;
+    bool is_key_pressed(int key) const;
+    bool is_key_released(int key) const;
 };

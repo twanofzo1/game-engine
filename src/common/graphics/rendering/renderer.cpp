@@ -1,10 +1,11 @@
 /**
  * @file renderer.cpp
- * @brief Multi-shader 2D batch renderer public API.
+ * @brief 2D batch renderer public API.
  *
- * Collects quads across the frame, sorts them by (shader, texture), and draws
- * them in a single call per group. The sorting/batching lives in
- * renderer_batch.cpp and the GL resource setup in renderer_gl.cpp.
+ * Collects quads across the frame, then sorts them by (shader, texture) and
+ * draws them in one call per group. CPU staging/sorting lives in
+ * renderer_batch.cpp and OpenGL resource setup/draw submission lives in
+ * renderer_gl.cpp.
  */
 #include "common/graphics/rendering/renderer.hpp"
 #include "common/graphics/rendering/renderer_internal.hpp"
@@ -15,6 +16,7 @@
 
 #include <expected>
 
+/** Default vertex shader: world-positioned, colored, textured quads. */
 static const char* VERT_SRC =
     "#version 330 core\n"
     "layout(location = 0) in vec3 aPos;\n"
@@ -29,6 +31,7 @@ static const char* VERT_SRC =
     "    gl_Position = uViewProj * vec4(aPos, 1.0);\n"
     "}\n";
 
+/** Default fragment shader: modulate the texture sample by the vertex color. */
 static const char* FRAG_SRC =
     "#version 330 core\n"
     "in vec2 vUV;\n"
@@ -39,20 +42,72 @@ static const char* FRAG_SRC =
     "    FragColor = vColor * texture(uTexture, vUV);\n"
     "}\n";
 
-/** @brief Total bytes needed for the renderer's CPU-side staging buffers. */
+/// @brief Returns the total bytes needed for the renderer's CPU-side staging buffers.
+/// @return The total byte count.
 static usize renderer_buffers_size()
 {
-    return sizeof(Vertex) * RENDERER_MAX_QUADS * 4   /* vertices */
-         + sizeof(Vertex) * RENDERER_MAX_QUADS * 4   /* scratch  */
-         + sizeof(u64)    * RENDERER_MAX_QUADS       /* sort_keys */
-         + sizeof(u32)    * RENDERER_MAX_QUADS       /* order     */
-         + sizeof(u32)    * RENDERER_MAX_QUADS * 6;  /* indices   */
+    const usize vertices = sizeof(Vertex) * RENDERER_MAX_QUADS * VERTICES_PER_QUAD;
+    const usize scratch  = sizeof(Vertex) * RENDERER_MAX_QUADS * VERTICES_PER_QUAD;
+    const usize keys     = sizeof(u64)    * RENDERER_MAX_QUADS;
+    const usize order    = sizeof(u32)    * RENDERER_MAX_QUADS;
+    const usize order_tmp = sizeof(u32)   * RENDERER_MAX_QUADS;
+    const usize indices  = sizeof(u32)    * RENDERER_MAX_QUADS * INDICES_PER_QUAD;
+    return vertices + scratch + keys + order + order_tmp + indices;
 }
 
-/** @brief Create a renderer, or return an error code on failure. */
-std::expected<Renderer, RendererError> Renderer::make()
+/// @brief Carves the CPU-side staging buffers out of the renderer's arena.
+/// @param renderer The renderer owning the arena and receiving the pointers.
+/// @return Success, or OutOfMemory if any allocation failed.
+static RendererError renderer_alloc_staging(Renderer* const renderer)
 {
-    log_debug(LOG_SECTION_RENDERER, "make");
+    const usize quad_bytes = sizeof(Vertex) * RENDERER_MAX_QUADS * VERTICES_PER_QUAD;
+    const usize order_bytes = sizeof(u32) * RENDERER_MAX_QUADS;
+
+    const std::expected<void*, ArenaError> vertices  = renderer->arena.alloc_aligned(quad_bytes, alignof(Vertex));
+    const std::expected<void*, ArenaError> scratch   = renderer->arena.alloc_aligned(quad_bytes, alignof(Vertex));
+    const std::expected<void*, ArenaError> keys      = renderer->arena.alloc_aligned(sizeof(u64) * RENDERER_MAX_QUADS, alignof(u64));
+    const std::expected<void*, ArenaError> order     = renderer->arena.alloc_aligned(order_bytes, alignof(u32));
+    const std::expected<void*, ArenaError> order_tmp = renderer->arena.alloc_aligned(order_bytes, alignof(u32));
+
+    if (!vertices || !scratch || !keys || !order || !order_tmp)
+    {
+        log_error(LOG_SECTION_RENDERER, "renderer_alloc_staging: out of memory");
+        return RendererError::OutOfMemory;
+    }
+
+    renderer->vertices  = static_cast<Vertex*>(*vertices);
+    renderer->scratch   = static_cast<Vertex*>(*scratch);
+    renderer->sort_keys = static_cast<u64*>(*keys);
+    renderer->order     = static_cast<u32*>(*order);
+    renderer->order_tmp = static_cast<u32*>(*order_tmp);
+    return RendererError::Success;
+}
+
+/// @brief Compiles the built-in default shader and binds its sampler.
+/// @param renderer The renderer receiving the default shader id.
+/// @return Success, or ShaderCompile on failure.
+static RendererError renderer_create_default_shader(Renderer* const renderer)
+{
+    const std::optional<ShaderID> shader =
+        Shader::create({.vs_source = VERT_SRC, .fs_source = FRAG_SRC});
+    if (!shader.has_value())
+        return RendererError::ShaderCompile;
+
+    renderer->default_shader = *shader;
+    renderer->u_texture = Shader::uniform_location(*shader, "uTexture");
+
+    /* Bind the color texture sampler to texture unit 0 once. */
+    Shader::bind(*shader);
+    glUniform1i(renderer->u_texture, 0);
+    return RendererError::Success;
+}
+
+/// @brief Creates a renderer.
+/// @return The renderer, or an error code on failure.
+std::expected<Renderer, RendererError> Renderer::create()
+{
+    log_debug(LOG_SECTION_RENDERER, "create");
+
     const ArenaConfig arena_config = {
         .reserved = renderer_buffers_size(),
         .commit   = renderer_buffers_size(),
@@ -62,110 +117,98 @@ std::expected<Renderer, RendererError> Renderer::make()
         return std::unexpected(RendererError::OutOfMemory);
 
     Renderer renderer;
-    renderer.arena       = *arena;
-    renderer.quad_count  = 0;
-    renderer.total_quads = 0;
-    renderer.default_shader = 0;
-    renderer.u_texture = -1;
+    renderer.arena           = *arena;
+    renderer.quad_count      = 0;
+    renderer.total_quads     = 0;
+    renderer.default_shader  = 0;
+    renderer.u_texture       = -1;
 
-
-    /* Carve the four staging buffers out of the arena. */
-    const std::expected<void*, ArenaError> vertices = Arena::alloc_aligned(&renderer.arena, sizeof(Vertex) * RENDERER_MAX_QUADS * 4, alignof(Vertex));
-    const std::expected<void*, ArenaError> scratch  = Arena::alloc_aligned(&renderer.arena, sizeof(Vertex) * RENDERER_MAX_QUADS * 4, alignof(Vertex));
-    const std::expected<void*, ArenaError> keys     = Arena::alloc_aligned(&renderer.arena, sizeof(u64) * RENDERER_MAX_QUADS, alignof(u64));
-    const std::expected<void*, ArenaError> order    = Arena::alloc_aligned(&renderer.arena, sizeof(u32) * RENDERER_MAX_QUADS, alignof(u32));
-
-    if (!vertices || !scratch || !keys || !order)
+    /* Carve the staging buffers out of the arena first: on failure we still own
+     * the arena and must release it before returning. */
+    const RendererError staging_error = renderer_alloc_staging(&renderer);
+    if (staging_error != RendererError::Success)
     {
-        Arena::destroy(&renderer.arena);
-        return std::unexpected(RendererError::OutOfMemory);
+        renderer.arena.destroy();
+        return std::unexpected(staging_error);
     }
 
-    renderer.vertices  = (Vertex*)*vertices;
-    renderer.scratch   = (Vertex*)*scratch;
-    renderer.sort_keys = (u64*)*keys;
-    renderer.order     = (u32*)*order;
-
-    /* The built-in white/textured quad shader used whenever shader_id == 0. */
-    const std::optional<ShaderID> default_shader =
-        Shader::make({.vs_source = VERT_SRC, .fs_source = FRAG_SRC});
-    if (!default_shader.has_value())
+    const RendererError shader_error = renderer_create_default_shader(&renderer);
+    if (shader_error != RendererError::Success)
     {
         log_debug(LOG_SECTION_RENDERER, "default shader compile failed");
-        Arena::destroy(&renderer.arena);
-        return std::unexpected(RendererError::ShaderCompile);
+        renderer.arena.destroy();
+        return std::unexpected(shader_error);
     }
-    renderer.default_shader = *default_shader;
-    renderer.u_texture = Shader::uniform_location(*default_shader, "uTexture");
 
-    /* Bind the color texture sampler to texture unit 0 once. */
-    Shader::bind(*default_shader);
-    glUniform1i(renderer.u_texture, 0);
-
-    renderer_create_white_texture(&renderer);
+    renderer.create_white_texture();
 
     /* Alpha blending so transparent textures composite over the background. */
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    renderer_create_buffers(&renderer);
+    renderer.create_buffers();
 
     log_debug(LOG_SECTION_RENDERER, "ready (default_shader=%u)", renderer.default_shader);
     return renderer;
 }
 
-/** @brief Free the renderer's GL resources and CPU buffers. */
-void Renderer::shutdown(Renderer* renderer)
+/// @brief Frees the renderer's GL resources and CPU buffers.
+void Renderer::destroy()
 {
     log_debug(LOG_SECTION_RENDERER, "shutdown");
     Shader::destroy_all();
 
-    glDeleteVertexArrays(1, &renderer->vao);
-    glDeleteBuffers(1, &renderer->vbo);
-    glDeleteBuffers(1, &renderer->ebo);
-    glDeleteTextures(1, &renderer->white_texture);
-    Arena::destroy(&renderer->arena);
-    renderer->vertices = NULL;
-    renderer->scratch = NULL;
-    renderer->sort_keys = NULL;
-    renderer->order = NULL;
+    glDeleteVertexArrays(1, &this->vao);
+    glDeleteBuffers(1, &this->vbo);
+    glDeleteBuffers(1, &this->ebo);
+    glDeleteTextures(1, &this->white_texture);
+
+    this->arena.destroy();
+    this->vertices   = nullptr;
+    this->scratch    = nullptr;
+    this->sort_keys  = nullptr;
+    this->order      = nullptr;
+    this->order_tmp  = nullptr;
 }
 
-
-
-/** @brief Begin a frame with the given camera and reset the batch. */
-void Renderer::begin(Renderer* renderer, const Camera* camera)
+/// @brief Begins a frame with the given camera and resets the batch.
+/// @param camera The camera to use this frame.
+void Renderer::begin(const Camera* const camera)
 {
-    renderer->camera = *camera;
-    renderer->quad_count = 0;
-    renderer->total_quads = 0;
+    if (camera == nullptr)
+        return;
+
+    this->camera      = *camera;
+    this->quad_count  = 0;
+    this->total_quads = 0;
 }
 
-/** @brief Queue a quad; it is sorted and batched by shader/texture at end(). */
-void Renderer::push_quad(Renderer* renderer, const QuadConfig* quad)
+/// @brief Queues a quad; it is sorted and batched by shader/texture at end().
+/// @param quad The quad to queue.
+void Renderer::push_quad(const QuadConfig* const quad)
 {
-    if (!quad)
+    if (quad == nullptr)
         return;
 
     /* Flush when the batch is full so any number of quads can be submitted. */
-    if (renderer->quad_count >= RENDERER_MAX_QUADS)
-        renderer_flush(renderer);
+    if (this->quad_count >= RENDERER_MAX_QUADS)
+        renderer_flush(this);
 
-    const u32 shader_id = quad->shader_id != 0 ? quad->shader_id : renderer->default_shader;
-    const u32 texture = quad->texture ? quad->texture : renderer->white_texture;
+    const u32 shader_id = quad->shader_id != 0 ? quad->shader_id : this->default_shader;
+    const u32 texture   = quad->texture   != 0 ? quad->texture   : this->white_texture;
 
-    const u32 q = renderer->quad_count;
-    renderer->sort_keys[q] = renderer_make_key(shader_id, texture);
-    renderer_write_quad_vertices(renderer, quad, q);
+    const u32 index = this->quad_count;
+    this->sort_keys[index] = renderer_make_key(shader_id, texture);
+    renderer_write_quad_vertices(this, quad, index);
 
-    ++renderer->quad_count;
-    ++renderer->total_quads;
+    ++this->quad_count;
+    ++this->total_quads;
 }
 
-/** @brief Sort and draw all queued quads. */
-void Renderer::end(Renderer* renderer)
+/// @brief Sorts and draws all queued quads.
+void Renderer::end()
 {
-    log_debug(LOG_SECTION_RENDERER, "end frame (%u quads)", renderer->quad_count);
-    renderer_flush(renderer);
+    log_debug(LOG_SECTION_RENDERER, "end frame (%u quads)", this->quad_count);
+    renderer_flush(this);
 }
 

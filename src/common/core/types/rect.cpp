@@ -6,81 +6,96 @@
 
 #include <math.h>
 
-
-/** @brief Construct a rectangle from position/size scalars. */
-Rect Rect::make(RectConfig config)
+/// @brief Constructs a rectangle from position/size scalars.
+/// @param config The bottom-left coordinates and dimensions.
+/// @return The initialized rectangle.
+Rect Rect::create(const RectConfig config)
 {
     return Rect{
-        .position = Vec2::make({.x = config.x, .y = config.y}),
-        .size     = Vec2::make({.x = config.width, .y = config.height})
+        .position = Vec2::create({.x = config.x, .y = config.y}),
+        .size     = Vec2::create({.x = config.width, .y = config.height}),
     };
 }
 
-/** @brief Construct a rectangle from position and size vectors. */
-Rect Rect::make(RectConfigVec2 config)
+/// @brief Constructs a rectangle from position and size vectors.
+/// @param config The bottom-left corner and dimensions.
+/// @return The initialized rectangle.
+Rect Rect::create(const RectConfigVec2 config)
 {
     return Rect{
         .position = config.position,
-        .size     = config.size
+        .size     = config.size,
     };
 }
 
-/** @brief Add two rectangles component-wise (position and size). */
-Rect Rect::add(Rect a, Rect b)
+/// @brief Adds a rectangle to this one component-wise (position and size).
+/// @param b The rectangle to add.
+/// @return The component-wise sum.
+Rect Rect::add(const Rect b) const
 {
     return Rect{
-        .position = Vec2::add(a.position, b.position),
-        .size     = Vec2::add(a.size, b.size)
+        .position = this->position.add(b.position),
+        .size     = this->size.add(b.size),
     };
 }
 
-/** @brief Subtract rectangle `b` from `a` component-wise. */
-Rect Rect::sub(Rect a, Rect b)
+/// @brief Subtracts rectangle `b` from this one component-wise.
+/// @param b The rectangle to subtract.
+/// @return The component-wise difference.
+Rect Rect::sub(const Rect b) const
 {
     return Rect{
-        .position = Vec2::sub(a.position, b.position),
-        .size     = Vec2::sub(a.size, b.size)
+        .position = this->position.sub(b.position),
+        .size     = this->size.sub(b.size),
     };
 }
 
-/** @brief Scale a rectangle's position and size by a scalar. */
-Rect Rect::scale(Rect r, f32 s)
+/// @brief Scales this rectangle's position and size by a scalar.
+/// @param s The scalar multiplier.
+/// @return The scaled rectangle.
+Rect Rect::scale(const f32 s) const
 {
     return Rect{
-        .position = Vec2::scale(r.position, s),
-        .size     = Vec2::scale(r.size, s)
+        .position = this->position.scale(s),
+        .size     = this->size.scale(s),
     };
 }
 
-/** @brief Return true when point `p` lies inside or on rectangle `r`. */
-bool Rect::contains(Rect r, Vec2 p)
+/// @brief Returns true when point `p` lies inside or on this rectangle.
+/// @param p The point to test.
+/// @return True when the point is inside or on the rectangle.
+bool Rect::contains(const Vec2 p) const
 {
-    return p.x >= r.position.x && p.x <= r.position.x + r.size.x &&
-           p.y >= r.position.y && p.y <= r.position.y + r.size.y;
+    return p.x >= this->position.x && p.x <= this->position.x + this->size.x &&
+           p.y >= this->position.y && p.y <= this->position.y + this->size.y;
 }
 
-/** @brief Return true when two rectangles overlap or touch. */
-bool Rect::intersects(Rect a, Rect b)
+/// @brief Returns true when this rectangle overlaps or touches another.
+/// @param b The other rectangle.
+/// @return True when the rectangles overlap or touch.
+bool Rect::intersects(const Rect b) const
 {
-    return !(a.position.x + a.size.x < b.position.x ||
-             b.position.x + b.size.x < a.position.x ||
-             a.position.y + a.size.y < b.position.y ||
-             b.position.y + b.size.y < a.position.y);
+    return !(this->position.x + this->size.x < b.position.x ||
+             b.position.x + b.size.x < this->position.x ||
+             this->position.y + this->size.y < b.position.y ||
+             b.position.y + b.size.y < this->position.y);
 }
 
-/** @brief Return the intersection rectangle of two overlapping rectangles. */
-Rect Rect::intersection(Rect a, Rect b)
+/// @brief Computes the intersection rectangle with another rectangle.
+/// @param b The other rectangle.
+/// @return The intersection rectangle.
+Rect Rect::intersection(const Rect b) const
 {
     return Rect{
-        .position = Vec2::make({
-            .x = fmaxf(a.position.x, b.position.x),
-            .y = fmaxf(a.position.y, b.position.y)
+        .position = Vec2::create({
+            .x = fmaxf(this->position.x, b.position.x),
+            .y = fmaxf(this->position.y, b.position.y),
         }),
-        .size = Vec2::make({
-            .x = fminf(a.position.x + a.size.x, b.position.x + b.size.x) -
-                 fmaxf(a.position.x, b.position.x),
-            .y = fminf(a.position.y + a.size.y, b.position.y + b.size.y) -
-                 fmaxf(a.position.y, b.position.y)
-        })
+        .size = Vec2::create({
+            .x = fminf(this->position.x + this->size.x, b.position.x + b.size.x) -
+                 fmaxf(this->position.x, b.position.x),
+            .y = fminf(this->position.y + this->size.y, b.position.y + b.size.y) -
+                 fmaxf(this->position.y, b.position.y),
+        }),
     };
 }

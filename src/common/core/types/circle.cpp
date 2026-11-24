@@ -4,50 +4,62 @@
  */
 #include "circle.hpp"
 
-/** @brief Construct a circle from a configuration. */
-Circle Circle::make(CircleConfig config)
+/// @brief Constructs a circle from its position and radius.
+/// @param config The center position and radius.
+/// @return The initialized circle.
+Circle Circle::create(const CircleConfig config)
 {
     return Circle{
         .position = config.position,
-        .radius   = config.radius
+        .radius   = config.radius,
     };
 }
 
-/** @brief Add two circles component-wise (position and radius). */
-Circle Circle::add(Circle a, Circle b)
+/// @brief Adds a circle to this one component-wise (position and radius).
+/// @param b The circle to add.
+/// @return The component-wise sum.
+Circle Circle::add(const Circle b) const
 {
     return Circle{
-        .position = Vec2::add(a.position, b.position),
-        .radius   = a.radius + b.radius
+        .position = this->position.add(b.position),
+        .radius   = this->radius + b.radius,
     };
 }
 
-/** @brief Subtract circle `b` from `a` component-wise. */
-Circle Circle::sub(Circle a, Circle b)
+/// @brief Subtracts circle `b` from this one component-wise.
+/// @param b The circle to subtract.
+/// @return The component-wise difference.
+Circle Circle::sub(const Circle b) const
 {
     return Circle{
-        .position = Vec2::sub(a.position, b.position),
-        .radius   = a.radius - b.radius
+        .position = this->position.sub(b.position),
+        .radius   = this->radius - b.radius,
     };
 }
 
-/** @brief Scale a circle's position and radius by a scalar. */
-Circle Circle::scale(Circle c, f32 s)
+/// @brief Scales this circle's position and radius by a scalar.
+/// @param s The scalar multiplier.
+/// @return The scaled circle.
+Circle Circle::scale(const f32 s) const
 {
     return Circle{
-        .position = Vec2::scale(c.position, s),
-        .radius   = c.radius * s
+        .position = this->position.scale(s),
+        .radius   = this->radius * s,
     };
 }
 
-/** @brief Return true when point `p` lies inside or on circle `c`. */
-bool Circle::contains(Circle c, Vec2 p)
+/// @brief Returns true when point `p` lies inside or on this circle.
+/// @param p The point to test.
+/// @return True when the point is inside or on the circle.
+bool Circle::contains(const Vec2 p) const
 {
-    return Vec2::distance(c.position, p) <= c.radius;
+    return this->position.distance(p) <= this->radius;
 }
 
-/** @brief Return true when two circles overlap or touch. */
-bool Circle::intersects(Circle a, Circle b)
+/// @brief Returns true when this circle overlaps or touches another.
+/// @param b The other circle.
+/// @return True when the circles overlap or touch.
+bool Circle::intersects(const Circle b) const
 {
-    return Vec2::distance(a.position, b.position) <= a.radius + b.radius;
+    return this->position.distance(b.position) <= this->radius + b.radius;
 }

@@ -4,9 +4,10 @@
  */
 #include "shape.hpp"
 
-
-/** @brief Construct a rectangular shape. */
-Shape Shape::make_rect(const Rect rect)
+/// @brief Constructs a rectangular shape.
+/// @param rect The rectangle to store.
+/// @return The rectangular shape.
+Shape Shape::create(const Rect rect)
 {
     Shape shape = {};
     shape.type = Shape::Type::Rect;
@@ -14,8 +15,10 @@ Shape Shape::make_rect(const Rect rect)
     return shape;
 }
 
-/** @brief Construct a circular shape. */
-Shape Shape::make_circle(const Circle circle)
+/// @brief Constructs a circular shape.
+/// @param circle The circle to store.
+/// @return The circular shape.
+Shape Shape::create(const Circle circle)
 {
     Shape shape = {};
     shape.type = Shape::Type::Circle;

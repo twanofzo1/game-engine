@@ -41,29 +41,15 @@ struct Arena {
     usize  used;         ///< Bytes currently allocated from the arena.
     usize  commit_floor; ///< Minimum committed bytes kept by reset().
 
-    /** @brief Reserve an address range and commit the configured initial bytes. */
     static std::expected<Arena, ArenaError> make(const ArenaConfig config);
 
-    /** @brief Free the reserved address range and reset all state. */
-    static void destroy(Arena* arena);
-
-    /** @brief Allocate a block of memory from the arena. */
-    static std::expected<void*, ArenaError> alloc(Arena* arena, usize bytes);
-
-    /** @brief Allocate an aligned block of memory from the arena. */
-    static std::expected<void*, ArenaError> alloc_aligned(Arena* arena, usize bytes, usize alignment);
-
-    /** @brief Allocate a zeroed block of memory from the arena. */
-    static std::expected<void*, ArenaError> alloc_zeroed(Arena* arena, usize bytes);
-
-    /** @brief Allocate an aligned, zeroed block of memory from the arena. */
-    static std::expected<void*, ArenaError> alloc_zeroed_aligned(Arena* arena, usize bytes, usize alignment);
-
-    /** @brief Reset the arena, decommitting pages above the commit floor. */
-    static void reset(Arena* arena);
-
-    /** @brief Shrink the arena cursor by the given number of bytes. */
-    static ArenaError pop(Arena* arena, usize bytes);
+    void destroy();
+    std::expected<void*, ArenaError> alloc(usize bytes);
+    std::expected<void*, ArenaError> alloc_aligned(usize bytes, usize alignment);
+    std::expected<void*, ArenaError> alloc_zeroed(usize bytes);
+    std::expected<void*, ArenaError> alloc_zeroed_aligned(usize bytes, usize alignment);
+    void reset();
+    ArenaError pop(usize bytes);
 };
 
 

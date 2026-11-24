@@ -14,11 +14,11 @@
 /** @brief Registry of every live program, used by destroy_all. */
 static std::vector<ShaderID> g_programs;
 
-/**
- * @brief Compile one shader stage.
- * @return Stage name, or 0 on failure.
- */
-static u32 compile_stage(u32 type, const char* source)
+/// @brief Compiles one shader stage.
+/// @param type The GL shader stage type (e.g. GL_VERTEX_SHADER).
+/// @param source The shader source code.
+/// @return The compiled stage name, or 0 on failure.
+static u32 compile_stage(const u32 type, const char* const source)
 {
     u32 shader = glCreateShader(type);
     glShaderSource(shader, 1, &source, NULL);
@@ -37,12 +37,14 @@ static u32 compile_stage(u32 type, const char* source)
     return shader;
 }
 
-/** @brief Compile and link a program, or nullopt on failure. */
-std::optional<ShaderID> Shader::make(ShaderConfig config)
+/// @brief Compiles and links a program from vertex and fragment sources.
+/// @param config The vertex and fragment shader sources.
+/// @return The linked program name, or nullopt on failure.
+std::optional<ShaderID> Shader::create(const ShaderConfig config)
 {
-    log_debug(LOG_SECTION_SHADER, "make");
-    u32 vs = compile_stage(GL_VERTEX_SHADER, config.vs_source);
-    u32 fs = compile_stage(GL_FRAGMENT_SHADER, config.fs_source);
+    log_debug(LOG_SECTION_SHADER, "create");
+    const u32 vs = compile_stage(GL_VERTEX_SHADER, config.vs_source);
+    const u32 fs = compile_stage(GL_FRAGMENT_SHADER, config.fs_source);
     if (!vs || !fs)
     {
         if (vs) glDeleteShader(vs);
@@ -75,83 +77,112 @@ std::optional<ShaderID> Shader::make(ShaderConfig config)
     return program;
 }
 
-/** @brief Delete the program and reset its name to 0. */
-void Shader::destroy(ShaderID shader)
+/// @brief Deletes the program and resets its name to 0.
+/// @param shader The program name.
+void Shader::destroy(const ShaderID shader)
 {
     if (shader != 0)
-    {
         glDeleteProgram(shader);
-        shader = 0;
-    }
 }
 
-/** @brief Bind the program for subsequent draw calls. */
-void Shader::bind(ShaderID shader)
+/// @brief Binds the program for subsequent draw calls.
+/// @param shader The program name.
+void Shader::bind(const ShaderID shader)
 {
     glUseProgram(shader);
 }
 
-/** @brief Look up a uniform location by name (-1 if absent). */
-i32 Shader::uniform_location(ShaderID shader, const char* name)
+/// @brief Looks up a uniform location by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @return The uniform location, or -1 when absent.
+i32 Shader::uniform_location(const ShaderID shader, const char* const name)
 {
     return glGetUniformLocation(shader, name);
 }
 
-/** @brief Set a scalar float uniform by name. */
-void Shader::set_float(ShaderID shader, const char* name, f32 value)
+/// @brief Sets a scalar float uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param value The value to set.
+void Shader::set_float(const ShaderID shader, const char* const name, const f32 value)
 {
     glUniform1f(glGetUniformLocation(shader, name), value);
 }
 
-/** @brief Set a scalar int uniform by name. */
-void Shader::set_int(ShaderID shader, const char* name, i32 value)
+/// @brief Sets a scalar int uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param value The value to set.
+void Shader::set_int(const ShaderID shader, const char* const name, const i32 value)
 {
     glUniform1i(glGetUniformLocation(shader, name), value);
 }
 
-/** @brief Set a scalar unsigned int uniform by name. */
-void Shader::set_uint(ShaderID shader, const char* name, u32 value)
+/// @brief Sets a scalar unsigned int uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param value The value to set.
+void Shader::set_uint(const ShaderID shader, const char* const name, const u32 value)
 {
     glUniform1ui(glGetUniformLocation(shader, name), value);
 }
 
-/** @brief Set a 2-component float uniform by name. */
-void Shader::set_vec2(ShaderID shader, const char* name, const f32* v)
+/// @brief Sets a 2-component float uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param v The two float values.
+void Shader::set_vec2(const ShaderID shader, const char* const name, const f32* const v)
 {
     glUniform2fv(glGetUniformLocation(shader, name), 1, v);
 }
 
-/** @brief Set a 3-component float uniform by name. */
-void Shader::set_vec3(ShaderID shader, const char* name, const f32* v)
+/// @brief Sets a 3-component float uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param v The three float values.
+void Shader::set_vec3(const ShaderID shader, const char* const name, const f32* const v)
 {
     glUniform3fv(glGetUniformLocation(shader, name), 1, v);
 }
 
-/** @brief Set a 4-component float uniform by name. */
-void Shader::set_vec4(ShaderID shader, const char* name, const f32* v)
+/// @brief Sets a 4-component float uniform by name.
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param v The four float values.
+void Shader::set_vec4(const ShaderID shader, const char* const name, const f32* const v)
 {
     glUniform4fv(glGetUniformLocation(shader, name), 1, v);
 }
 
-/** @brief Set a 3x3 float uniform (column-major). */
-void Shader::set_mat3(ShaderID shader, const char* name, const f32* m)
+/// @brief Sets a 3x3 float uniform (column-major).
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param m The nine float values.
+void Shader::set_mat3(const ShaderID shader, const char* const name, const f32* const m)
 {
     glUniformMatrix3fv(glGetUniformLocation(shader, name), 1, GL_FALSE, m);
 }
 
-/** @brief Set a 4x4 float uniform (column-major). */
-void Shader::set_mat4(ShaderID shader, const char* name, const f32* m)
+/// @brief Sets a 4x4 float uniform (column-major).
+/// @param shader The program name.
+/// @param name The uniform name.
+/// @param m The sixteen float values.
+void Shader::set_mat4(const ShaderID shader, const char* const name, const f32* const m)
 {
     glUniformMatrix4fv(glGetUniformLocation(shader, name), 1, GL_FALSE, m);
 }
 
-/** @brief Set an int uniform by its pre-cached location. */
-void Shader::set_int_location(ShaderID shader, i32 location, i32 value)
+/// @brief Sets an int uniform by its pre-cached location.
+/// @param shader The program name.
+/// @param location The uniform location.
+/// @param value The value to set.
+void Shader::set_int_location(const ShaderID shader, const i32 location, const i32 value)
 {
     glUniform1i(location, value);
 }
 
-/** @brief Destroy every program created by Shader::make. */
+/// @brief Deletes every program created by Shader::create.
 void Shader::destroy_all()
 {
     for (u32 i = 0; i < g_programs.size(); i++) {

@@ -6,62 +6,74 @@
 
 #include <string.h>
 
-/** @brief Zero out all mouse state. */
-void MouseInput::clear(MouseInput* mouse)
+/// @brief Zeroes out all mouse state.
+void MouseInput::clear()
 {
-    memset(mouse, 0, sizeof(*mouse));
+    memset(this, 0, sizeof(*this));
 }
 
-/** @brief Copy buttons into previous state and reset per-frame deltas. */
-void MouseInput::roll(MouseInput* mouse)
+/// @brief Copies buttons into previous state and resets per-frame deltas.
+void MouseInput::roll()
 {
-    memcpy(mouse->mouse_buttons_prev, mouse->mouse_buttons,
-           sizeof(mouse->mouse_buttons));
+    memcpy(this->mouse_buttons_prev, this->mouse_buttons,
+           sizeof(this->mouse_buttons));
 
-    mouse->mouse_dx = 0.0;
-    mouse->mouse_dy = 0.0;
-    mouse->scroll_x = 0.0;
-    mouse->scroll_y = 0.0;
+    this->mouse_dx = 0.0;
+    this->mouse_dy = 0.0;
+    this->scroll_x = 0.0;
+    this->scroll_y = 0.0;
 }
 
-/** @brief Record a button press/release reported by GLFW. */
-void MouseInput::on_button(MouseInput* mouse, int button, bool pressed)
+/// @brief Records a button press or release reported by GLFW.
+/// @param button The button code (ignored when out of range).
+/// @param pressed True on press, false on release.
+void MouseInput::on_button(const int button, const bool pressed)
 {
     if (button < 0 || button > GLFW_MOUSE_BUTTON_LAST)
         return;
-    mouse->mouse_buttons[button] = pressed;
+    this->mouse_buttons[button] = pressed;
 }
 
-/** @brief Record a cursor position update, accumulating the delta. */
-void MouseInput::on_cursor(MouseInput* mouse, f64 x, f64 y)
+/// @brief Records a cursor position update, accumulating the delta.
+/// @param x The new cursor X coordinate.
+/// @param y The new cursor Y coordinate.
+void MouseInput::on_cursor(const f64 x, const f64 y)
 {
-    mouse->mouse_dx += x - mouse->mouse_x;
-    mouse->mouse_dy += y - mouse->mouse_y;
-    mouse->mouse_x = x;
-    mouse->mouse_y = y;
+    this->mouse_dx += x - this->mouse_x;
+    this->mouse_dy += y - this->mouse_y;
+    this->mouse_x = x;
+    this->mouse_y = y;
 }
 
-/** @brief Record a scroll update, accumulating the delta. */
-void MouseInput::on_scroll(MouseInput* mouse, f64 xoff, f64 yoff)
+/// @brief Records a scroll update, accumulating the delta.
+/// @param xoff The horizontal scroll delta.
+/// @param yoff The vertical scroll delta.
+void MouseInput::on_scroll(const f64 xoff, const f64 yoff)
 {
-    mouse->scroll_x += xoff;
-    mouse->scroll_y += yoff;
+    this->scroll_x += xoff;
+    this->scroll_y += yoff;
 }
 
-/** @brief True while `button` is held down. */
-bool MouseInput::is_mouse_down(const MouseInput* mouse, int button)
+/// @brief Returns true while `button` is held down.
+/// @param button The button code.
+/// @return True when the button is currently held.
+bool MouseInput::is_mouse_down(const int button) const
 {
-    return mouse->mouse_buttons[button];
+    return this->mouse_buttons[button];
 }
 
-/** @brief True on the frame `button` transitions to held. */
-bool MouseInput::is_mouse_pressed(const MouseInput* mouse, int button)
+/// @brief Returns true on the frame `button` transitions to held.
+/// @param button The button code.
+/// @return True when the button was pressed this frame.
+bool MouseInput::is_mouse_pressed(const int button) const
 {
-    return mouse->mouse_buttons[button] && !mouse->mouse_buttons_prev[button];
+    return this->mouse_buttons[button] && !this->mouse_buttons_prev[button];
 }
 
-/** @brief True on the frame `button` transitions to released. */
-bool MouseInput::is_mouse_released(const MouseInput* mouse, int button)
+/// @brief Returns true on the frame `button` transitions to released.
+/// @param button The button code.
+/// @return True when the button was released this frame.
+bool MouseInput::is_mouse_released(const int button) const
 {
-    return !mouse->mouse_buttons[button] && mouse->mouse_buttons_prev[button];
+    return !this->mouse_buttons[button] && this->mouse_buttons_prev[button];
 }

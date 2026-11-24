@@ -22,11 +22,11 @@ struct ControllerInput {
     bool buttons_prev[GLFW_GAMEPAD_BUTTON_LAST + 1];   ///< Previous gamepad button state.
     f32  axes[GLFW_GAMEPAD_AXIS_LAST + 1];             ///< Axis values in [-1,1].
 
-    static void clear(ControllerInput* controller);
-    static void roll(ControllerInput* controller);
-    static void poll(ControllerInput* controller);
-    static bool is_gamepad_down(const ControllerInput* controller, int button);
-    static bool is_gamepad_pressed(const ControllerInput* controller, int button);
-    static bool is_gamepad_released(const ControllerInput* controller, int button);
-    static f32 gamepad_axis(const ControllerInput* controller, int axis);
+    void clear();
+    void roll();
+    void poll();
+    bool is_gamepad_down(int button) const;
+    bool is_gamepad_pressed(int button) const;
+    bool is_gamepad_released(int button) const;
+    f32 gamepad_axis(int axis) const;
 };

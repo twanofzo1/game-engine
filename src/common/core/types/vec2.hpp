@@ -5,28 +5,52 @@
 #pragma once
 
 #include "common/core/typedefs.hpp"
+struct Vec2;
 
-
-/** @brief Configuration used to construct a 2D float vector. */
+/// @brief Configuration used to construct a 2D float vector.
 struct Vec2Config {
     f32 x = 0.0f; ///< X component.
     f32 y = 0.0f; ///< Y component.
 };
 
-/** @brief 2D vector with float components. */
-struct Vec2 {
-    f32 x; ///< X component.
-    f32 y; ///< Y component.
-
-    static Vec2 make(Vec2Config config);
-    static Vec2 add(Vec2 a, Vec2 b);
-    static Vec2 sub(Vec2 a, Vec2 b);
-    static Vec2 scale(Vec2 v, f32 s);
-    static f32 dot(Vec2 a, Vec2 b);
-    static f32 length(Vec2 v);
-    static Vec2 normalize(Vec2 v);
-    static Vec2 rotate(Vec2 v, f32 radians);
-    static Vec2 lerp(Vec2 a, Vec2 b, f32 t);
-    static f32 distance(Vec2 a, Vec2 b);
+/// @brief Configuration used to rotate a 2D float vector around a point.
+struct RotateAroundConfig {
+    Vec2 point = {.x = 0.0f, .y = 0.0f};
+    f32 radians = 0;
 };
+
+/// @brief Configuration used to rotate a 2D float vector around a point in degrees.
+struct RotateAroundDegreesConfig {
+    Vec2 point = {.x = 0.0f, .y = 0.0f};
+    f32 degrees = 0;
+};
+
+/// @brief Configuration used to linearly interpolate between two 2D float vectors.
+struct LerpConfig {
+    Vec2 to = {.x = 0.0f, .y = 0.0f};
+    f32 t = 0;
+};
+
+/// @brief A 2D float vector type.
+struct Vec2 {
+    f32 x = 0.0f;
+    f32 y = 0.0f;
+
+    static Vec2 create(const Vec2Config config);
+
+    Vec2 add(const Vec2 vec) const;
+    Vec2 sub(const Vec2 vec) const;
+    Vec2 scale(const f32 scale) const;
+    f32 dot(const Vec2 vec) const;
+    std::optional<f32> length() const;
+    std::optional<Vec2> normalize() const;
+    Vec2 rotate(const f32 radians) const;
+    Vec2 rotate_around(const RotateAroundConfig config) const;
+    Vec2 rotate_degrees(const f32 degrees) const;
+    Vec2 rotate_around_degrees(const RotateAroundDegreesConfig config) const;
+    Vec2 lerp(const LerpConfig config) const;
+    f32 distance(const Vec2 b) const;
+};
+
+
 

@@ -20,7 +20,8 @@
 #endif
 
 
-/** @brief The OS page size for the current process. */
+/// @brief Returns the OS page size for the current process.
+/// @return The page size in bytes.
 static usize page_size()
 {
 #if defined(_WIN32)
@@ -37,27 +38,36 @@ static usize page_size()
 #endif
 }
 
-/** @brief Round a byte count up to a multiple of the OS page size. */
-static usize round_page(usize bytes)
+/// @brief Rounds a byte count up to a multiple of the OS page size.
+/// @param bytes The byte count.
+/// @return The rounded byte count.
+static usize round_page(const usize bytes)
 {
     const usize ps = page_size();
     return (bytes + ps - 1) & ~(ps - 1);
 }
 
-/** @brief Round a byte offset up to the given power-of-two alignment. */
-static usize align_up(usize offset, usize alignment)
+/// @brief Rounds a byte offset up to the given power-of-two alignment.
+/// @param offset The byte offset.
+/// @param alignment The alignment (must be a power of two).
+/// @return The aligned offset.
+static usize align_up(const usize offset, const usize alignment)
 {
     return (offset + alignment - 1) & ~(alignment - 1);
 }
 
-/** @brief True when `value` is a power of two. */
-static bool is_power_of_two(usize value)
+/// @brief Returns true when `value` is a power of two.
+/// @param value The value to test.
+/// @return True when the value is a power of two.
+static bool is_power_of_two(const usize value)
 {
     return value != 0 && (value & (value - 1)) == 0;
 }
 
-/** @brief Reserve `bytes` of virtual address space, or nullptr on failure. */
-static void* reserve_memory(usize bytes)
+/// @brief Reserves `bytes` of virtual address space.
+/// @param bytes The number of bytes to reserve.
+/// @return The base address, or nullptr on failure.
+static void* reserve_memory(const usize bytes)
 {
 #if defined(_WIN32)
     return VirtualAlloc(NULL, bytes, MEM_RESERVE, PAGE_READWRITE);
@@ -67,8 +77,11 @@ static void* reserve_memory(usize bytes)
 #endif
 }
 
-/** @brief Commit `bytes` of previously reserved memory starting at `base`. */
-static bool commit_memory(void* base, usize bytes)
+/// @brief Commits `bytes` of previously reserved memory starting at `base`.
+/// @param base The base address of the reserved range.
+/// @param bytes The number of bytes to commit.
+/// @return True on success.
+static bool commit_memory(void* const base, const usize bytes)
 {
 #if defined(_WIN32)
     return VirtualAlloc(base, bytes, MEM_COMMIT, PAGE_READWRITE) == base;
@@ -77,8 +90,10 @@ static bool commit_memory(void* base, usize bytes)
 #endif
 }
 
-/** @brief Decommit `bytes` of memory starting at `base`, keeping it reserved. */
-static void decommit_memory(void* base, usize bytes)
+/// @brief Decommits `bytes` of memory starting at `base`, keeping it reserved.
+/// @param base The base address.
+/// @param bytes The number of bytes to decommit.
+static void decommit_memory(void* const base, const usize bytes)
 {
 #if defined(_WIN32)
     VirtualFree(base, bytes, MEM_DECOMMIT);
@@ -87,8 +102,10 @@ static void decommit_memory(void* base, usize bytes)
 #endif
 }
 
-/** @brief Release the entire reserved address range. */
-static void release_memory(void* base, usize reserved)
+/// @brief Releases the entire reserved address range.
+/// @param base The base address of the reserved range.
+/// @param reserved The total reserved byte count.
+static void release_memory(void* const base, const usize reserved)
 {
     if (!base)
         return;
@@ -100,11 +117,11 @@ static void release_memory(void* base, usize reserved)
 #endif
 }
 
-/**
- * @brief Grow the committed region so it covers at least `needed` bytes.
- * @return Success, or CommitFailed/OutOfReserved if it cannot be satisfied.
- */
-static ArenaError ensure_committed(Arena* arena, usize needed)
+/// @brief Grows the committed region so it covers at least `needed` bytes.
+/// @param arena The arena to grow.
+/// @param needed The minimum number of committed bytes required.
+/// @return Success, or CommitFailed/OutOfReserved when it cannot be satisfied.
+static ArenaError ensure_committed(Arena* const arena, const usize needed)
 {
     if (needed <= arena->committed)
         return ArenaError::Success;
@@ -123,13 +140,16 @@ static ArenaError ensure_committed(Arena* arena, usize needed)
     return ArenaError::Success;
 }
 
+/// @brief Reserves an address range and commits the configured initial bytes.
+/// @param config The reserved size and up-front commit size.
+/// @return The arena, or an error when reservation or commit fails.
 std::expected<Arena, ArenaError> Arena::make(const ArenaConfig config)
 {
     log_debug(LOG_SECTION_CORE, "arena make reserved=%zu commit=%zu", config.reserved, config.commit);
     if (config.reserved == 0 || config.commit > config.reserved)
         return std::unexpected(ArenaError::InvalidConfig);
 
-    u8* buffer = (u8*)reserve_memory(config.reserved);
+    u8* const buffer = (u8*)reserve_memory(config.reserved);
     if (!buffer)
         return std::unexpected(ArenaError::ReserveFailed);
 
@@ -151,19 +171,24 @@ std::expected<Arena, ArenaError> Arena::make(const ArenaConfig config)
     return arena;
 }
 
-void Arena::destroy(Arena* arena)
+/// @brief Frees the reserved address range and resets all state.
+void Arena::destroy()
 {
-    log_debug(LOG_SECTION_CORE, "arena destroy (used=%zu)", arena->used);
-    release_memory(arena->buffer, arena->reserved);
-    arena->buffer       = nullptr;
-    arena->reserved     = 0;
-    arena->committed    = 0;
-    arena->used         = 0;
-    arena->commit_floor = 0;
+    log_debug(LOG_SECTION_CORE, "arena destroy (used=%zu)", this->used);
+    release_memory(this->buffer, this->reserved);
+    this->buffer       = nullptr;
+    this->reserved     = 0;
+    this->committed    = 0;
+    this->used         = 0;
+    this->commit_floor = 0;
 }
 
-/** @brief Bump-allocate `bytes` with `alignment`, committing pages as needed. */
-static std::expected<void*, ArenaError> arena_bump(Arena* arena, usize bytes, usize alignment)
+/// @brief Bump-allocates `bytes` with `alignment`, committing pages as needed.
+/// @param arena The arena to allocate from.
+/// @param bytes The number of bytes to allocate.
+/// @param alignment The alignment (must be a power of two).
+/// @return The allocated pointer, or an error.
+static std::expected<void*, ArenaError> arena_bump(Arena* const arena, const usize bytes, const usize alignment)
 {
     if (!is_power_of_two(alignment))
         return std::unexpected(ArenaError::InvalidAlignment);
@@ -175,57 +200,75 @@ static std::expected<void*, ArenaError> arena_bump(Arena* arena, usize bytes, us
     if (err != ArenaError::Success)
         return std::unexpected(err);
 
-    void* ptr = arena->buffer + aligned;
+    void* const ptr = arena->buffer + aligned;
     arena->used = end;
     return ptr;
 }
 
-std::expected<void*, ArenaError> Arena::alloc(Arena* arena, usize bytes)
+/// @brief Allocates a block of memory from the arena.
+/// @param bytes The number of bytes to allocate.
+/// @return The allocated pointer, or an error.
+std::expected<void*, ArenaError> Arena::alloc(const usize bytes)
 {
-    return arena_bump(arena, bytes, 1);
+    return arena_bump(this, bytes, 1);
 }
 
-std::expected<void*, ArenaError> Arena::alloc_aligned(Arena* arena, usize bytes, usize alignment)
+/// @brief Allocates an aligned block of memory from the arena.
+/// @param bytes The number of bytes to allocate.
+/// @param alignment The alignment (must be a power of two).
+/// @return The allocated pointer, or an error.
+std::expected<void*, ArenaError> Arena::alloc_aligned(const usize bytes, const usize alignment)
 {
-    return arena_bump(arena, bytes, alignment);
+    return arena_bump(this, bytes, alignment);
 }
 
-std::expected<void*, ArenaError> Arena::alloc_zeroed(Arena* arena, usize bytes)
+/// @brief Allocates a zeroed block of memory from the arena.
+/// @param bytes The number of bytes to allocate.
+/// @return The allocated pointer, or an error.
+std::expected<void*, ArenaError> Arena::alloc_zeroed(const usize bytes)
 {
-    const std::expected<void*, ArenaError> ptr = arena_bump(arena, bytes, 1);
+    const std::expected<void*, ArenaError> ptr = arena_bump(this, bytes, 1);
     if (ptr)
         memset(*ptr, 0, bytes);
     return ptr;
 }
 
-std::expected<void*, ArenaError> Arena::alloc_zeroed_aligned(Arena* arena, usize bytes, usize alignment)
+/// @brief Allocates an aligned, zeroed block of memory from the arena.
+/// @param bytes The number of bytes to allocate.
+/// @param alignment The alignment (must be a power of two).
+/// @return The allocated pointer, or an error.
+std::expected<void*, ArenaError> Arena::alloc_zeroed_aligned(const usize bytes, const usize alignment)
 {
-    const std::expected<void*, ArenaError> ptr = arena_bump(arena, bytes, alignment);
+    const std::expected<void*, ArenaError> ptr = arena_bump(this, bytes, alignment);
     if (ptr)
         memset(*ptr, 0, bytes);
     return ptr;
 }
 
-void Arena::reset(Arena* arena)
+/// @brief Resets the arena, decommitting pages above the commit floor.
+void Arena::reset()
 {
-    arena->used = 0;
+    this->used = 0;
 
-    const usize floor = arena->commit_floor;
-    if (arena->committed > floor)
+    const usize floor = this->commit_floor;
+    if (this->committed > floor)
     {
-        decommit_memory(arena->buffer + floor, arena->committed - floor);
-        arena->committed = floor;
+        decommit_memory(this->buffer + floor, this->committed - floor);
+        this->committed = floor;
     }
 }
 
-ArenaError Arena::pop(Arena* arena, usize bytes)
+/// @brief Shrinks the arena cursor by the given number of bytes.
+/// @param bytes The number of bytes to release.
+/// @return Success, or PoppedPastEnd when `bytes` exceeds the allocated amount.
+ArenaError Arena::pop(const usize bytes)
 {
-    if (bytes > arena->used)
+    if (bytes > this->used)
     {
-        arena->used = 0;
+        this->used = 0;
         return ArenaError::PoppedPastEnd;
     }
 
-    arena->used -= bytes;
+    this->used -= bytes;
     return ArenaError::Success;
 }

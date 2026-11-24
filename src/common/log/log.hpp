@@ -42,7 +42,7 @@ enum LogSection {
  * @param user_data Opaque context supplied when the output was set
  *                  (e.g. a FILE* to write to).
  */
-typedef void (*LogOutput)(const char* line, void* user_data);
+using LogOutput = void (*)(const char* line, void* user_data);
 
 /**
  * @brief Global logging system.

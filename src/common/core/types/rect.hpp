@@ -6,7 +6,7 @@
 #include "common/core/typedefs.hpp"
 #include "common/core/types/vec2.hpp"
 
-/** @brief Configuration used to construct a rectangle from scalars. */
+/// @brief Configuration used to construct a rectangle from scalars.
 struct RectConfig {
     f32 x;      ///< Bottom-left X coordinate.
     f32 y;      ///< Bottom-left Y coordinate.
@@ -14,23 +14,23 @@ struct RectConfig {
     f32 height; ///< Height along the Y axis.
 };
 
-/** @brief Configuration used to construct a rectangle from vectors. */
+/// @brief Configuration used to construct a rectangle from vectors.
 struct RectConfigVec2 {
     Vec2 position; ///< Bottom-left corner.
     Vec2 size;     ///< Width and height.
 };
 
-/** @brief Axis-aligned rectangle defined by a bottom-left corner and a size. */
+/// @brief Axis-aligned rectangle defined by a bottom-left corner and a size.
 struct Rect {
     Vec2 position; ///< Bottom-left corner.
     Vec2 size;     ///< Width and height.
 
-    static Rect make(RectConfig config);
-    static Rect make(RectConfigVec2 config);
-    static Rect add(Rect a, Rect b);
-    static Rect sub(Rect a, Rect b);
-    static Rect scale(Rect r, f32 s);
-    static bool contains(Rect r, Vec2 p);
-    static bool intersects(Rect a, Rect b);
-    static Rect intersection(Rect a, Rect b);
+    static Rect create(const RectConfig config);
+    static Rect create(const RectConfigVec2 config);
+    Rect add(const Rect b) const;
+    Rect sub(const Rect b) const;
+    Rect scale(const f32 s) const;
+    bool contains(const Vec2 p) const;
+    bool intersects(const Rect b) const;
+    Rect intersection(const Rect b) const;
 };

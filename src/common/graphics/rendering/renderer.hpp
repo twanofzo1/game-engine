@@ -1,11 +1,11 @@
 /**
  * @file renderer.hpp
- * @brief Declares the multi-shader 2D batch renderer.
+ * @brief Declares the 2D batch renderer.
  *
- * Quads are staged in a CPU buffer across the whole frame, then sorted by
- * (shader_id, texture) at end() so that all quads sharing a shader and a
- * texture are drawn in a single draw call. Shader programs are registered into
- * an indexed table and selected per-quad via shader_id.
+ * Quads are staged into a CPU vertex buffer across the whole frame, then sorted
+ * by (shader_id, texture) at end() so that all quads sharing a shader and a
+ * texture are drawn in a single draw call. A shader program is selected per
+ * quad via shader_id; 0 selects the built-in default shader.
  */
 #pragma once
 
@@ -35,50 +35,54 @@ enum class RendererError : u8 {
 
 /** Parameters for a single quad drawn by the renderer. */
 struct QuadConfig {
-    Vec2 position = Vec2::make({.x = 0.0f, .y = 0.0f});  ///< Center position in world space.
-    Vec2 size = Vec2::make({.x = 1.0f, .y = 1.0f});      ///< Width and height in world units.
-    Color color = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f});    ///< Color that modulates the texture sample.
-    u32  texture = 0;   ///< OpenGL texture name (0 = solid white).
-    u32  shader_id = 0; ///< Shader program name to draw with (0 = default).
-    f32  rotation = 0.0f;  ///< Rotation in radians around the center.
-    f32  u0 = 0.0f;        ///< Left edge of the UV rectangle.
-    f32  v0 = 0.0f;        ///< Top edge of the UV rectangle.
-    f32  u1 = 1.0f;        ///< Right edge of the UV rectangle.
-    f32  v1 = 1.0f;        ///< Bottom edge of the UV rectangle.
+    Vec2 position;                              ///< Center position in world space.
+    Vec2 size;                                  ///< Width and height in world units.
+    Color color;                                ///< Color that modulates the texture sample.
+    u32  texture = 0;                           ///< OpenGL texture name (0 = solid white).
+    u32  shader_id = 0;                         ///< Shader program name to draw with (0 = default).
+    f32  rotation = 0.0f;                       ///< Rotation in radians around the center.
+    f32  u0 = 0.0f;                             ///< Left edge of the UV rectangle.
+    f32  v0 = 0.0f;                             ///< Top edge of the UV rectangle.
+    f32  u1 = 1.0f;                             ///< Right edge of the UV rectangle.
+    f32  v1 = 1.0f;                             ///< Bottom edge of the UV rectangle.
 };
 
-
-/** State for the 2D batch renderer. */
+/// @brief State for the 2D batch renderer.
 struct Renderer {
-    u32     vao;         ///< Vertex array object.
-    u32     vbo;         ///< Dynamic vertex buffer.
-    u32     ebo;         ///< Static index buffer.
+    u32     vao;            ///< Vertex array object.
+    u32     vbo;            ///< Dynamic vertex buffer.
+    u32     ebo;            ///< Static index buffer.
     u32     default_shader; ///< Built-in white/textured shader (used when shader_id == 0).
-    i32     u_texture;   ///< uTexture uniform location for the default shader.
-    u32     white_texture;   ///< 1x1 white texture for solid-color quads.
-    Arena   arena;           ///< Memory arena backing the CPU-side staging buffers.
-    Vertex* vertices;        ///< CPU-side staging buffer (MAX_QUADS * 4).
-    Vertex* scratch;         ///< Scratch buffer for reordering vertices (MAX_QUADS * 4).
-    u64*    sort_keys;       ///< Per-quad sort key (shader_id in high bits, texture in low).
-    u32*    order;           ///< Scratch permutation of quad indices.
-    u32     quad_count;  ///< Quads queued in the current batch.
-    u32     total_quads; ///< Total quads submitted this frame.
-    Camera  camera;      ///< Camera used for the current frame.
+    i32     u_texture;      ///< uTexture uniform location for the default shader.
+    u32     white_texture;  ///< 1x1 white texture for solid-color quads.
+    Arena   arena;          ///< Memory arena backing the CPU-side staging buffers.
+    Vertex* vertices;       ///< CPU-side staging buffer (MAX_QUADS * 4).
+    Vertex* scratch;        ///< Scratch buffer for reordering vertices (MAX_QUADS * 4).
+    u64*    sort_keys;      ///< Per-quad sort key (shader_id in high bits, texture in low).
+    u32*    order;          ///< Permutation of quad indices after sorting.
+    u32*    order_tmp;      ///< Second permutation buffer used during the sort.
+    u32     quad_count;     ///< Quads queued in the current batch.
+    u32     total_quads;    ///< Total quads submitted this frame.
+    Camera  camera;         ///< Camera used for the current frame.
 
-    /** @brief Create a renderer, or an error code on failure. */
-    static std::expected<Renderer, RendererError> make();
+    static std::expected<Renderer, RendererError> create();
 
-    /** @brief Free the renderer's GL resources and CPU buffers. */
-    static void shutdown(Renderer* renderer);
+    void destroy();
 
-    /** @brief Begin a frame with the given camera and reset the batch. */
-    static void begin(Renderer* renderer, const Camera* camera);
+    void begin(const Camera* camera);
 
-    /** @brief Queue a quad to be drawn; sorted and batched by shader/texture at end(). */
-    static void push_quad(Renderer* renderer, const QuadConfig* quad);
+    void push_quad(const QuadConfig* quad);
 
-    /** @brief Upload and draw all queued quads, sorted by shader then texture. */
-    static void end(Renderer* renderer);
+    void end();
+
+    /** @brief Draws a contiguous run of quads with one shader and texture. */
+    void draw_run(u32 shader_id, u32 texture, u32 count);
+
+    /** @brief Creates the 1x1 white texture used for solid-color quads. */
+    void create_white_texture();
+
+    /** @brief Creates the VAO and the dynamic/index buffers. */
+    void create_buffers();
 };
 
 

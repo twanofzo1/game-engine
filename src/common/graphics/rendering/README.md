@@ -1,18 +1,19 @@
 # rendering/
 
-OpenGL 3.3 rendering layer: camera, shaders and a 2D batch renderer.
+OpenGL 3.3 2D batch renderer. Quads are staged in a CPU buffer across the
+frame, sorted by (shader, texture), then drawn with one call per group.
 
-| File             | Purpose |
-|------------------|---------|
-| `vertex.hpp`     | Vertex layout (position, UV, color). |
-| `camera.hpp`     | Orthographic camera declaration. |
-| `camera.cpp`     | Orthographic view-projection matrix. |
-| `shader.hpp`     | Shader program helper declaration. |
-| `shader.cpp`     | Shader compilation/linking implementation. |
-| `renderer.hpp`   | Multi-shader 2D batch renderer declaration. |
-| `renderer.cpp`   | Renderer public API (make/shutdown/begin/push/end). |
-| `renderer_internal.hpp` | Internal helpers shared across the renderer's translation units. |
-| `renderer_batch.cpp` | CPU-side sorting and draw-call batching. |
-| `renderer_gl.cpp` | OpenGL resource creation and draw submission. |
-| `texture.hpp`    | GPU texture: RGBA8 upload plus filter/wrap settings. |
-| `texture.cpp`    | Texture creation, sampling settings and deletion. |
+| File                    | Purpose |
+|-------------------------|---------|
+| `vertex.hpp`            | Vertex layout (position, UV, RGBA color). |
+| `renderer.hpp`          | 2D batch renderer declaration and public API. |
+| `renderer.cpp`          | Public API (create/destroy/begin/push_quad/end) and shader setup. |
+| `renderer_internal.hpp` | Cross-file internal helpers shared by the translation units. |
+| `renderer_batch.cpp`    | CPU-side quad staging, radix sorting and draw-call batching. |
+| `renderer_gl.cpp`       | OpenGL resource creation and draw submission. |
+
+Companion modules in sibling folders (not in this directory):
+
+- `common/graphics/camera/` — orthographic camera and view-projection matrix.
+- `common/graphics/shader/`   — shader program compile/link helper.
+- `common/graphics/texture/`  — GPU texture upload and sampling settings.

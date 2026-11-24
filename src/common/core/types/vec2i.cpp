@@ -5,42 +5,53 @@
 
 #include "vec2i.hpp"
 
-
-/** @brief Construct a Vec2i from a configuration. */
-Vec2i Vec2i::make(Vec2iConfig config)
+/// @brief Constructs a Vec2i from its coordinates.
+/// @param config The x and y coordinates.
+/// @return The initialized vector.
+Vec2i Vec2i::create(const Vec2iConfig config)
 {
     return Vec2i{
         .x = config.x,
-        .y = config.y
+        .y = config.y,
     };
 }
 
-/** @brief Add two vectors component-wise. */
-Vec2i Vec2i::add(Vec2i a, Vec2i b)
+/// @brief Adds a vector to this one component-wise.
+/// @param b The vector to add.
+/// @return The component-wise sum.
+Vec2i Vec2i::add(const Vec2i b) const
 {
-    return Vec2i::make({.x = a.x + b.x, .y = a.y + b.y});
+    return Vec2i::create({.x = this->x + b.x, .y = this->y + b.y});
 }
 
-/** @brief Subtract `b` from `a` component-wise. */
-Vec2i Vec2i::sub(Vec2i a, Vec2i b)
+/// @brief Subtracts `b` from this vector component-wise.
+/// @param b The vector to subtract.
+/// @return The component-wise difference.
+Vec2i Vec2i::sub(const Vec2i b) const
 {
-    return Vec2i::make({.x = a.x - b.x, .y = a.y - b.y});
+    return Vec2i::create({.x = this->x - b.x, .y = this->y - b.y});
 }
 
-/** @brief Scale a vector by an integer scalar. */
-Vec2i Vec2i::scale(Vec2i v, i32 s)
+/// @brief Scales this vector by an integer scalar.
+/// @param s The scalar multiplier.
+/// @return The scaled vector.
+Vec2i Vec2i::scale(const i32 s) const
 {
-    return Vec2i::make({.x = v.x * s, .y = v.y * s});
+    return Vec2i::create({.x = this->x * s, .y = this->y * s});
 }
 
-/** @brief Return true when both components are equal. */
-bool Vec2i::equal(Vec2i a, Vec2i b)
+/// @brief Returns true when both components are equal.
+/// @param b The vector to compare against.
+/// @return True when the vectors are component-wise equal.
+bool Vec2i::equal(const Vec2i b) const
 {
-    return a.x == b.x && a.y == b.y;
+    return this->x == b.x && this->y == b.y;
 }
 
-/** @brief Dot product of two vectors (64-bit to avoid overflow). */
-i64 Vec2i::dot(Vec2i a, Vec2i b)
+/// @brief Computes the dot product with another vector using 64-bit arithmetic to avoid overflow.
+/// @param b The other vector.
+/// @return The dot product.
+i64 Vec2i::dot(const Vec2i b) const
 {
-    return (i64)a.x * b.x + (i64)a.y * b.y;
+    return (i64)this->x * b.x + (i64)this->y * b.y;
 }

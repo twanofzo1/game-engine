@@ -6,28 +6,28 @@
 
 #include <string.h>
 
-/** @brief Zero out all gamepad state. */
-void ControllerInput::clear(ControllerInput* controller)
+/// @brief Zeroes out all gamepad state.
+void ControllerInput::clear()
 {
-    memset(controller, 0, sizeof(*controller));
+    memset(this, 0, sizeof(*this));
 }
 
-/** @brief Copy buttons into previous state. */
-void ControllerInput::roll(ControllerInput* controller)
+/// @brief Copies buttons into previous state.
+void ControllerInput::roll()
 {
-    memcpy(controller->buttons_prev, controller->buttons,
-           sizeof(controller->buttons));
+    memcpy(this->buttons_prev, this->buttons,
+           sizeof(this->buttons));
 }
 
-/** @brief Poll GLFW for the latest gamepad state. */
-void ControllerInput::poll(ControllerInput* controller)
+/// @brief Polls GLFW for the latest gamepad state.
+void ControllerInput::poll()
 {
-    controller->connected = glfwJoystickPresent(INPUT_GAMEPAD_JOYSTICK)
-                         && glfwJoystickIsGamepad(INPUT_GAMEPAD_JOYSTICK);
-    if (!controller->connected)
+    this->connected = glfwJoystickPresent(INPUT_GAMEPAD_JOYSTICK)
+                   && glfwJoystickIsGamepad(INPUT_GAMEPAD_JOYSTICK);
+    if (!this->connected)
     {
-        memset(controller->buttons, 0, sizeof(controller->buttons));
-        memset(controller->axes, 0, sizeof(controller->axes));
+        memset(this->buttons, 0, sizeof(this->buttons));
+        memset(this->axes, 0, sizeof(this->axes));
         return;
     }
 
@@ -35,32 +35,40 @@ void ControllerInput::poll(ControllerInput* controller)
     if (glfwGetGamepadState(INPUT_GAMEPAD_JOYSTICK, &state))
     {
         for (int i = 0; i <= GLFW_GAMEPAD_BUTTON_LAST; ++i)
-            controller->buttons[i] = (state.buttons[i] == GLFW_PRESS);
+            this->buttons[i] = (state.buttons[i] == GLFW_PRESS);
         for (int i = 0; i <= GLFW_GAMEPAD_AXIS_LAST; ++i)
-            controller->axes[i] = state.axes[i];
+            this->axes[i] = state.axes[i];
     }
 }
 
-/** @brief True while `button` is held down. */
-bool ControllerInput::is_gamepad_down(const ControllerInput* controller, int button)
+/// @brief Returns true while `button` is held down.
+/// @param button The gamepad button code.
+/// @return True when the button is currently held.
+bool ControllerInput::is_gamepad_down(const int button) const
 {
-    return controller->buttons[button];
+    return this->buttons[button];
 }
 
-/** @brief True on the frame `button` transitions to held. */
-bool ControllerInput::is_gamepad_pressed(const ControllerInput* controller, int button)
+/// @brief Returns true on the frame `button` transitions to held.
+/// @param button The gamepad button code.
+/// @return True when the button was pressed this frame.
+bool ControllerInput::is_gamepad_pressed(const int button) const
 {
-    return controller->buttons[button] && !controller->buttons_prev[button];
+    return this->buttons[button] && !this->buttons_prev[button];
 }
 
-/** @brief True on the frame `button` transitions to released. */
-bool ControllerInput::is_gamepad_released(const ControllerInput* controller, int button)
+/// @brief Returns true on the frame `button` transitions to released.
+/// @param button The gamepad button code.
+/// @return True when the button was released this frame.
+bool ControllerInput::is_gamepad_released(const int button) const
 {
-    return !controller->buttons[button] && controller->buttons_prev[button];
+    return !this->buttons[button] && this->buttons_prev[button];
 }
 
-/** @brief Axis value in [-1,1] for `axis`. */
-f32 ControllerInput::gamepad_axis(const ControllerInput* controller, int axis)
+/// @brief Returns the axis value in [-1,1] for `axis`.
+/// @param axis The gamepad axis code.
+/// @return The current axis value.
+f32 ControllerInput::gamepad_axis(const int axis) const
 {
-    return controller->axes[axis];
+    return this->axes[axis];
 }

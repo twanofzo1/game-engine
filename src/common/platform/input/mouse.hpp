@@ -24,12 +24,12 @@ struct MouseInput {
     f64  scroll_x; ///< Scroll X delta accumulated this frame.
     f64  scroll_y; ///< Scroll Y delta accumulated this frame.
 
-    static void clear(MouseInput* mouse);
-    static void roll(MouseInput* mouse);
-    static void on_button(MouseInput* mouse, int button, bool pressed);
-    static void on_cursor(MouseInput* mouse, f64 x, f64 y);
-    static void on_scroll(MouseInput* mouse, f64 xoff, f64 yoff);
-    static bool is_mouse_down(const MouseInput* mouse, int button);
-    static bool is_mouse_pressed(const MouseInput* mouse, int button);
-    static bool is_mouse_released(const MouseInput* mouse, int button);
+    void clear();
+    void roll();
+    void on_button(int button, bool pressed);
+    void on_cursor(f64 x, f64 y);
+    void on_scroll(f64 xoff, f64 yoff);
+    bool is_mouse_down(int button) const;
+    bool is_mouse_pressed(int button) const;
+    bool is_mouse_released(int button) const;
 };

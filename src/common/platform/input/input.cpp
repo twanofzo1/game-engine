@@ -6,125 +6,135 @@
 
 #include <string.h>
 
-/** @brief Fetch the Input bound to `window` via its user pointer. */
-static Input* from_window(GLFWwindow* window)
+/// @brief Fetches the Input bound to `window` via its user pointer.
+/// @param window The GLFW window.
+/// @return The bound Input, or nullptr when none is set.
+static Input* from_window(GLFWwindow* const window)
 {
     return (Input*)glfwGetWindowUserPointer(window);
 }
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void key_callback(GLFWwindow* const window, const int key, const int scancode, const int action, const int mods)
 {
     (void)scancode;
     (void)mods;
 
-    Input* input = from_window(window);
+    Input* const input = from_window(window);
     if (!input)
         return;
 
     if (action == GLFW_PRESS)
-        KeyboardInput::on_key(&input->keyboard, key, true);
+        input->keyboard.on_key(key, true);
     else if (action == GLFW_RELEASE)
-        KeyboardInput::on_key(&input->keyboard, key, false);
+        input->keyboard.on_key(key, false);
     /* GLFW_REPEAT keeps the key held; no state change needed. */
 }
 
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+static void mouse_button_callback(GLFWwindow* const window, const int button, const int action, const int mods)
 {
     (void)mods;
 
-    Input* input = from_window(window);
+    Input* const input = from_window(window);
     if (!input)
         return;
 
-    MouseInput::on_button(&input->mouse, button, action == GLFW_PRESS);
+    input->mouse.on_button(button, action == GLFW_PRESS);
 }
 
-static void cursor_callback(GLFWwindow* window, f64 x, f64 y)
+static void cursor_callback(GLFWwindow* const window, const f64 x, const f64 y)
 {
-    Input* input = from_window(window);
+    Input* const input = from_window(window);
     if (!input)
         return;
 
-    MouseInput::on_cursor(&input->mouse, x, y);
+    input->mouse.on_cursor(x, y);
 }
 
-static void scroll_callback(GLFWwindow* window, f64 xoff, f64 yoff)
+static void scroll_callback(GLFWwindow* const window, const f64 xoff, const f64 yoff)
 {
-    Input* input = from_window(window);
+    Input* const input = from_window(window);
     if (!input)
         return;
 
-    MouseInput::on_scroll(&input->mouse, xoff, yoff);
+    input->mouse.on_scroll(xoff, yoff);
 }
 
-/** @brief Bind the input to `window` and register GLFW callbacks. */
-void Input::init(Input* input, GLFWwindow* window)
+/// @brief Binds this input to `window` and registers GLFW callbacks.
+/// @param window The GLFW window to bind.
+void Input::init(GLFWwindow* const window)
 {
-    memset(input, 0, sizeof(*input));
-    input->window = window;
+    memset(this, 0, sizeof(*this));
+    this->window = window;
 
-    glfwSetWindowUserPointer(window, input);
+    glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, key_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetCursorPosCallback(window, cursor_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
-    glfwGetCursorPos(window, &input->mouse.mouse_x, &input->mouse.mouse_y);
+    glfwGetCursorPos(window, &this->mouse.mouse_x, &this->mouse.mouse_y);
 }
 
-/** @brief Unregister callbacks and zero out all state. */
-void Input::shutdown(Input* input)
+/// @brief Unregisters callbacks and zeroes out all state.
+void Input::shutdown()
 {
-    if (input->window)
+    if (this->window)
     {
-        glfwSetKeyCallback(input->window, NULL);
-        glfwSetMouseButtonCallback(input->window, NULL);
-        glfwSetCursorPosCallback(input->window, NULL);
-        glfwSetScrollCallback(input->window, NULL);
-        glfwSetWindowUserPointer(input->window, NULL);
+        glfwSetKeyCallback(this->window, NULL);
+        glfwSetMouseButtonCallback(this->window, NULL);
+        glfwSetCursorPosCallback(this->window, NULL);
+        glfwSetScrollCallback(this->window, NULL);
+        glfwSetWindowUserPointer(this->window, NULL);
     }
-    memset(input, 0, sizeof(*input));
+    memset(this, 0, sizeof(*this));
 }
 
-/** @brief Call at the start of each frame, before glfwPollEvents(). */
-void Input::begin_frame(Input* input)
+/// @brief Rolls device state forward at the start of each frame.
+void Input::begin_frame()
 {
-    KeyboardInput::roll(&input->keyboard);
-    MouseInput::roll(&input->mouse);
-    ControllerInput::roll(&input->controller);
-    ControllerInput::poll(&input->controller);
+    this->keyboard.roll();
+    this->mouse.roll();
+    this->controller.roll();
+    this->controller.poll();
 }
 
-/** @brief Install the action table; the array must outlive the input. */
-void Input::set_actions(Input* input, Action* actions, u32 count)
+/// @brief Installs the action table; the array must outlive this input.
+/// @param actions The action table.
+/// @param count The number of entries in `actions`.
+void Input::set_actions(Action* const actions, const u32 count)
 {
-    input->actions = actions;
-    input->action_count = count;
+    this->actions = actions;
+    this->action_count = count;
 }
 
-/** @brief Find an action by name, or NULL. */
-const Action* Input::find_action(const Input* input, const char* name)
+/// @brief Finds an action by name.
+/// @param name The action name.
+/// @return The matching action, or nullptr when not found.
+const Action* Input::find_action(const char* const name) const
 {
-    if (!input || !name)
-        return NULL;
+    if (!name)
+        return nullptr;
 
-    for (u32 i = 0; i < input->action_count; ++i)
+    for (u32 i = 0; i < this->action_count; ++i)
     {
-        if (strcmp(input->actions[i].name, name) == 0)
-            return &input->actions[i];
+        if (strcmp(this->actions[i].name, name) == 0)
+            return &this->actions[i];
     }
-    return NULL;
+    return nullptr;
 }
 
-/** @brief Append `key` to the named action. Returns false if not found or full. */
-bool Input::bind_key(Input* input, const char* name, int key)
+/// @brief Appends `key` to the named action.
+/// @param name The action name.
+/// @param key The key code to bind.
+/// @return False when the action is not found or has no free slot.
+bool Input::bind_key(const char* const name, const int key)
 {
-    if (!input || !name)
+    if (!name)
         return false;
 
-    for (u32 i = 0; i < input->action_count; ++i)
+    for (u32 i = 0; i < this->action_count; ++i)
     {
-        Action* action = &input->actions[i];
+        Action* const action = &this->actions[i];
         if (strcmp(action->name, name) != 0)
             continue;
 
@@ -141,49 +151,55 @@ bool Input::bind_key(Input* input, const char* name, int key)
     return false;
 }
 
-/** @brief True when any key bound to `name` is held down. */
-bool Input::is_action_down(const Input* input, const char* name)
+/// @brief Returns true when any key bound to `name` is held down.
+/// @param name The action name.
+/// @return True when any bound key is currently held.
+bool Input::is_action_down(const char* const name) const
 {
-    const Action* action = Input::find_action(input, name);
+    const Action* const action = this->find_action(name);
     if (!action)
         return false;
 
     for (int i = 0; i < INPUT_ACTION_KEYS_MAX; ++i)
     {
-        int key = action->keys[i];
-        if (key >= 0 && KeyboardInput::is_key_down(&input->keyboard, key))
+        const int key = action->keys[i];
+        if (key >= 0 && this->keyboard.is_key_down(key))
             return true;
     }
     return false;
 }
 
-/** @brief True on the frame any key bound to `name` transitions to held. */
-bool Input::is_action_pressed(const Input* input, const char* name)
+/// @brief Returns true on the frame any key bound to `name` transitions to held.
+/// @param name The action name.
+/// @return True when any bound key was pressed this frame.
+bool Input::is_action_pressed(const char* const name) const
 {
-    const Action* action = Input::find_action(input, name);
+    const Action* const action = this->find_action(name);
     if (!action)
         return false;
 
     for (int i = 0; i < INPUT_ACTION_KEYS_MAX; ++i)
     {
-        int key = action->keys[i];
-        if (key >= 0 && KeyboardInput::is_key_pressed(&input->keyboard, key))
+        const int key = action->keys[i];
+        if (key >= 0 && this->keyboard.is_key_pressed(key))
             return true;
     }
     return false;
 }
 
-/** @brief True on the frame any key bound to `name` transitions to released. */
-bool Input::is_action_released(const Input* input, const char* name)
+/// @brief Returns true on the frame any key bound to `name` transitions to released.
+/// @param name The action name.
+/// @return True when any bound key was released this frame.
+bool Input::is_action_released(const char* const name) const
 {
-    const Action* action = Input::find_action(input, name);
+    const Action* const action = this->find_action(name);
     if (!action)
         return false;
 
     for (int i = 0; i < INPUT_ACTION_KEYS_MAX; ++i)
     {
-        int key = action->keys[i];
-        if (key >= 0 && KeyboardInput::is_key_released(&input->keyboard, key))
+        const int key = action->keys[i];
+        if (key >= 0 && this->keyboard.is_key_released(key))
             return true;
     }
     return false;
