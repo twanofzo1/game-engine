@@ -28,7 +28,7 @@ std::optional<Circle> Deserialiser::deserialise_circle(const YamlNode* node)
 
     f32 radius = node->operator[]("radius").as<f32>();
 
-    return Circle::make({
+    return Circle::create({
         .position = position.value(),
         .radius   = radius
     });

@@ -6,7 +6,7 @@
 
 #include "common/core/typedefs.hpp"
 
-/** One vertex: position, texture coordinate and RGBA color. */
+/// @brief A single vertex with position, texture coordinates and color.
 struct Vertex {
     f32 x; ///< Position X in world space.
     f32 y; ///< Position Y in world space.
@@ -19,8 +19,5 @@ struct Vertex {
     f32 a; ///< Color alpha component.
 };
 
-/** Number of vertices a single quad consumes (4 corners). */
-#define VERTICES_PER_QUAD 4
-
-/** Number of indices a single quad consumes (2 triangles * 3 vertices). */
-#define INDICES_PER_QUAD 6
+constexpr u32 VERTICES_PER_QUAD = 4;
+constexpr u32 INDICES_PER_QUAD = 6;

@@ -39,20 +39,15 @@ static std::optional<std::string> read_file(const char* path)
 
 
 Window create_window(){
-    if (!Window::init())
-    {
-        log_error(LOG_SECTION_EDITOR, "failed to initialize window");
-        exit(1);
-    }
 
-    std::optional<Window> optional_window = Window::make({
-        .size = Vec2i::make({.x = 800, .y = 600}),
-        .position = Vec2i::make({.x = -1, .y = -1}),
+    std::optional<Window> optional_window = Window::create({
+        .size = Vec2i::create({.x = 1280, .y = 720}),
+        .position = Vec2i::create({.x = -1, .y = -1}),
         .vsync = true,
         .resizable = true,
         .borderless = false,
         .screen_mode = ScreenMode::Windowed,
-        .title = "My Window"
+        .title = "Editor"
     });
 
     Window window = optional_window.value_or(Window{});
@@ -61,16 +56,6 @@ Window create_window(){
         log_error(LOG_SECTION_EDITOR, "failed to create window");
         exit(1);
     }
-
-    if (!Window::load_opengl())
-    {
-        log_error(LOG_SECTION_EDITOR, "failed to load OpenGL");
-        Window::destroy(&window);
-        Window::terminate();
-        exit(1);
-    }
-
-    Window::imgui_init(&window);
 
     return window;
 }
@@ -91,22 +76,14 @@ int main(int argc, char** argv)
         log_warning(LOG_SECTION_AUDIO, "failed to initialise audio");
     }
 
-    std::expected<Renderer, RendererError> renderer_result = Renderer::make();
-    if (!renderer_result)
-    {
-        log_error(LOG_SECTION_RENDERER, "failed to create renderer: %d", (int)renderer_result.error());
-        Window::terminate();
-        exit(1);
-    }
-    Renderer renderer = *renderer_result;
-
+    Renderer renderer = Renderer::create(0);
 
 
     std::optional<std::string> shader_src = read_file("resources/grass.shader");
     if (!shader_src.has_value())
     {
         log_error(LOG_SECTION_SHADER, "failed to read resources/grass.shader");
-        Window::terminate();
+        window.destroy();
         exit(1);
     }
 
@@ -118,21 +95,21 @@ int main(int argc, char** argv)
                 compiled.error().message.c_str(),
                 compiled.error().line,
                 compiled.error().column);
-        Window::terminate();
+        window.destroy();
         exit(1);
     }
 
-    std::optional<ShaderID> shader = Shader::make({
+    std::optional<Shader> shader_opt = Shader::create({
         .vs_source = compiled->vertex_source.c_str(),
         .fs_source = compiled->fragment_source.c_str()
     });
-    if (!shader.has_value())
+    if (!shader_opt.has_value())
     {
         log_error(LOG_SECTION_SHADER, "failed to create default shader");
-        Renderer::shutdown(&renderer);
-        Window::terminate();
+        window.destroy();
         exit(1);
     }
+    Shader shader = shader_opt.value();
 
    
 
@@ -165,31 +142,31 @@ int main(int argc, char** argv)
         log_warning(LOG_SECTION_AUDIO, "failed to load resources/test.mp3");
     }
 
-    Camera camera = Camera::make({
-        .position = Vec2::make({.x = 0.0f, .y = 0.0f}),
-        .size = Vec2::make({.x = 1280.0f, .y = 720.0f})
+    Camera camera = Camera::create({
+        .position = Vec2::create({.x = 0.0f, .y = 0.0f}),
+        .size = Vec2::create({.x = 1280.0f, .y = 720.0f})
     });
 
     log_debug(LOG_SECTION_EDITOR, "startup complete, entering main loop");
 
-    while (!Window::should_close(&window))
+    while (!window.should_close())
     {
-        Window::begin_frame(&window);
+        window.begin_frame();
 
-        Shader::set_float(shader.value_or(0), "u_time", (f32)glfwGetTime());
+        shader.set_float("u_time", (f32)glfwGetTime());
 
 
         //camera.position.x = sin((f32)glfwGetTime()) * 400.0f;
 
-        Renderer::begin(&renderer, &camera);
+        renderer.begin();
         //u32 xquads = 1000;
         //u32 yquads = 1000;
         //for (u32 i = 0; i < xquads; ++i){
         //    for (u32 j = 0; j < yquads; ++j){
         //        QuadConfig quad = {
-        //            .position = Vec2::make({.x = (f32)(i * 2), .y = (f32)(j * 2)}),
-        //            .size     = Vec2::make({.x = 2.0f, .y = 2.0f}),
-        //            .color    = Color::make({
+        //            .position = Vec2::create({.x = (f32)(i * 2), .y = (f32)(j * 2)}),
+        //            .size     = Vec2::create({.x = 2.0f, .y = 2.0f}),
+        //            .color    = Color::create({
         //                .r = 0.0f + 0.005f * (f32)i,
         //                .g = 0.0f + 0.002f * (f32)j,
         //                .b = 0.0f + 0.001f * (f32)j,
@@ -201,20 +178,20 @@ int main(int argc, char** argv)
         //}
 
         QuadConfig quad = {
-            .position = Vec2::make({.x = -200.0f, .y = -200.0f}),
-            .size     = Vec2::make({.x = 100.0f, .y = 300.0f}),
-            .color    = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
+            .position = Vec2::create({.x = -200.0f, .y = -200.0f}),
+            .size     = Vec2::create({.x = 100.0f, .y = 300.0f}),
+            .color    = Color::create({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
             .texture  = texture_id,
         };
 
         QuadConfig quad2 = {
-            .position = Vec2::make({.x = -200.0f, .y = -200.0f}),
-            .size     = Vec2::make({.x = 100.0f, .y = 300.0f}),
-            .color    = Color::make({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
-            .shader_id = shader.value_or(0),
+            .position = Vec2::create({.x = -200.0f, .y = -200.0f}),
+            .size     = Vec2::create({.x = 100.0f, .y = 300.0f}),
+            .color    = Color::create({.r = 1.0f, .g = 1.0f, .b = 1.0f, .a = 1.0f}),
+            .shader  = shader.id,
         };
-        Renderer::push_quad(&renderer, &quad);
-        Renderer::push_quad(&renderer, &quad2);
+        renderer.push_quad(quad);
+        renderer.push_quad(quad2);
         
 
         const ImGuiID dock_id = Ui::begin_dockspace(true);
@@ -264,12 +241,10 @@ int main(int argc, char** argv)
         }
         Ui::end_window();
 
-        Renderer::end(&renderer);
-
-        Window::end_frame(&window);
+        renderer.end();
+        window.end_frame();
     }
 
-    Renderer::shutdown(&renderer);
     if (player.has_value()) {
         Audio::destroy_player(*player);
     }
@@ -278,10 +253,9 @@ int main(int argc, char** argv)
     }
     Audio::shutdown();
     if (texture.has_value()) {
-        Texture::destroy(&*texture);
+        texture.value().destroy();
     }
-    Window::imgui_shutdown();
-    Window::destroy(&window);
-    Window::terminate();
+    window.destroy();
+    
     return 0;
 }

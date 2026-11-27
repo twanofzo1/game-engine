@@ -18,31 +18,33 @@ struct ShaderConfig {
 
 /// @brief An OpenGL shader program (vertex + fragment stages linked).
 struct Shader {
-    static std::optional<ShaderID> create(const ShaderConfig config);
+    u32 id = 0; ///< OpenGL shader program name (GLuint).
 
-    static void destroy(ShaderID shader);
+    static std::optional<Shader> create(const ShaderConfig config);
 
-    static void bind(ShaderID shader);
+    void destroy(ShaderID shader);
 
-    static i32 uniform_location(ShaderID shader, const char* name);
+    void bind(ShaderID shader);
 
-    static void set_float(ShaderID shader, const char* name, f32 value);
+    i32 uniform_location(const char* name);
 
-    static void set_int(ShaderID shader, const char* name, i32 value);
+    void set_float(const char* name, f32 value);
 
-    static void set_uint(ShaderID shader, const char* name, u32 value);
+    void set_int(const char* name, i32 value);
 
-    static void set_vec2(ShaderID shader, const char* name, const f32* v);
+    void set_uint(const char* name, u32 value);
 
-    static void set_vec3(ShaderID shader, const char* name, const f32* v);
+    void set_vec2(const char* name, const f32* v);
 
-    static void set_vec4(ShaderID shader, const char* name, const f32* v);
+    void set_vec3(const char* name, const f32* v);
 
-    static void set_mat3(ShaderID shader, const char* name, const f32* m);
+    void set_vec4(const char* name, const f32* v);
 
-    static void set_mat4(ShaderID shader, const char* name, const f32* m);
+    void set_mat3(const char* name, const f32* m);
 
-    static void set_int_location(ShaderID shader, i32 location, i32 value);
+    void set_mat4(const char* name, const f32* m);
 
-    static void destroy_all();
+    void set_int_location(i32 location, i32 value);
+
+    void destroy();
 };

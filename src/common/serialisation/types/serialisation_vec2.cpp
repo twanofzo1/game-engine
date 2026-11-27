@@ -22,7 +22,7 @@ std::optional<Vec2> Deserialiser::deserialise_vec2(const YamlNode* node)
     if (!node->operator[]("x")) return std::nullopt;
     if (!node->operator[]("y")) return std::nullopt;
 
-    return Vec2::make({
+    return Vec2::create({
         .x = node->operator[]("x").as<f32>(),
         .y = node->operator[]("y").as<f32>()
     });

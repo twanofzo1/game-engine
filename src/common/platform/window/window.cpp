@@ -11,12 +11,78 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include <stdio.h>
+u32 Window::count = 0;
+bool Window::glfw_initialised = false;
+bool Window::imgui_initialised = false;
+bool Window::opengl_initialised = false;
 
+/** @brief GLFW error callback; forwards the error to the logger. */
+static void error_callback(int error, const char* description)
+{
+    log_error(LOG_SECTION_WINDOW, "GLFW error %d: %s", error, description);
+}
+
+bool Window::init_glfw()
+{
+    log_debug(LOG_SECTION_WINDOW, "init");
+    glfwSetErrorCallback(error_callback);
+    bool ok = glfwInit() != 0;
+    if (!ok) {
+        log_error(LOG_SECTION_WINDOW, "glfwInit failed");
+    }
+    Window::glfw_initialised = ok;
+    return ok;
+}
+
+bool Window::init_opengl(void)
+{
+    log_debug(LOG_SECTION_WINDOW, "load_opengl");
+    bool ok = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) != 0;
+    if (!ok) {
+        log_error(LOG_SECTION_WINDOW, "gladLoadGLLoader failed");
+    }
+    Window::opengl_initialised = ok;
+    return ok;
+}
+
+void Window::imgui_init(Window* window)
+{
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window->handle, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+    Window::imgui_initialised = true;
+}
+
+void Window::imgui_destroy()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    Window::imgui_initialised = false;
+}
+
+void Window::cleanup()
+{
+    log_debug(LOG_SECTION_WINDOW, "terminate");
+    imgui_destroy();
+    glfwTerminate();
+    Window::glfw_initialised = false;
+    Window::imgui_initialised = false;
+    Window::opengl_initialised = false;
+}
 
 /** @brief Create a window from the supplied configuration. */
-std::optional<Window> Window::make(WindowConfig config)
+std::optional<Window> Window::create(WindowConfig config)
 {
+    if (!Window::glfw_initialised)
+    {
+        if (!Window::init_glfw())
+            return std::nullopt;
+    }
+
     Window window = {};
     window.size        = config.size;
     window.position    = config.position;
@@ -69,35 +135,49 @@ std::optional<Window> Window::make(WindowConfig config)
             glfwSetWindowPos(window.handle, config.position.x, config.position.y);
     }
 
+    if (!Window::opengl_initialised)
+    {
+        if (!Window::init_opengl())
+            return std::nullopt;
+    }
+
+    if (!Window::imgui_initialised)
+    {
+        Window::imgui_init(&window);
+    }
+
     log_debug(LOG_SECTION_WINDOW, "created %dx%d", width, height);
     return window;
 }
 
-void Window::destroy(Window* window)
+void Window::destroy()
 {
     log_debug(LOG_SECTION_WINDOW, "destroy");
-    if (window->handle)
+    if (this->handle)
     {
-        glfwDestroyWindow(window->handle);
-        window->handle = NULL;
+        glfwDestroyWindow(this->handle);
+        Window::count -= 1;
+        if (Window::count == 0)
+        {
+            Window::cleanup();
+        }
     }
-    
 }
 
-bool Window::should_close(const Window* window)
+bool Window::should_close()
 {
-    return glfwWindowShouldClose(window->handle) != 0;
+    return glfwWindowShouldClose(this->handle) != 0;
 }
 
-void Window::set_should_close(Window* window, bool value)
+void Window::set_should_close(bool value)
 {
-    glfwSetWindowShouldClose(window->handle, value ? GLFW_TRUE : GLFW_FALSE);
+    glfwSetWindowShouldClose(this->handle, value ? GLFW_TRUE : GLFW_FALSE);
 }
 
-void Window::set_vsync(Window* window, bool enabled)
+void Window::set_vsync(bool enabled)
 {
-    window->vsync = enabled;
-    if (window->handle)
+    this->vsync = enabled;
+    if (this->handle)
         glfwSwapInterval(enabled ? 1 : 0);
 }
 
@@ -106,74 +186,24 @@ void Window::poll_events(void)
     glfwPollEvents();
 }
 
-void Window::swap_buffers(Window* window)
+void Window::swap_buffers()
 {
-    glfwSwapBuffers(window->handle);
+    glfwSwapBuffers(this->handle);
 }
 
-Vec2i Window::framebuffer_size(const Window* window)
+Vec2i Window::get_framebuffer_size()
 {
-    Vec2i size = Vec2i::make({.x = 0, .y = 0});
-    glfwGetFramebufferSize(window->handle, &size.x, &size.y);
+    Vec2i size = Vec2i::create({.x = 0, .y = 0});
+    glfwGetFramebufferSize(this->handle, &size.x, &size.y);
     return size;
 }
 
-/** @brief GLFW error callback; forwards the error to the logger. */
-static void error_callback(int error, const char* description)
-{
-    log_error(LOG_SECTION_WINDOW, "GLFW error %d: %s", error, description);
-}
-
-bool Window::init(void)
-{
-    log_debug(LOG_SECTION_WINDOW, "init");
-    glfwSetErrorCallback(error_callback);
-    bool ok = glfwInit() != 0;
-    if (!ok) {
-        log_error(LOG_SECTION_WINDOW, "glfwInit failed");
-    }
-    return ok;
-}
-
-void Window::terminate(void)
-{
-    log_debug(LOG_SECTION_WINDOW, "terminate");
-    glfwTerminate();
-}
-
-bool Window::load_opengl(void)
-{
-    log_debug(LOG_SECTION_WINDOW, "load_opengl");
-    bool ok = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) != 0;
-    if (!ok) {
-        log_error(LOG_SECTION_WINDOW, "gladLoadGLLoader failed");
-    }
-    return ok;
-}
-
-void Window::imgui_init(Window* window)
-{
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window->handle, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
-}
-
-void Window::imgui_shutdown(void)
-{
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-}
-
 /** @brief Begin a frame: poll events, clear, and start ImGui. */
-void Window::begin_frame(Window* window)
+void Window::begin_frame()
 {
     poll_events();
 
-    Vec2i fb_size = framebuffer_size(window);
+    Vec2i fb_size = get_framebuffer_size();
     glViewport(0, 0, fb_size.x, fb_size.y);
     glClearColor(0.08f, 0.09f, 0.11f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -184,16 +214,14 @@ void Window::begin_frame(Window* window)
 }
 
 /** @brief End a frame: render ImGui and swap buffers. */
-void Window::end_frame(Window* window)
+void Window::end_frame()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    swap_buffers(window);
+    swap_buffers();
 }
 
-bool Window::key_pressed(const Window* window, i32 key)
+bool Window::get_key_pressed(const i32 key)
 {
-    return glfwGetKey(window->handle, key) == GLFW_PRESS;
+    return glfwGetKey(this->handle, key) == GLFW_PRESS;
 }
-
-

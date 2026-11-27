@@ -33,4 +33,5 @@ struct Deserialiser {
     static std::optional<Sprite>          deserialise_sprite(const YamlNode* node);
     static std::optional<Stamina>         deserialise_stamina(const YamlNode* node);
     static std::optional<TextureAsset>    deserialise_texture(const YamlNode* node);
+
 };

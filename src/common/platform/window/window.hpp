@@ -20,8 +20,8 @@ enum class ScreenMode {
 
 /** Options used when creating a window. */
 struct WindowConfig {
-    Vec2i size = Vec2i::make({.x = 800, .y = 600}); ///< Initial window size in pixels.
-    Vec2i position = Vec2i::make({.x = -1, .y = -1}); ///< Initial window position in pixels (-1 = let the OS decide).
+    Vec2i size = Vec2i::create({.x = 800, .y = 600}); ///< Initial window size in pixels.
+    Vec2i position = Vec2i::create({.x = -1, .y = -1}); ///< Initial window position in pixels (-1 = let the OS decide).
     bool vsync = true;                             ///< Enable vertical sync.
     bool resizable = true;                         ///< Allow the window to be resized.
     bool borderless = false;                       ///< Hide the title bar and borders.
@@ -32,7 +32,13 @@ struct WindowConfig {
 
 
 /** A GLFW window together with the options it was created from. */
-struct Window {
+class Window {
+private:
+    static bool glfw_initialised;
+    static bool imgui_initialised;
+    static bool opengl_initialised;
+    static u32 count;
+
     GLFWwindow* handle;     ///< GLFW window handle.
     Vec2i size;             ///< Current window size in pixels.
     Vec2i position;         ///< Current window position in pixels.
@@ -41,24 +47,25 @@ struct Window {
     bool borderless;        ///< Whether the window is borderless.
     ScreenMode screen_mode; ///< Current window mode.
     std::string title;      ///< Current window title.
-
-
-    static std::optional<Window> make(WindowConfig config);
-    static void destroy(Window* window);
-    static bool should_close(const Window* window);
-    static void set_should_close(Window* window, bool value);
-    static void set_vsync(Window* window, bool enabled);
-    static void poll_events(void);
-    static void swap_buffers(Window* window);
-    static Vec2i framebuffer_size(const Window* window);
-    static bool init(void);
-    static void terminate(void);
-    static bool load_opengl(void);
+private:
+    static bool init_opengl();
+    static bool init_glfw();
     static void imgui_init(Window* window);
-    static void imgui_shutdown(void);
-    static void begin_frame(Window* window);
-    static void end_frame(Window* window);
-    static bool key_pressed(const Window* window, i32 key);
+    static void imgui_destroy();
+    static void cleanup();
+
+public:
+    static std::optional<Window> create(WindowConfig config);
+    void destroy();
+    bool should_close();
+    void set_should_close(bool value);
+    void set_vsync(bool enabled);
+    void poll_events();
+    void swap_buffers();
+    Vec2i get_framebuffer_size();
+    void begin_frame();
+    void end_frame();
+    bool get_key_pressed(i32 key);
 };
 
 

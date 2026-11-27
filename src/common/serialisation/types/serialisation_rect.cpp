@@ -30,7 +30,7 @@ std::optional<Rect> Deserialiser::deserialise_rect(const YamlNode* node)
     std::optional<Vec2> size = Deserialiser::deserialise_vec2(&size_node);
     if (!size.has_value()) return std::nullopt;
 
-    return Rect::make({
+    return Rect::create({
         .position = position.value(),
         .size     = size.value()
     });

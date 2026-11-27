@@ -9,9 +9,10 @@
 /// @return The rectangular shape.
 Shape Shape::create(const Rect rect)
 {
-    Shape shape = {};
-    shape.type = Shape::Type::Rect;
-    shape.rect = rect;
+    Shape shape = {
+        .type = ShapeType::Rect,
+        .rect = rect
+    };
     return shape;
 }
 
@@ -20,8 +21,9 @@ Shape Shape::create(const Rect rect)
 /// @return The circular shape.
 Shape Shape::create(const Circle circle)
 {
-    Shape shape = {};
-    shape.type = Shape::Type::Circle;
-    shape.circle = circle;
+    Shape shape = {
+        .type = ShapeType::Circle,
+        .circle = circle
+    };
     return shape;
 }

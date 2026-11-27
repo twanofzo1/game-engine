@@ -26,7 +26,7 @@ std::optional<Color> Deserialiser::deserialise_color(const YamlNode* node)
     if (!node->operator[]("b")) return std::nullopt;
     if (!node->operator[]("a")) return std::nullopt;
 
-    return Color::make({
+    return Color::create({
         .r = node->operator[]("r").as<f32>(),
         .g = node->operator[]("g").as<f32>(),
         .b = node->operator[]("b").as<f32>(),

@@ -5,21 +5,9 @@
 #pragma once
 #include "common/core/types.hpp"
 
-enum class HurtboxShape {
-    Rect,
-    Circle
-};
 
 /** @brief A named hurtbox, as either a rect or a circle. */
 struct Hurtbox {
     std::string name; ///< Unique identifier.
-    HurtboxShape shape; ///< Shape of the hurtbox.
-    union {
-        struct {
-            Rect rect; ///< Rectangular shape.
-        };
-        struct {
-            Circle circle; ///< Circular shape.
-        };
-    };
+    Shape shape; ///< Shape of the collision.
 };
